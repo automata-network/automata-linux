@@ -17,7 +17,12 @@ fi
 set -e
 
 # First tar the raw disk.
-tar -czvf $COMPRESSED_FILE $DISK_FILE
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    gtar --format=gnu --owner=0 --group=0 --numeric-owner -cf raw_disk.tar $DISK_FILE
+    gzip -n -f raw_disk.tar
+else
+    tar -czvf $COMPRESSED_FILE $DISK_FILE
+fi
 
 set -x
 

@@ -2,14 +2,15 @@
 
 ## Prerequisites
 
-1. This repo requires a Linux environment, preferably Ubuntu.
-
-2. For all cloud providers, you need to install these dependencies:
+1. For all cloud providers, you need to install these dependencies:
 ```
-sudo apt install zip
+# On Linux: No need to install anything
+
+# On Mac :
+brew install gnu-tar
 ```
 
-3. You also need the cli for the cloud provider you want to deploy on (either az cli, gcloud cli or aws cli)
+2. You also need the cli for the cloud provider you want to deploy on (either az cli, gcloud cli or aws cli)
 - az cli:
   - Download: [Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
   - Login: [Guide](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
@@ -20,14 +21,14 @@ sudo apt install zip
   - Download: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
   - Login: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html)
 
-4. Additional dependencies if deploying to AWS:
+3. Additional dependencies if deploying to AWS:
 - Service Role: You need a service role called [vmimport](https://docs.aws.amazon.com/vm-import/latest/userguide/required-permissions.html#vmimport-role)
 - An S3 bucket to store the disk: [Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
 
-5. Additional dependencies if deploying to GCP:
+4. Additional dependencies if deploying to GCP:
 - A GCP bucket to store the disk: [Guide](https://cloud.google.com/storage/docs/creating-buckets#console)
 
-6. Additional dependencies if deploying to Azure:
+5. Additional dependencies if deploying to Azure:
 - A resource group, a storage account, and image gallery
   - Note: Resource group, storage account, and shared image gallery must be in the same region as the VM you want to create. Please see the next section for details on the CVM types available in each region.
   - Note: SEV-SNP VMs may not be supported in the same region as TDX, so you may need to create separate resource groups, storage account and shared image gallery if you wish to support both CVM types on Azure.

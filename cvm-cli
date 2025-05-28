@@ -87,11 +87,7 @@ case "$COMMAND" in
             usage
         fi
 
-        # If API token does not exist, create it and put it on the disk.
         set -e
-        if [[ ! -f token ]]; then
-            ./scripts/create_api_token.sh disk.vmdk
-        fi
 
         echo "Deploying disk.vmdk with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
@@ -100,7 +96,6 @@ case "$COMMAND" in
         echo "🔹Bucket : $BUCKET"
         echo "🔹Additional Ports: $ADDITIONAL_PORTS"
         ./scripts/make_aws_vm.sh "$VM_NAME" "$REGION" "$VM_TYPE" "$BUCKET" "$ADDITIONAL_PORTS"
-        ./scripts/print_api_token.sh
         set +e
         ;;
 
@@ -152,11 +147,7 @@ case "$COMMAND" in
             usage
         fi
 
-        # If API token does not exist, create it and put it on the disk.
         set -e
-        if [[ ! -f token ]]; then
-            ./scripts/create_api_token.sh disk.raw
-        fi
 
         echo "Deploying disk.raw with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
@@ -166,7 +157,6 @@ case "$COMMAND" in
         echo "🔹Bucket : $BUCKET"
         echo "🔹Additional Ports: $ADDITIONAL_PORTS"
         ./scripts/make_gcp_vm.sh "$VM_NAME" "$REGION" "$PROJECT_ID" "$VM_TYPE" "$BUCKET" "$ADDITIONAL_PORTS"
-        ./scripts/print_api_token.sh
         set +e
         ;;
 
@@ -218,11 +208,7 @@ case "$COMMAND" in
             usage
         fi
 
-        # If API token does not exist, create it and put it on the disk.
         set -e
-        if [[ ! -f token ]]; then
-            ./scripts/create_api_token.sh disk.vhd
-        fi
 
         echo "Deploying disk.vhd with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
@@ -232,7 +218,6 @@ case "$COMMAND" in
         echo "🔹Storage Account: $STORAGE_ACC"
         echo "🔹Shared Image Gallery: $GALLERY_NAME"
         ./scripts/make_azure_vm.sh "$VM_NAME" "$RESOURCE_GROUP" "$VM_TYPE" "$ADDITIONAL_PORTS" "$STORAGE_ACC" "$GALLERY_NAME"
-        ./scripts/print_api_token.sh
         set +e
         ;;
 
