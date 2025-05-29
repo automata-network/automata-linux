@@ -39,7 +39,13 @@ REGION="<region>"
 STORAGE_ACCOUNT="<storage account name>" # lowercase letters and numbers only, length 3-24.
 GALLERY_NAME="<gallery name>"
 
-# Create a resource group
+# Example virialble could be
+# RG="cvm_testRg"
+# REGION="East US 2"
+# STORAGE_ACCOUNT="tdxcvm123"
+# GALLERY_NAME="tdxGallery"
+
+# Create a resource groups
 az group create --name "$RG" --location "$REGION"
 
 # Create a storage account
@@ -86,10 +92,16 @@ This section outlines the confidential computing capabilities offered by major c
 ## Download the cvm disk image
 Please download a cvm disk image into the root of this repository. Please pick the disk according to the cloud provider you wish to deploy on:
 
-- GCP: https://f004.backblazeb2.com/file/cvm-base-images/disk.raw
-- AWS: https://f004.backblazeb2.com/file/cvm-base-images/disk.vmdk
-- Azure: https://f004.backblazeb2.com/file/cvm-base-images/disk.vhd
+```
+# GCP Image
+wget https://f004.backblazeb2.com/file/cvm-base-images/disk.raw
 
+# AWS Image
+wget https://f004.backblazeb2.com/file/cvm-base-images/disk.vmdk
+
+# Azure Image
+wget https://f004.backblazeb2.com/file/cvm-base-images/disk.vhd
+```
 > Note: Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
 
 
@@ -164,7 +176,7 @@ Now, you will also need to create the golden measurements for your CVM. This gol
 
 For off-chain:
 ```bash
-curl <vm-ip>:8000/golden-measurement > collaterals.json
+curl --insecure https://8000/golden-measurement > collaterals.json
 ```
 
 For on-chain:
@@ -277,3 +289,16 @@ flowchart LR
 
   BuildPhase --> DeployPhase --> RuntimePhase --> GoldenMeasurementPhase --> VerificationPhase
 ```
+
+
+## Project Reference 
+For the attesation agent, we currently use: 
+https://github.com/automata-network/pom-sdk/tree/DEV-4072-dyn-container
+
+For building cvm agent, we currently use: 
+https://github.com/automata-network/cvm-uki/tree/DEV-4072-dynamic-containers
+
+
+
+
+## Trouble Shoot

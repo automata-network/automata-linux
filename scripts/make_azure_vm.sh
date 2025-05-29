@@ -126,7 +126,7 @@ az rest --method PUT \
   --url "/subscriptions/$SUB/resourceGroups/$RG/providers/Microsoft.Compute/galleries/$GALLERY_NAME/images/$IMAGE_DEF/versions/$GALLERY_IMAGE_VERSION?api-version=2024-03-03" \
   --body "$IMG_VER_BODY"
 
-echo "⏳ Waiting for image replication + gallery image version to finish provisioning..."
+echo "⏳ Image replication + gallery image version in progress... this might take a while (8+ mins). Time to grab a coffee and chill ☕🙂"
 
 while true; do
   state=$(az sig image-version show \
