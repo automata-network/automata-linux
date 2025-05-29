@@ -40,7 +40,13 @@ REGION="<region>"
 STORAGE_ACCOUNT="<storage account name>" # lowercase letters and numbers only, length 3-24.
 GALLERY_NAME="<gallery name>"
 
-# Create a resource group
+# Example virialble could be
+# RG="cvm_testRg"
+# REGION="East US 2"
+# STORAGE_ACCOUNT="tdxcvm123"
+# GALLERY_NAME="tdxGallery"
+
+# Create a resource groups
 az group create --name "$RG" --location "$REGION"
 
 # Create a storage account
@@ -87,10 +93,16 @@ This section outlines the confidential computing capabilities offered by major c
 ## Download the cvm disk image
 Please download a cvm disk image into the root of this repository. Please pick the disk according to the cloud provider you wish to deploy on:
 
-- GCP: https://f004.backblazeb2.com/file/cvm-base-images/disk.raw
-- AWS: https://f004.backblazeb2.com/file/cvm-base-images/disk.vmdk
-- Azure: https://f004.backblazeb2.com/file/cvm-base-images/disk.vhd
+```
+# GCP Image
+wget -O google_disk.raw https://f004.backblazeb2.com/file/cvm-base-images/disk.raw
 
+# AWS Image
+wget -O aws_disk.vmdk https://f004.backblazeb2.com/file/cvm-base-images/disk.vmdk
+
+# Azure Image
+wget -O azeure_disk.vhd  https://f004.backblazeb2.com/file/cvm-base-images/disk.vhd
+```
 > Note: Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
 
 
@@ -165,7 +177,7 @@ Now, you will also need to create the golden measurements for your CVM. This gol
 
 For off-chain:
 ```bash
-curl <vm-ip>:8000/golden-measurement > collaterals.json
+curl --insecure https://8000/golden-measurement > collaterals.json
 ```
 
 For on-chain:
@@ -183,12 +195,12 @@ For on-chain: TODO.
 
 ## Verifying the image and workload
 To verify that the workload is running a CVM with the expected measurements, the verifier can undertake the following steps:
-1. Retrieve the published golden measurements.
-2. Use the cvm-agent to retrieve the collaterals required during verification: 
+1. Retrieve the published golden measurements from remote.
+2. Use the local cvm-agent to retrieve the collaterals required during verification: 
 ```
 curl 127.0.0.1:7999/collaterals
 ```
-3. Use the cvm-agent to verify the collaterals against the golden measurements:
+3. Use the local cvm-agent to verify the collaterals against the golden measurements:
 
 For off-chain:
 ```
@@ -202,6 +214,52 @@ TODO.
 ```
 
 For more details on the APIs available on the cvm-agent, please check out [this document](docs/cvm-agent-api.md).
+
+
+### Use Case
+
+#### Peer Node Verification Workflow (Off-chain)
+![Example - Peer Node Verification Workflow](docs/automata_cvm_peer_node_verification.png "Peer Node Verification Workflow")
+
+This usecase describes the remote attestation flow between two **Confidential Virtual Machines (VMs)**—an **attester** and a **verifier**—using **attestation agents** and optional 
+**remote storage** for verification.
+
+
+##### 🧩 Components
+
+###### 🔐 Confidential VM (Attester)
+- **Workload (attester):** Application that provides collaterals to **verifier** for verification.
+- **Attestation Agent:** Retrieves attestation reports and platform-specific collateral (e.g., TCB info, certificates).
+
+###### 🔎 Confidential VM (Verifier)
+- **Workload (verifier):** Application that receives collaterals from **attester** and verifies the collaterals using its local **Attestation Agent**.
+- **Attestation Agent:** Validates the integrity of the attester's collaterals using cryptographic operations.
+
+###### 🗄️ Remote Storage
+- Stores known-good reference values used by the verifier to compare against collaterals of **attester**.
+
+
+##### 🔄 Attestation Flow
+1. **Get Golden Value**
+  The **verifier workload** gets gloden value of **attester workload** from **remote storage**.
+
+2. **Initiates attestation reqeust**  
+   The **verifier workload** send the attestation req to **attester workload**.
+
+3. **Collect Evidence**  
+   The **attester workload** get the collaterals from its local **attestation agent** via `/collateral` endpoint.
+
+4. **Reply the attestation reqeust**  
+   The **attester workload** replys the verifier workload with its collaterals.
+
+5. **Verify Evidence**  
+   The **verifier workload** calls its **attestation agent** using `/offchain-verify` to perform cryptographic validation and verify trustworthiness.
+
+##### ✅ Outcome
+
+If verification succeeds, the **verifier** can trust the **attester's VM** and proceed with sensitive operations such as key sharing or secure computation.
+
+
 
 ## Architecture
 
@@ -278,3 +336,16 @@ flowchart LR
 
   BuildPhase --> DeployPhase --> RuntimePhase --> GoldenMeasurementPhase --> VerificationPhase
 ```
+
+
+## Project Reference 
+For the attesation agent, we currently use: 
+https://github.com/automata-network/pom-sdk/tree/DEV-4072-dyn-container
+
+For building cvm image, we currently use: 
+https://github.com/automata-network/cvm-uki/tree/DEV-4072-dynamic-containers
+
+
+
+
+## Trouble Shoot
