@@ -5,6 +5,7 @@ BUCKET=$4
 ADDITIONAL_PORTS=$5
 DISK_FILE=disk.vmdk
 IMAGE_NAME="${VM_NAME}-image"
+export AWS_PAGER=""
 
 # Ensure all arguments are provided
 if [[ $# -lt 5 ]]; then

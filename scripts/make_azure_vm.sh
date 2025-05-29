@@ -79,9 +79,9 @@ az sig image-definition create --resource-group "$RG" --location "$REGION" --gal
 storageAccountId=$(az storage account show --name "$STORAGE_ACC" --resource-group "$RG" | jq -r .id)
 
 # v2: create sig image version (with support for secure boot)
-PK_B64=$(base64 -w0 secure_boot/PK.crt)
-KEK_B64=$(base64 -w0 secure_boot/KEK.crt)
-DB_B64=$(base64 -w0 secure_boot/db.crt)
+PK_B64=$(openssl base64 -in secure_boot/PK.crt -A)
+KEK_B64=$(openssl base64 -in secure_boot/KEK.crt -A)
+DB_B64=$(openssl base64 -in secure_boot/db.crt -A)
 
 IMG_VER_BODY=$(jq -n \
   --arg region "$REGION" \
@@ -182,7 +182,9 @@ az vm create \
   --nsg "$VM_NAME" \
   --security-type ConfidentialVM \
   --os-disk-security-encryption-type VMGuestStateOnly \
-  --specialized
+  --specialized \
+  --admin-username dummyuser \
+  --admin-password DummyPassword123
 
 set +x
 set +e
