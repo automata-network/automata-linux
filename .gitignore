@@ -1,5 +1,5 @@
-disk.raw
-disk.vhd
-disk.vmdk
+google_disk.raw
+azeure_disk.vhd 
+aws_disk.vmdk
 raw_disk.tar.gz
 token

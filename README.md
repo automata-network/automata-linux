@@ -94,13 +94,13 @@ Please download a cvm disk image into the root of this repository. Please pick t
 
 ```
 # GCP Image
-wget https://f004.backblazeb2.com/file/cvm-base-images/disk.raw
+wget -O google_disk.raw https://f004.backblazeb2.com/file/cvm-base-images/disk.raw
 
 # AWS Image
-wget https://f004.backblazeb2.com/file/cvm-base-images/disk.vmdk
+wget -O aws_disk.vmdk https://f004.backblazeb2.com/file/cvm-base-images/disk.vmdk
 
 # Azure Image
-wget https://f004.backblazeb2.com/file/cvm-base-images/disk.vhd
+wget -O azeure_disk.vhd  https://f004.backblazeb2.com/file/cvm-base-images/disk.vhd
 ```
 > Note: Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
 

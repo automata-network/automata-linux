@@ -4,7 +4,7 @@ PROJECT_ID=$3
 VM_TYPE=$4
 BUCKET=$5
 ADDITIONAL_PORTS=$6
-DISK_FILE="disk.raw"
+DISK_FILE="google_disk.raw"
 COMPRESSED_FILE="raw_disk.tar.gz"
 IMAGE_NAME="${VM_NAME}-image"
 

@@ -4,9 +4,9 @@ usage() {
     echo "Usage: ./cvm-cli <command> [options]"
     echo ""
     echo "Commands:"
-    echo "  deploy-azure        Deploy a VM onto Azure using disk.vhd."
-    echo "  deploy-aws          Deploy a VM onto AWS using disk.vmdk."
-    echo "  deploy-gcp          Deploy a VM onto GCP using disk.raw."
+    echo "  deploy-azure        Deploy a VM onto Azure using azeure_disk.vhd ."
+    echo "  deploy-aws          Deploy a VM onto AWS using aws_disk.vmdk."
+    echo "  deploy-gcp          Deploy a VM onto GCP using google_disk.raw."
     echo "  update-workload     Update the workload on a deployed CVM."
     echo ""
     echo "Arguments for 'deploy-azure' command:"
@@ -90,10 +90,10 @@ case "$COMMAND" in
         # If API token does not exist, create it and put it on the disk.
         set -e
         if [[ ! -f token ]]; then
-            ./scripts/create_api_token.sh disk.vmdk
+            ./scripts/create_api_token.sh aws_disk.vmdk
         fi
 
-        echo "Deploying disk.vmdk with the following parameters:"
+        echo "Deploying aws_disk.vmdk with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
         echo "🔹Region: $REGION"
         echo "🔹VM Type: $VM_TYPE"
@@ -155,10 +155,10 @@ case "$COMMAND" in
         # If API token does not exist, create it and put it on the disk.
         set -e
         if [[ ! -f token ]]; then
-            ./scripts/create_api_token.sh disk.raw
+            ./scripts/create_api_token.sh google_disk.raw
         fi
 
-        echo "Deploying disk.raw with the following parameters:"
+        echo "Deploying google_disk.raw with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
         echo "🔹Region: $REGION"
         echo "🔹Project ID: $PROJECT_ID"
@@ -221,10 +221,10 @@ case "$COMMAND" in
         # If API token does not exist, create it and put it on the disk.
         set -e
         if [[ ! -f token ]]; then
-            ./scripts/create_api_token.sh disk.vhd
+            ./scripts/create_api_token.sh azeure_disk.vhd 
         fi
 
-        echo "Deploying disk.vhd with the following parameters:"
+        echo "Deploying azeure_disk.vhd  with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
         echo "🔹Resource Group: $RESOURCE_GROUP"
         echo "🔹VM Type: $VM_TYPE"

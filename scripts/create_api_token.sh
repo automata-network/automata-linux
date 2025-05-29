@@ -57,7 +57,7 @@ if [ -f $DISK_FILE ]; then
     if [[ "$DISK_FILE" == *.vmdk ]]; then
         qemu-img convert -p -f vmdk -O raw $DISK_FILE tmp.raw
         populate tmp.raw
-        qemu-img convert -p -f raw tmp.raw -O vmdk -o subformat=streamOptimized,compat6 disk.vmdk
+        qemu-img convert -p -f raw tmp.raw -O vmdk -o subformat=streamOptimized,compat6 aws_disk.vmdk
         rm tmp.raw
     else
         populate $DISK_FILE

@@ -3,7 +3,7 @@ REGION=$2
 VM_TYPE=$3
 BUCKET=$4
 ADDITIONAL_PORTS=$5
-DISK_FILE=disk.vmdk
+DISK_FILE=aws_disk.vmdk
 IMAGE_NAME="${VM_NAME}-image"
 
 # Ensure all arguments are provided
