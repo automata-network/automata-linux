@@ -341,7 +341,7 @@ flowchart LR
 For the attesation agent, we currently use: 
 https://github.com/automata-network/pom-sdk/tree/DEV-4072-dyn-container
 
-For building cvm agent, we currently use: 
+For building cvm image, we currently use: 
 https://github.com/automata-network/cvm-uki/tree/DEV-4072-dynamic-containers
 
 
