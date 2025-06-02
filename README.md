@@ -156,10 +156,18 @@ The following parameters are optional, and default to:
   - `secrets/`: Use this folder to store any files that will be mounted and used by the container, but should not be measured. Examples include cert private keys, or database credentials.
 - Additionally, if you wish to load local images, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded.
 
+### Get the API Token
+Run the following command to retrieve the API token required to upload your workload:
+```bash
+curl -k https://<VM IP>:8000/api-token ; echo
+```
+
+> Note: The API token can only be retrieved once, do not lose it, or you will need to re-create the VM from scratch!
+
 ### Upload the workload
 Run the following command to upload your `workload/` folder to your deployed CVM:
 ```bash
-./cvm-cli <VM IP> <API TOKEN>
+./cvm-cli update-workload <VM IP> <API TOKEN>
 ```
 
 ## Creating the golden measurements
@@ -169,7 +177,7 @@ Now, you will also need to create the golden measurements for your CVM. This gol
 
 For off-chain:
 ```bash
-curl --insecure https://8000/golden-measurement > collaterals.json
+curl -k https://8000/golden-measurement > golden-measurement.json
 ```
 
 For on-chain:
@@ -179,10 +187,12 @@ TODO.
 
 2. Publish the golden measurements for verifiers to reference.
 
-For off-chain: the golden measurements can be stored anywhere that the workload can retrieve them, for example, on S3 storage.
+- For off-chain:
+  - The golden measurements can be stored anywhere that the workload can retrieve them, for example, on S3 storage.
+  - If storing on remote storage like S3, it is recommended to sign the golden measurement to prevent tampering of the values.
 
 
-For on-chain: TODO.
+- For on-chain: TODO.
 
 
 ## Verifying the image and workload
