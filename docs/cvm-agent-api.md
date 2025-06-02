@@ -81,15 +81,20 @@ The server will broadcast on 2 ports:
     ```
 
 ### Collaterals APIs
-#### Non-Azure API
 - `/collaterals/{nonce}`: [GET]
     - Port Availability: 7999, 8000
     - The nonce is used as it is for the TPM quote.
-    - The report_data field for the SEV SNP attestation report = 0 * 32 || sha256sum(magic || nonce)
+    - report_data field in the attestation report should contain the following:
+      - On GCP/AWS: 0 * 32 || sha256sum(magic || nonce)
+      - On Azure: sha256sum(HclVarData) || 0*32
+    - extra_data field in the TPM Quote should contain the following:
+      - On GCP/AWS: nonce
+      - On Azure: magic || nonce 
     - magic = "External/collaterals" or "Internal/collaterals"
     - Returns a JSON structure containing the following:
     ```json
     {
+        // Only sev_snp or tdx will be returned, not both at the same time.
         "sev_snp":
         {
             "attestation_report": <base64 encoded bytes>,
@@ -113,51 +118,26 @@ The server will broadcast on 2 ports:
             // Only used when ak_cert exists
             "ak_cert": <base64 encoded bytes of X509 DER-encoded cert>,
             // Only used if ak_pub is needed
-            "ak_pub": <base64 encoded bytes of X509 DER-encoded SubjectPublicKeyInfo>
+            "ak_pub": <base64 encoded bytes of X509 DER-encoded SubjectPublicKeyInfo>,
+            // Only used in Azure
+            "var_data": <base64 encoded bytes>
         },
         "magic": <base64 encoded bytes>,
         "nonce": <base64 encoded bytes>,
-        // 16-byte UUID, only used for TDX.
+        // 16-byte UUID, only used in GCP TDX.
         "uuid": <base64 encoded bytes>,
         "boot_log_tpm": <base64 encoded bytes>,
-        // Optional: Only used in TDX.
+        // Only used in GCP TDX.
         "boot_log_ccel": <base64 encoded bytes>
     }
     ```
 
-#### Azure API
-- `/collaterals`: [GET]
-    - Port Availability: 7999, 8000
-    - The report_data field for the SEV SNP attestation report = sha256sum(HclVarData) || 0*32
-    - Returns a JSON structure containing the following:
-    ```json
-    {
-        "sev_snp":
-        {
-            "attestation_report": <base64 encoded bytes>
-        },
-        // Only sev_snp or tdx will be returned, not both at the same time.
-        "tdx":
-        {
-            "attestation_report": <base64 encoded bytes>
-        },
-        "tpm":
-        {
-            "quote": <base64 encoded bytes>,
-            "raw_sig": <base64 encoded bytes>,
-            "pcrs":
-            {
-                "hash": <int, hash algorithm used for the values in the PCR>,
-                // PCR number -> base64 encoded value of the value in the PCR
-                "pcrs": <map<uint32><base64 encoded bytes>>
-            },
-            "var_data": <base64 encoded bytes>
-        },
-        "boot_log_tpm": <base64 encoded bytes>
-    }
-    ```
-
 ### Management APIs
+- `/api-token`: [GET]
+  - Port Availability: 8000
+  - Retrieve the API token that can be used for `/update-workload` API. **This token can only be retrieved once**.
+  - Returns a string of length 32.
+
 - `/update-workload`: [POST]
     - Port Availability: 8000
     - Used to update the current workload on the server by uploading a .zip file containing a `workload/` folder.
@@ -192,3 +172,4 @@ The server will broadcast on 2 ports:
         "error": <string, optional>
     }
     ```
+
