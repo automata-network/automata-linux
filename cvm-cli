@@ -6,7 +6,7 @@ usage() {
     echo "Commands:"
     echo "  deploy-azure        Deploy a VM onto Azure using azure_disk.vhd."
     echo "  deploy-aws          Deploy a VM onto AWS using aws_disk.vmdk."
-    echo "  deploy-gcp          Deploy a VM onto GCP using google_disk.raw."
+    echo "  deploy-gcp          Deploy a VM onto GCP using gcp_disk.tar.gz."
     echo "  update-workload     Update the workload on a deployed CVM."
     echo ""
     echo "Arguments for 'deploy-azure' command:"
@@ -147,7 +147,7 @@ case "$COMMAND" in
         fi
 
         set -e
-        echo "Deploying google_disk.raw with the following parameters:"
+        echo "Deploying gcp_disk.tar.gz with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
         echo "🔹Region: $REGION"
         echo "🔹Project ID: $PROJECT_ID"
@@ -207,7 +207,7 @@ case "$COMMAND" in
         fi
 
         set -e
-        echo "Deploying azeure_disk.vhd  with the following parameters:"
+        echo "Deploying azure_disk.vhd with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
         echo "🔹Resource Group: $RESOURCE_GROUP"
         echo "🔹VM Type: $VM_TYPE"

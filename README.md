@@ -2,15 +2,7 @@
 
 ## Prerequisites
 
-1. For all cloud providers, you need to install these dependencies:
-```
-# On Linux: No need to install anything
-
-# On Mac :
-brew install gnu-tar
-```
-
-2. You also need the cli for the cloud provider you want to deploy on (either az cli, gcloud cli or aws cli)
+1. You also need the cli for the cloud provider you want to deploy on (either az cli, gcloud cli or aws cli)
 - az cli:
   - Download: [Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
   - Login: [Guide](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
@@ -21,14 +13,14 @@ brew install gnu-tar
   - Download: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
   - Login: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html)
 
-3. Additional dependencies if deploying to AWS:
+2. Additional dependencies if deploying to AWS:
 - Service Role: You need a service role called [vmimport](https://docs.aws.amazon.com/vm-import/latest/userguide/required-permissions.html#vmimport-role)
 - An S3 bucket to store the disk: [Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
 
-4. Additional dependencies if deploying to GCP:
+3. Additional dependencies if deploying to GCP:
 - A GCP bucket to store the disk: [Guide](https://cloud.google.com/storage/docs/creating-buckets#console)
 
-5. Additional dependencies if deploying to Azure:
+4. Additional dependencies if deploying to Azure:
 - A resource group, a storage account, and image gallery
   - Note: Resource group, storage account, and shared image gallery must be in the same region as the VM you want to create. Please see the next section for details on the CVM types available in each region.
   - Note: SEV-SNP VMs may not be supported in the same region as TDX, so you may need to create separate resource groups, storage account and shared image gallery if you wish to support both CVM types on Azure.
@@ -40,7 +32,7 @@ REGION="<region>"
 STORAGE_ACCOUNT="<storage account name>" # lowercase letters and numbers only, length 3-24.
 GALLERY_NAME="<gallery name>"
 
-# Example virialble could be
+# Example variables could be:
 # RG="cvm_testRg"
 # REGION="East US 2"
 # STORAGE_ACCOUNT="tdxcvm123"
@@ -95,13 +87,13 @@ Please download a cvm disk image into the root of this repository. Please pick t
 
 ```
 # GCP Image
-wget -O google_disk.raw https://f004.backblazeb2.com/file/cvm-base-images/disk.raw
+wget -O gcp_disk.tar.gz https://f004.backblazeb2.com/file/cvm-base-images/gcp_disk.tar.gz
 
 # AWS Image
-wget -O aws_disk.vmdk https://f004.backblazeb2.com/file/cvm-base-images/disk.vmdk
+wget -O aws_disk.vmdk https://f004.backblazeb2.com/file/cvm-base-images/aws_disk.vmdk
 
 # Azure Image
-wget -O azeure_disk.vhd  https://f004.backblazeb2.com/file/cvm-base-images/disk.vhd
+wget -O azure_disk.vhd  https://f004.backblazeb2.com/file/cvm-base-images/azure_disk.vhd
 ```
 > Note: Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
 
@@ -216,46 +208,43 @@ TODO.
 For more details on the APIs available on the cvm-agent, please check out [this document](docs/cvm-agent-api.md).
 
 
-### Use Case
-
-#### Peer Node Verification Workflow (Off-chain)
+### Example: Peer Node Verification Workflow (Off-chain)
 ![Example - Peer Node Verification Workflow](docs/automata_cvm_peer_node_verification.png "Peer Node Verification Workflow")
 
-This usecase describes the remote attestation flow between two **Confidential Virtual Machines (VMs)**—an **attester** and a **verifier**—using **attestation agents** and optional 
-**remote storage** for verification.
+This use-case describes the remote attestation flow between two **Confidential Virtual Machines (VMs)**—an **attester** and a **verifier**—using **attestation agents** and optional **remote storage** for verification.
 
 
-##### 🧩 Components
+#### 🧩 Components
 
-###### 🔐 Confidential VM (Attester)
+##### 🔐 Confidential VM (Attester)
 - **Workload (attester):** Application that provides collaterals to **verifier** for verification.
 - **Attestation Agent:** Retrieves attestation reports and platform-specific collateral (e.g., TCB info, certificates).
 
-###### 🔎 Confidential VM (Verifier)
+##### 🔎 Confidential VM (Verifier)
 - **Workload (verifier):** Application that receives collaterals from **attester** and verifies the collaterals using its local **Attestation Agent**.
 - **Attestation Agent:** Validates the integrity of the attester's collaterals using cryptographic operations.
 
-###### 🗄️ Remote Storage
-- Stores known-good reference values used by the verifier to compare against collaterals of **attester**.
+##### 🗄️ Remote Storage
+- Stores known-good reference values used by the verifier to compare against collaterals of **attester** (ie, the golden measurement).
 
 
-##### 🔄 Attestation Flow
-1. **Get Golden Value**
-  The **verifier workload** gets gloden value of **attester workload** from **remote storage**.
+#### 🔄 Attestation Flow
+1. **Get Golden Value**  
+  The **verifier workload** gets golden value of **attester workload** from **remote storage**.
 
-2. **Initiates attestation reqeust**  
+2. **Initiates attestation request**  
    The **verifier workload** send the attestation req to **attester workload**.
 
 3. **Collect Evidence**  
    The **attester workload** get the collaterals from its local **attestation agent** via `/collateral` endpoint.
 
-4. **Reply the attestation reqeust**  
-   The **attester workload** replys the verifier workload with its collaterals.
+4. **Respond to the attestation request**  
+   The **attester workload** replies the verifier workload with its collaterals.
 
 5. **Verify Evidence**  
    The **verifier workload** calls its **attestation agent** using `/offchain-verify` to perform cryptographic validation and verify trustworthiness.
 
-##### ✅ Outcome
+#### ✅ Outcome
 
 If verification succeeds, the **verifier** can trust the **attester's VM** and proceed with sensitive operations such as key sharing or secure computation.
 
@@ -337,15 +326,5 @@ flowchart LR
   BuildPhase --> DeployPhase --> RuntimePhase --> GoldenMeasurementPhase --> VerificationPhase
 ```
 
-
-## Project Reference 
-For the attesation agent, we currently use: 
-https://github.com/automata-network/pom-sdk/tree/DEV-4072-dyn-container
-
-For building cvm image, we currently use: 
-https://github.com/automata-network/cvm-uki/tree/DEV-4072-dynamic-containers
-
-
-
-
-## Trouble Shoot
+## Troubleshooting
+TBD.
