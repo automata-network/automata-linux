@@ -145,6 +145,10 @@ The following parameters are optional, and default to:
 - vm_type: m6a.large
 - additional_ports: “”
 
+## Known Issues for AWS
+
+AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). If you're unable to curl the APIs provided in the next section, please reboot the VM.
+
 ## Uploading workload to the CVM
 
 ### How to modify the `workload/` folder:
