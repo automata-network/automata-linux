@@ -3,50 +3,58 @@
 ## Prerequisites
 
 1. You need the cli for the cloud provider you want to deploy on (either az cli, gcloud cli or aws cli)
-- az cli:
-  - Download: [Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
-  - Login: [Guide](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
-- gcloud cli:
-  - Download: [Guide](https://cloud.google.com/sdk/docs/install)
-  - Login: [Guide](https://cloud.google.com/sdk/docs/initializing)
-- aws cli:
-  - Download: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-  - Login: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html)
+   - az cli:
+     - Download: [Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+     - Login: [Guide](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
+   - gcloud cli:
+     - Download: [Guide](https://cloud.google.com/sdk/docs/install)
+     - Login: [Guide](https://cloud.google.com/sdk/docs/initializing)
+   - aws cli:
+     - Download: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+     - Login: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html)
 
 2. Additional dependencies if deploying to AWS:
-- Service Role: You need a service role called [vmimport](https://docs.aws.amazon.com/vm-import/latest/userguide/required-permissions.html#vmimport-role)
-- An S3 bucket to store the disk: [Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
+   - Service Role: You need a service role called [vmimport](https://docs.aws.amazon.com/vm-import/latest/userguide/required-permissions.html#vmimport-role)
+   - An S3 bucket to store the disk: [Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
 
 3. Additional dependencies if deploying to GCP:
-- A GCP bucket to store the disk: [Guide](https://cloud.google.com/storage/docs/creating-buckets#console)
+   - A GCP bucket to store the disk: [Guide](https://cloud.google.com/storage/docs/creating-buckets#console)
+   - Enable Compute Engine API on your chosen project:
+   ```bash
+   # Uses the default project that was selected during the gcloud cli initialization
+   gcloud services enable compute.googleapis.com
+
+   # To use a different project from the default project
+   gcloud services enable compute.googleapis.com --project <PROJECT_ID>
+   ```
 
 4. Additional dependencies if deploying to Azure:
-- A resource group, a storage account, and image gallery
-  - Note: Resource group, storage account, and shared image gallery must be in the same region as the VM you want to create. Please see the next section for details on the CVM types available in each region.
-  - Note: SEV-SNP VMs may not be supported in the same region as TDX, so you may need to create separate resource groups, storage account and shared image gallery if you wish to support both CVM types on Azure.
-  - Note: storage account name and shared image gallery name must be unique.
-```bash
-# Fill up the variables with a name of your choice.
-RG="<resource group name>"
-REGION="<region>"
-STORAGE_ACCOUNT="<storage account name>" # lowercase letters and numbers only, length 3-24.
-GALLERY_NAME="<gallery name>"
+   - A resource group, a storage account, and image gallery
+     - Note: Resource group, storage account, and shared image gallery must be in the same region as the VM you want to create. Please see the next section for details on the CVM types available in each region.
+     - Note: SEV-SNP VMs may not be supported in the same region as TDX, so you may need to create separate resource groups, storage account and shared image gallery if you wish to support both CVM types on Azure.
+     - Note: storage account name and shared image gallery name must be unique.
+   ```bash
+   # Fill up the variables with a name of your choice.
+   RG="<resource group name>"
+   REGION="<region>"
+   STORAGE_ACCOUNT="<storage account name>" # lowercase letters and numbers only, length 3-24.
+   GALLERY_NAME="<gallery name>"
 
-# Example variables could be:
-# RG="cvm_testRg"
-# REGION="East US 2"
-# STORAGE_ACCOUNT="tdxcvm123"
-# GALLERY_NAME="tdxGallery"
+   # Example variables could be:
+   # RG="cvm_testRg"
+   # REGION="East US 2"
+   # STORAGE_ACCOUNT="tdxcvm123"
+   # GALLERY_NAME="tdxGallery"
 
-# Create a resource groups
-az group create --name "$RG" --location "$REGION"
+   # Create a resource groups
+   az group create --name "$RG" --location "$REGION"
 
-# Create a storage account
-az storage account create --resource-group "$RG" --name "$STORAGE_ACCOUNT" --location "$REGION" --sku "Standard_LRS"
+   # Create a storage account
+   az storage account create --resource-group "$RG" --name "$STORAGE_ACCOUNT" --location "$REGION" --sku "Standard_LRS"
 
-# Create a shared image gallery
-az sig create --resource-group "$RG" --gallery-name "$GALLERY_NAME"
-```
+   # Create a shared image gallery
+   az sig create --resource-group "$RG" --gallery-name "$GALLERY_NAME"
+   ```
 
 ## CVM Information for each Cloud Provider 
 This section outlines the confidential computing capabilities offered by major cloud providers, specifying supported CVM technologies—SEV-SNP and TDX—along with their corresponding instance families and available regions.
@@ -82,8 +90,8 @@ This section outlines the confidential computing capabilities offered by major c
   - Region: asia-southeast1-a/b/c, europe-west4-a/b/c, us-central1-a/b/c
 
 
-## Download the cvm disk image
-Please download a cvm disk image into the root of this repository. Please pick the disk according to the cloud provider you wish to deploy on:
+## Download the CVM disk image
+Please download a CVM disk image into the root of this repository. Please pick the disk according to the cloud provider you wish to deploy on:
 
 ```
 # GCP Image
@@ -95,7 +103,8 @@ curl -O https://f004.backblazeb2.com/file/cvm-base-images/aws_disk.vmdk
 # Azure Image
 curl -O https://f004.backblazeb2.com/file/cvm-base-images/azure_disk.vhd
 ```
-> Note: Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
+> [!Note]
+> Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
 
 
 ## Deploying the disk and creating the CVM
@@ -151,24 +160,48 @@ AWS currently has a known issue where the [boot process may intermittently hang 
 
 ## Uploading workload to the CVM
 
-### How to modify the `workload/` folder:
+### 1. Create asymmetric keypairs
+
+Create one or more asymmetric keypairs, which will be used for the following steps:
+  - [Signing the docker images](#2-sign-the-docker-images-that-will-be-used)
+  - [Signing the golden measurements](#2-sign-the-golden-measurements)
+```bash
+# ECC key
+openssl ecparam -genkey -name prime256v1 -noout -out private.pem
+openssl ec -in private.pem -pubout -out public.pem
+
+# RSA key
+openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+openssl rsa -in private.pem -pubout -out public.pem
+```
+
+### 2. Sign the docker images that will be used
+
+TODO
+
+### 3. Modify the `workload/` folder:
 - In the folder, there are 3 things - a file called `docker-compose.yml` and 2 folders called `config/` and `secrets/`.
   - `docker-compose.yml` : This is a standard docker compose file that can be used to specify your workload. However, do note that podman-compose will run this file instead of docker-compose. While this generally works fine, there are some caveats:
     - Please see this [issue](https://github.com/containers/podman-compose/issues/575) regarding podman-compose and specific options in `depends_on`.
     - Images that are hosted on docker's official registry must be prefixed with `docker.io/`.
-  - `config/` : Use this folder to store any files that will be mounted and used by the container. All the files in this folder will be measured by the init script before the container runs.
+  - `config/` : Use this folder to store any files that will be mounted and used by the container. All the files in this folder will be measured by the init script into the TPM PCR before the container runs.
   - `secrets/`: Use this folder to store any files that will be mounted and used by the container, but should not be measured. Examples include cert private keys, or database credentials.
 - Additionally, if you wish to load local images, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded.
 
-### Get the API Token
+> [!IMPORTANT]
+> If you have created any asymmetric keypairs in [Step 1](#1-create-asymmetric-keypairs), please also place the public keys into `workload/config/`.
+> This is to ensure that the public keys will also be measured into the TPM PCR, and prevents against tampering.
+
+### 4. Get the API Token
 Run the following command to retrieve the API token required to upload your workload:
 ```bash
 curl -k https://<VM IP>:8000/api-token ; echo
 ```
 
-> Note: The API token can only be retrieved once, do not lose it, or you will need to re-create the VM from scratch!
+> [!IMPORTANT]
+> The API token can only be retrieved once. Do not lose it, or you will need to re-create the VM from scratch!
 
-### Upload the workload
+### 5. Upload the workload
 Run the following command to upload your `workload/` folder to your deployed CVM:
 ```bash
 ./cvm-cli update-workload <VM IP> <API TOKEN>
@@ -177,11 +210,12 @@ Run the following command to upload your `workload/` folder to your deployed CVM
 ## Creating the golden measurements
 Now, you will also need to create the golden measurements for your CVM. This golden measurement will be used by verifiers to ensure that the CVM that they are interacting with can be trusted. The API that you can call depends on whether you intend to do off-chain verification or on-chain verification.
 
-1. Once the VM ip is available and the VM has completely booted, query the attestation_agent on the CVM to get collaterals.
+### 1. Get the golden measurements
+Once the VM ip is available and the VM has completely booted, query the attestation_agent on the CVM to get the golden measurements.
 
 For off-chain:
 ```bash
-curl -k https://8000/golden-measurement > golden-measurement.json
+curl -k https://<VM IP>:8000/golden-measurement > golden-measurement.json
 ```
 
 For on-chain:
@@ -189,11 +223,28 @@ For on-chain:
 TODO.
 ```
 
-2. Publish the golden measurements for verifiers to reference.
+### 2. Sign the golden measurements
+
+> [!NOTE]
+> This step is optional, and depends on where the golden measurement will be hosted. For off-chain verification, it is recommended to sign the golden measurement if it will be hosted somewhere untrusted, like on a cloud provider's S3 bucket.
+
+- For off-chain:
+  - Step 1: Sign the golden measurement. A reference helper script has been provided in this repo:
+   ```bash
+   ./json_sig_tool.py sign golden-measurement.json private.pem -o signed-golden-measurement.json
+   ```
+  - Step 2: (Optional, Sanity check) Verify the signature
+   ```bash
+   ./json_sig_tool.py verify signed-golden-measurement.json public.pem
+   ```
+- For on-chain: TODO (is it needed?)
+
+### 3. Publish the golden measurements
+Publish the golden measurements for verifiers to reference.
 
 - For off-chain:
   - The golden measurements can be stored anywhere that the workload can retrieve them, for example, on S3 storage.
-  - If storing on remote storage like S3, it is recommended to sign the golden measurement to prevent tampering of the values.
+  - If using a verifier on a separate machine from the CVM, the golden measurement can be hosted there as well.
 
 
 - For on-chain: TODO.
