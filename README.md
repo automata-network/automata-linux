@@ -251,21 +251,34 @@ Publish the golden measurements for verifiers to reference.
 
 
 ## Verifying the image and workload
-To verify that the workload is running a CVM with the expected measurements, the verifier can undertake the following steps:
+### Off-chain verification
+To verify that the workload is running a CVM with the expected measurements, the verifier should undertake the following steps in general:
 1. Retrieve the published golden measurements from remote.
-2. Use the local cvm-agent to retrieve the collaterals required during verification: 
-```
-curl 127.0.0.1:7999/collaterals
-```
-3. Use the local cvm-agent to verify the collaterals against the golden measurements:
+   - Verify the signature on the golden measurement to ensure it can be trusted, if needed.
+2. Retrieve collaterals from the workload running on the attester CVM.
+   - As an example, the workload on the attestor CVM can query the cvm-agent locally as follows:
+     ```bash
+     curl 127.0.0.1:7999/collaterals
+     ```
+3. Verify the collaterals against the published golden measurements.
+   - If the verifier runs within a TEE environment that is created from our cvm-image, the verifier can use the cvm-agent to verify the collaterals against the published golden measurements:
+     ```bash
+     # Assuming that the verifier saves the collaterals as collaterals.json:
+     jq -s '{ golden_measurement: (.[1].golden_measurement | @json), collaterals: (.[0] | @json) }' collaterals.json signed-golden-measurement.json | curl -X POST 127.0.0.1:7999/offchain-verify -H "Content-Type: application/json" -d @-
+     ```
+   - If the verifier runs outside of a TEE environment, the [cvm-verifier SDK](https://github.com/automata-network/cvm-verifier) can be used to verify the collaterals against the golden-measurement:
+     ```bash
+     # 1. Pull out the golden_measurement field
+     jq -r '.golden_measurement | @json' signed-golden-measurement.json > golden-measurement.json
+     # 2. Run the verifier. Assuming the verifier saves the collaterals as collaterals.json:
+     cargo run --release --bin cvm-verifier collaterals.json golden-measurement.json
+     ```
 
-For off-chain:
-```
-curl -X POST 127.0.0.1:7999/offchain-verify -H "Content-Type: application/json" \
-  -d '{"collaterals": <string>, "golden_measurement": <string> }'
-```
 
-For on-chain:
+For a more concrete example of the verification workflow, please check out the [peer node verification workflow below](#example-peer-node-verification-workflow-off-chain).
+
+
+### On-chain verification
 ```
 TODO.
 ```
