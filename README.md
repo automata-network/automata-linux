@@ -209,7 +209,7 @@ Run the following command to upload your `workload/` folder to your deployed CVM
 
 ## Creating the golden measurements
 > [!IMPORTANT]
-> The golden measurements are required for the [verification phase](#verifying-the-image-and-workload), as they serve as the reference against which verifiers compare an attester's collaterals to confirm alignment with a known, trusted state. The publisher of the workload should create and publish the golden measurement for verifiers to reference.
+> The golden measurements are required for the [verification phase](#verifying-the-image-and-workload), as they serve as the reference against which verifiers compare an attester's collaterals to confirm alignment with a known, expected state. The publisher of the workload should create and publish the golden measurement for verifiers to reference.
 
 ### 1. Get the golden measurements
 Once the VM's external ip is available and the VM has completely booted, query the cvm-agent on the CVM to get the golden measurements.
