@@ -208,10 +208,11 @@ Run the following command to upload your `workload/` folder to your deployed CVM
 ```
 
 ## Creating the golden measurements
-Now, you will also need to create the golden measurements for your CVM. This golden measurement will be used by verifiers to ensure that the CVM that they are interacting with can be trusted. The API that you can call depends on whether you intend to do off-chain verification or on-chain verification.
+> [!IMPORTANT]
+> The golden measurements are required for the [verification phase](#verifying-the-image-and-workload), as they serve as the reference against which verifiers compare an attester's collaterals to confirm alignment with a known, trusted state. The publisher of the workload should create and publish the golden measurement for verifiers to reference.
 
 ### 1. Get the golden measurements
-Once the VM ip is available and the VM has completely booted, query the attestation_agent on the CVM to get the golden measurements.
+Once the VM's external ip is available and the VM has completely booted, query the cvm-agent on the CVM to get the golden measurements.
 
 For off-chain:
 ```bash
@@ -243,8 +244,8 @@ TODO.
 Publish the golden measurements for verifiers to reference.
 
 - For off-chain:
-  - The golden measurements can be stored anywhere that the workload can retrieve them, for example, on S3 storage.
-  - If using a verifier on a separate machine from the CVM, the golden measurement can be hosted there as well.
+  - The golden measurements can be stored anywhere that a verifier can retrieve them, for example, on S3 storage.
+  - If the verifier is hosted externally from a TEE environment, the golden measurement can be hosted there as well.
 
 
 - For on-chain: TODO.
