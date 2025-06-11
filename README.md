@@ -256,7 +256,7 @@ To verify that the workload is running a CVM with the expected measurements, the
 1. Retrieve the published golden measurements from remote.
    - Verify the signature on the golden measurement to ensure it can be trusted, if needed.
 2. Retrieve collaterals from the workload running on the attester CVM.
-   - As an example, the workload on the attestor CVM can query the cvm-agent locally as follows:
+   - As an example, the workload on the attester CVM can query the cvm-agent locally as follows:
      ```bash
      curl 127.0.0.1:7999/collaterals
      ```
