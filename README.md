@@ -378,7 +378,7 @@ flowchart LR
     B1[Verify correctness of rootfs partition with veritysetup]
     B2[Rootfs mounted]
     B3[Essential services loaded]
-    B4[attestation_agent is started]
+    B4[cvm-agent is started]
     B5[podman pulls the workload images]
     B6[tpm2_pcrextend pcr23 is executed on:
       - workload images
@@ -396,8 +396,8 @@ flowchart LR
 
   subgraph VerificationPhase [Verification Phase]
     direction TB
-    D1[curl service.com:8000/collaterals]
-    D2[curl service.com:8000/verify]
+    D1[Get attester's collaterals]
+    D2[Verify attester's collaterals against golden measurement]
 
     D1 --> D2
   end
