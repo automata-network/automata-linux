@@ -1,0 +1,28 @@
+{
+    "cvm_config": {
+        "emulation_mode" :{
+            "enable": false,
+            "cloud_provider": "azure",
+            "tee_type": "snp" ,
+            "emulation_data_path": "./emulation_mode_data",
+            "enable_emulation_data_update": true
+        },
+
+        "https_server" :{
+            "enable_workload_update_endpoint": true,
+            "enable_maintenance_endpoint": true,
+            "enable_tls": false,
+            "enable_workload_update_auth": false
+        },
+
+        "container_api" : {
+            "container_engine": "podman",
+            "container_owner": "azureuser"
+        },
+
+        "maintenance_mode" : {
+            "signal" : "SIGUSR2",
+            "ssh_port_on_host": "2223"
+        }
+    }
+}
