@@ -172,4 +172,42 @@ The server will broadcast on 2 ports:
         "error": <string, optional>
     }
     ```
+- `/maintenance-mode` [POST]Add commentMore actions
+    - Port Availability: 8000
+    - Purpose: Toggle the CVM into or out of maintenance mode by enabling / disabling SSH access to the operator container.
+    - Authentication: same as `/update-workload` endpoint
+    - Example Requests:
+    ```bash
+        # Immediately disable SSH
+        curl -X POST http://<ip>:8000/maintenance-mode \
+            -H "Content-Type: application/json" \
+            -d '{"action":"disable"}'
 
+        # Disable SSH after 30s
+        curl -X POST http://<ip>:8000/maintenance-mode \
+            -H "Content-Type: application/json" \
+            -d '{"action":"disable", ,"delay_seconds":30}'
+
+        # Immediately disable SSH
+        curl -X POST http://<ip>:8000/maintenance-mode \
+            -H "Content-Type: application/json" \
+            -d '{"action":"enable"}'
+
+        # Enable SSH again after 30 s
+        curl -X POST http://<ip>:8000/maintenance-mode \
+            -H "Content-Type: application/json" \
+            -d '{"action":"enable","delay_seconds":30}'
+    ```
+    - Success Response
+    ```json
+    {
+        "status": "maintenance mode triggered",      
+        "maintenance_action": "enable",
+        "port": "2222",
+        "delay_seconds": 0,
+        "results": {
+            "operator": "operator\n"
+        },
+        "timestamp": "2025-07-01T01:34:32Z"
+    }
+    ```
