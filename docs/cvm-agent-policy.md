@@ -13,7 +13,7 @@ The following settings manage the use of emulated mode of the agent:
 |---------------------------------|--------------------------------|-------------------------------------------------------|
 | `enable`                        | `false`                        | Emulation mode is currently **disabled**, indicating execution on actual hardware. |
 | `cloud_provider`                | `"azure"`                      | Indicates Azure as the cloud provider being targeted.  Ohter possible options include **google** and **amazon**|
-| `tee_type`                      | `"snp"`                        | Specifies AMD SEV-SNP as the Trusted Execution Environment (TEE).  Ohter possible options include **TDX**|
+| `tee_type`                      | `"snp"`                        | Specifies AMD SEV-SNP as the Trusted Execution Environment (TEE).  Ohter possible options include **tdx**|
 | `emulation_data_path`           | `"./emulation_mode_data"`      | Path to get data used for emulation (attestation report, TPM quote etc.,). |
 | `enable_emulation_data_update`  | `true`                         | Allows updates the data used for emulation mode. |
 
@@ -50,7 +50,10 @@ Settings that govern VM maintenance activities:
 | Field               | Value       | Explanation                                                  |
 |---------------------|-------------|--------------------------------------------------------------|
 | `signal`            | `"SIGUSR2"` | Specifies the signal (`SIGUSR2`) used to notify the containers that the maintenance mode is enabled or disabled.  Containers thus need to implement the signal handler for receiving the notification from the agent|
-| `ssh_port_on_host`  | `"2223"`    | SSH port on the VM host for accessing a ssh server running in a container during maintenance periods. |
+| `ssh_port_on_host`  | `"2222"`    | SSH port on the VM host for accessing a ssh server running in a container during maintenance periods. |
+
+Note that users should add their public key to the appropriate location (i.e., `~/.ssh/authorized_keys`) within the container and enable port mapping for the SSH server. Example can be found at **Q&A**:
+
 
 ---
 
@@ -66,3 +69,89 @@ Settings that govern VM maintenance activities:
 
 - Ensure to enable `enable_tls` and `enable_workload_update_auth` for secure communications and authenticated updates in production deployments.
 
+
+
+---
+
+## Q&A
+
+### How to add your public key to the Docker container:
+
+#### Step 1: Prepare Your Public Key
+Make sure you have your SSH public key (id_rsa.pub) in your local directory (e.g., alongside your Dockerfile):
+
+```bash
+.
+├── Dockerfile
+└── id_rsa.pub
+Generate it if needed:
+```
+
+Generate it if needed:
+```bash
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+
+#### Step 2: Dockerfile (Minimal Example)
+
+Your Dockerfile correctly sets up the environment. Ensure the public key is copied correctly into the container:
+
+```yaml
+FROM ubuntu:22.04
+
+RUN apt-get update && \
+    apt-get install -y openssh-server sudo && \
+    apt-get clean
+
+# Create new group to avoid "group operator exists" issue
+RUN groupadd sshusers && useradd -m -s /bin/bash -g sshusers operator
+
+# Prepare SSH server and authorized_keys
+RUN mkdir -p /home/operator/.ssh && \
+    mkdir -p /var/run/sshd && \
+    echo "AllowUsers operator" >> /etc/ssh/sshd_config && \
+    echo "PasswordAuthentication no" >> /etc/ssh/sshd_config && \
+    echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+
+# Copy your public key
+COPY id_rsa.pub /home/operator/.ssh/authorized_keys
+
+# Set permissions
+RUN chown -R operator:sshusers /home/operator/.ssh && \
+    chmod 700 /home/operator/.ssh && \
+    chmod 600 /home/operator/.ssh/authorized_keys
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
+```
+
+#### Step 3: Build the Docker Image
+
+Run the following command in your terminal (in the directory with Dockerfile and id_rsa.pub):
+```bash
+docker build -t ssh-container-example .
+```
+
+#### Step 4: Push your image to remote repo
+
+```bash
+docker tag ssh-container-example mydockeruser/ssh-container-example:latest
+docker login
+docker push mydockeruser/ssh-container-example:latest
+```
+
+### How to enable the port mapping for the target container that runs ssh:
+User can use the **ports** keyword to enable the ssh access to the container. 
+In particular, please make sure that the port **2222** match the port specified in the policy
+
+```yaml
+version: '3.8'
+
+services:
+  operator:
+    image: docker.io/mydockeruser/ssh-container-example:latest
+    container_name: operator
+    restart: unless-stopped
+    ports:
+      - "2222:22"
+```
