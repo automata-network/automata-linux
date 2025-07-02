@@ -106,6 +106,14 @@ curl -O https://f004.backblazeb2.com/file/cvm-base-images/azure_disk.vhd
 > [!Note]
 > Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
 
+## Config the CVM agent
+The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks.
+
+It is configured via the policy file in ./workload/config/cvm-agent/cvm_agent_policy.json.
+
+
+For a detailed description of each policy option, please see [this document](docs/cvm-agent-policy.md).
+
 
 ## Deploying the disk and creating the CVM
 Run the CLI to deploy the disk to the cloud provider.
