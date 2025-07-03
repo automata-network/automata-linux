@@ -10,14 +10,14 @@
 
         "https_server" :{
             "enable_workload_update_endpoint": true,
-            "enable_maintenance_endpoint": true,
-            "enable_tls": false,
-            "enable_workload_update_auth": false
+            "enable_maintenance_endpoint": false,
+            "enable_tls": true,
+            "enable_workload_update_auth": true
         },
 
         "container_api" : {
             "container_engine": "podman",
-            "container_owner": "azureuser"
+            "container_owner": "automata"
         },
 
         "maintenance_mode" : {
