@@ -95,13 +95,13 @@ Please download a CVM disk image into the root of this repository. Please pick t
 
 ```
 # GCP Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/gcp_disk.tar.gz
+curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/gcp_disk.tar.gz
 
 # AWS Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/aws_disk.vmdk
+curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/aws_disk.vmdk
 
 # Azure Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/azure_disk.vhd
+curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/azure_disk.vhd
 ```
 > [!Note]
 > Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
