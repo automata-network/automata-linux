@@ -93,6 +93,7 @@ This section outlines the confidential computing capabilities offered by major c
 ## Download the CVM disk image
 Please download a CVM disk image into the root of this repository. Please pick the disk according to the cloud provider you wish to deploy on:
 
+### Production Image (Maintenance mode disabled in Security Policy)
 ```
 # GCP Image
 curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/gcp_disk.tar.gz
@@ -103,14 +104,93 @@ curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/aws_disk.vmdk
 # Azure Image
 curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/azure_disk.vhd
 ```
+
+### Development/Test Image (Maintenance mode enabled in Security Policy)
+```
+# GCP Image
+curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/maintenance-enabled/gcp_disk.tar.gz
+
+# AWS Image
+curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/maintenance-enabled/aws_disk.vmdk
+
+# Azure Image
+curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/maintenance-enabled/azure_disk.vhd
+```
+
 > [!Note]
 > Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
 
-## Config the CVM agent
-The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks.
+## Configure the CVM agent
+The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks. 
 
-It is configured via the policy file in ./workload/config/cvm-agent/cvm_agent_policy.json.
+>[!Note]
+> In the current iteration of the base image, the security policy used by the cvm-agent cannot be changed. However, there may be further changes as this feature is still in active development.
 
+An example of the security policy format can be found in ./workload/config/cvm-agent/cvm_agent_policy.json.
+
+### Default Security Policy for Production Image
+```json
+{
+    "cvm_config": {
+        "emulation_mode" :{
+            "enable": false,
+            "cloud_provider": "azure",
+            "tee_type": "snp" ,
+            "emulation_data_path": "./emulation_mode_data",
+            "enable_emulation_data_update": true
+        },
+
+        "https_server" :{
+            "enable_workload_update_endpoint": true,
+            "enable_maintenance_endpoint": false,
+            "enable_tls": true,
+            "enable_workload_update_auth": true
+        },
+
+        "container_api" : {
+            "container_engine": "podman",
+            "container_owner": "automata"
+        },
+
+        "maintenance_mode" : {
+            "signal" : "SIGUSR2",
+            "ssh_port_on_host": "2222"
+        }
+    }
+}
+```
+
+### Default Security Policy for Development/Test Image
+```json
+{
+    "cvm_config": {
+        "emulation_mode" :{
+            "enable": false,
+            "cloud_provider": "azure",
+            "tee_type": "snp" ,
+            "emulation_data_path": "./emulation_mode_data",
+            "enable_emulation_data_update": true
+        },
+
+        "https_server" :{
+            "enable_workload_update_endpoint": true,
+            "enable_maintenance_endpoint": true,
+            "enable_tls": true,
+            "enable_workload_update_auth": true
+        },
+
+        "container_api" : {
+            "container_engine": "podman",
+            "container_owner": "automata"
+        },
+
+        "maintenance_mode" : {
+            "signal" : "SIGUSR2",
+            "ssh_port_on_host": "2222"
+        }
+    }
+}
+```
 
 For a detailed description of each policy option, please see [this document](docs/cvm-agent-policy.md).
 

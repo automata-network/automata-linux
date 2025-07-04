@@ -52,7 +52,7 @@ Settings that govern VM maintenance activities:
 | `signal`            | `"SIGUSR2"` | Specifies the signal (`SIGUSR2`) used to notify the containers that the maintenance mode is enabled or disabled.  Containers thus need to implement the signal handler for receiving the notification from the agent|
 | `ssh_port_on_host`  | `"2222"`    | SSH port on the VM host for accessing a ssh server running in a container during maintenance periods. |
 
-Note that users should add their public key to the appropriate location (i.e., `~/.ssh/authorized_keys`) within the container and enable port mapping for the SSH server. Example can be found at **Q&A**.  Also, for the proper signal handling, the application process must have **PID 1** in the container (This is very commen in containerlized application such as redis and nginx). Otherwise, application may not be able to receive the signal sent by the cvm_agent.
+Note that users should add their public key to the appropriate location (i.e., `~/.ssh/authorized_keys`) within the container and enable port mapping for the SSH server. Example can be found at **Q&A**.  Also, for the proper signal handling, the application process must have **PID 1** in the container (This is very common in containerized applications such as redis and nginx). Otherwise, application may not be able to receive the signal sent by the cvm_agent.
 
 
 ---
@@ -60,14 +60,15 @@ Note that users should add their public key to the appropriate location (i.e., `
 ## Usage Notes
 
 - **Emulation Mode** is suitable for controlled development or test scenarios.
-- **TLS** and **Workload Authentication** should be enabled in production environments for security.
 - Maintenance settings allow straightforward administration and troubleshooting.
 
 ---
 
-## Security Recommendations
+## Security Recommendations for Production Environments
 
-- Ensure to enable `enable_tls` and `enable_workload_update_auth` for secure communications and authenticated updates in production deployments.
+- Enable `enable_tls` and `enable_workload_update_auth` for secure communications and authenticated updates in production deployments.
+- Disable `enable_maintenance_endpoint` unless it is required.
+- **TLS** and **Workload Authentication** should be enabled.
 
 
 
