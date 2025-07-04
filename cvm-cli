@@ -8,6 +8,8 @@ usage() {
     echo "  deploy-aws          Deploy a VM onto AWS using aws_disk.vmdk."
     echo "  deploy-gcp          Deploy a VM onto GCP using gcp_disk.tar.gz."
     echo "  update-workload     Update the workload on a deployed CVM."
+    echo "  update-disk         Update the workload on the specified VHD/RAW/VMDK disk file (Linux system only)."
+    echo "  update-disk-via-docker         Update the workload on the specified VHD/RAW/VMDK disk file (Mac compatible)."
     echo ""
     echo "Arguments for 'deploy-azure' command:"
     echo "  --resource_group <group>    The resource group for the deployment. **Mandatory**"
@@ -47,6 +49,33 @@ if [[ -z "$COMMAND" ]]; then
 fi
 
 case "$COMMAND" in
+    update-disk)
+        DISK_FILE=$1
+        shift 1
+        if [[ -z "$DISK_FILE" ]]; then
+            usage
+        fi
+        echo "Reloading workload onto an existing disk..."
+        ./scripts/copy_workload_to_existing_disk.sh $DISK_FILE
+        ;;
+    update-disk-via-docker)
+        DISK_FILE=$1
+        shift 1
+        if [[ -z "$DISK_FILE" ]]; then
+            usage
+        fi
+        echo "Reloading workload onto an existing disk using docker build"
+
+        docker build \
+        --build-arg DISK_FILE=$DISK_FILE\
+        -t workload-updater . && \
+
+		docker rm -f temp-updater || true && \
+        docker create --name temp-updater workload-updater && \
+        docker cp temp-updater:/app/build/$DISK_FILE ./$DISK_FILE-1 && \
+        docker rm temp-updater
+        ;;
+    
     deploy-aws)
         VM_NAME="cvm-test"
         BUCKET=""
