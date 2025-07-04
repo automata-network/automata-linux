@@ -72,7 +72,7 @@ case "$COMMAND" in
 
 		docker rm -f temp-updater || true && \
         docker create --name temp-updater workload-updater && \
-        docker cp temp-updater:/app/build/$DISK_FILE ./$DISK_FILE-1 && \
+        docker cp temp-updater:/app/build/$DISK_FILE ./$DISK_FILE && \
         docker rm temp-updater
         ;;
     
