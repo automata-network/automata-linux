@@ -82,6 +82,7 @@ storageAccountId=$(az storage account show --name "$STORAGE_ACC" --resource-grou
 PK_B64=$(openssl base64 -in secure_boot/PK.crt -A)
 KEK_B64=$(openssl base64 -in secure_boot/KEK.crt -A)
 DB_B64=$(openssl base64 -in secure_boot/db.crt -A)
+KERN_B64=$(openssl base64 -in secure_boot/kernel.crt -A)
 
 IMG_VER_BODY=$(jq -n \
   --arg region "$REGION" \
@@ -89,7 +90,8 @@ IMG_VER_BODY=$(jq -n \
   --arg uri "$blob_url" \
   --arg pk "$PK_B64" \
   --arg kek "$KEK_B64" \
-  --arg db "$DB_B64" '
+  --arg db "$DB_B64" \
+  --arg kern "$KERN_B64" '
 {
   location: $region,
   properties: {
@@ -111,7 +113,7 @@ IMG_VER_BODY=$(jq -n \
         additionalSignatures: {
           pk: { type: "x509", value: [$pk] },
           kek: [{ type: "x509", value: [$kek] }],
-          db: [{ type: "x509", value: [$db] }]
+          db: [{ type: "x509", value: [$db, $kern] }]
         }
       }
     }
