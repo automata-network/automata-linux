@@ -1,58 +1,9 @@
-networks:
-  monitoring:
-    driver: bridge
-
-volumes:
-  prometheus_data: {}
+version: '3.8'
 
 services:
-  node-exporter:
-    image: docker.io/prom/node-exporter:v1.9.1
-    container_name: node-exporter
+  operator:
+    image: docker.io/yaoxin111/container_ssh:latest
+    container_name: operator
     restart: unless-stopped
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.rootfs=/rootfs'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
-    expose:
-      - 9100
-    networks:
-      - monitoring
-
-  prometheus:
-    image: docker.io/prom/prometheus:v3.3.1
-    container_name: prometheus
-    restart: unless-stopped
-    volumes:
-      - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
-      - "prometheus_data:/prometheus"
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--web.enable-lifecycle'
-    expose:
-      - 9090
-    networks:
-      - monitoring
-
-  metrics-proxy:
-    image: docker.io/nginx:1.27.4-alpine3.21
-    container_name: metrics-proxy
-    restart: unless-stopped
-    volumes:
-      - "./config/nginx.conf:/etc/nginx/templates/default.conf.template:ro"
-      - "./secrets/cert.pem:/etc/nginx/certs/cert.pem:ro"
-      - "./secrets/ca.key:/etc/nginx/certs/ca.key:ro"
-    depends_on:
-      - prometheus
     ports:
-      - 443:443
-    networks:
-      - monitoring
+      - "2223:22"

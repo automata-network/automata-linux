@@ -33,9 +33,7 @@ WORKDIR /app
 COPY . .
 
 RUN \
-  ORIGINAL_EPOCH=$(stat -c %Y "$DISK_FILE") && \
   ./cvm-cli update-disk "$DISK_FILE" && \
   # if your update writes out to a new file, adjust path here:
-  touch -d "@${ORIGINAL_EPOCH}" "$DISK_FILE" && \
   mkdir -p build && \
   mv "$DISK_FILE" build/
