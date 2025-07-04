@@ -495,11 +495,12 @@ flowchart LR
 
 ## Troubleshooting
 
-### Failed to deploy cvm on azure due to networt error
+### Failed to deploy cvm on Azure due to network error
 
-I got following error when deploy the CVM on Azure platform. The error is because network issue and you just need to delete the resource group on Azure and redeploy the cVM again.
+Q: Help! I got the following error when deploying the CVM on Azure:
+
 ```bash
-azureuser@chenye-tdx-agent-test:~/yaoxin/cvm-base-image$ ./cvm-cli deploy-azure \
+$ ./cvm-cli deploy-azure \
   --additional_ports "80,443,2222" \
   --vm_name "tdx-cvm-demo" \
   --resource_group "$RG" \
@@ -534,3 +535,5 @@ Deploying azure_disk.vhd with the following parameters:
 ++ sleep 30
 ++ true
 ```
+
+A: The error is due to network issues. To fix it, delete the resource group on Azure and redeploy the CVM again.

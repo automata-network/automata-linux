@@ -22,7 +22,7 @@
 
         "maintenance_mode" : {
             "signal" : "SIGUSR2",
-            "ssh_port_on_host": "2223"
+            "ssh_port_on_host": "2222"
         }
     }
 }
