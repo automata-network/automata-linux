@@ -58,22 +58,18 @@ case "$COMMAND" in
         echo "Reloading workload onto an existing disk..."
         ./scripts/copy_workload_to_existing_disk.sh $DISK_FILE
         ;;
-    update-disk-via-docker)
+    update-disk-via-multipass)
         DISK_FILE=$1
         shift 1
         if [[ -z "$DISK_FILE" ]]; then
-            usage
+            echo "❌ Please provide the disk file (e.g., azure_disk.vhd)"
+            exit 1
         fi
-        echo "Reloading workload onto an existing disk using docker build"
 
-        docker build \
-        --build-arg DISK_FILE=$DISK_FILE\
-        -t workload-updater . && \
-
-		docker rm -f temp-updater || true && \
-        docker create --name temp-updater workload-updater && \
-        docker cp temp-updater:/app/build/$DISK_FILE ./$DISK_FILE && \
-        docker rm temp-updater
+        echo "🔁 Using Multipass to update workload..."
+        SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/scripts" && pwd)"
+        bash "$SCRIPTS_DIR/update_disk_via_multipass.sh" "$DISK_FILE"
+        exit 0
         ;;
     
     deploy-aws)
