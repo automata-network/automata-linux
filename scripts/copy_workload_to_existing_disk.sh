@@ -76,11 +76,12 @@ if [ -f $DISK_FILE ]; then
         rm tmp.raw
     elif [[ "$DISK_FILE" == *.tar.gz ]]; then
         # unzip the disk and zip it back again later
-        tar -xzvf gcp_disk.tar.gz
+        tar -xzvf "$DISK_FILE"
         populate disk.raw
-        tar -czvf gcp_disk.tar.gz disk.raw
+        tar -czvf "$DISK_FILE" disk.raw
         rm disk.raw
     else
+        # raw disk and VHD.
         populate $DISK_FILE
     fi
 else

@@ -96,23 +96,33 @@ Please download a CVM disk image into the root of this repository. Please pick t
 ### Default Image (Maintenance mode disabled in Security Policy)
 ```
 # GCP Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/gcp_disk.tar.gz
+curl -O https://f004.backblazeb2.com/file/cvm-base-images/07072025/gcp_disk.tar.gz
 
 # AWS Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/aws_disk.vmdk
+curl -O https://f004.backblazeb2.com/file/cvm-base-images/07072025/aws_disk.vmdk
 
 # Azure Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/azure_disk.vhd
+curl -O https://f004.backblazeb2.com/file/cvm-base-images/07072025/azure_disk.vhd
 ```
 > [!Note]
 > Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
 
 
+## Configure the `workload/` folder
 
-## Configure the CVM agent
-The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks. 
+### 1. Configure your workload itself
+- In the folder, there are 3 things - a file called `docker-compose.yml` and 2 folders called `config/` and `secrets/`.
+  - `docker-compose.yml` : This is a standard docker compose file that can be used to specify your workload. However, do note that podman-compose will run this file instead of docker-compose. While this generally works fine, there are some caveats:
+    - Please see this [issue](https://github.com/containers/podman-compose/issues/575) regarding podman-compose and specific options in `depends_on`.
+    - Images that are hosted on docker's official registry must be prefixed with `docker.io/`.
+  - `config/` : Use this folder to store any files that will be mounted and used by the container. All the files in this folder will be measured by the init script before the container runs.
+  - `secrets/`: Use this folder to store any files that will be mounted and used by the container, but should not be measured. Examples include cert private keys, or database credentials.
+- Additionally, if you wish to load local images, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded.
 
-### Default Security Policy In The Image
+### 2. Configure the cvm-agent and Security Policy
+The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks. The tasks that it is allowed to perform depends on a security policy, which can be configured by the user.
+
+The default security policy can be found in [workload/config/cvm_agent/cvm_agent_policy.json](workload/config/cvm_agent/cvm_agent_policy.json):
 ```json
 {
     "cvm_config": {
@@ -143,37 +153,19 @@ The CVM agent runs inside the CVM and is responsible for VM management, workload
     }
 }
 ```
+The default policy is conservative, prioritizes security and can be used as it is. However, if you wish to change any settings, a detailed description of each policy option can be found in [this document](docs/cvm-agent-policy.md).
 
-For a detailed description of each policy option, please see [this document](docs/cvm-agent-policy.md).
+## Updating the workload on the Disk Image
+>[!Note]
+> Before executing this step, please ensure that you have already done the following:
+> 1. You already have a disk image. Please follow [these instructions](#download-the-cvm-disk-image) to download a disk image if you have not.
+> 2. Your workload has been added into the `workload/` folder, with the correct configuration and docker-compose.yml. Only services can be updated after the disk has been deployed to the CSP in the subsequent steps. The network and volume settings in the docker-compose.yml cannot be updated.
+> 3. You have modified the security policy in `workload/config/cvm_agent/cvm_agent_policy.json` according to your needs. The policy cannot be changed once the disk has been deployed to the CSP.
 
-> [!Note]
-> User should config their policy in [this document](workload/config/cvm_agent/cvm_agent_policy.json) before deploying the workload.
-> For how to update the policy in the image downloaded from intenet, please see the next section
-
-
-
-
-## Configure the workload in the `workload/` folder
-- In the folder, there are 3 things - a file called `docker-compose.yml` and 2 folders called `config/` and `secrets/`.
-  - `docker-compose.yml` : This is a standard docker compose file that can be used to specify your workload. However, do note that podman-compose will run this file instead of docker-compose. While this generally works fine, there are some caveats:
-    - Please see this [issue](https://github.com/containers/podman-compose/issues/575) regarding podman-compose and specific options in `depends_on`.
-    - Images that are hosted on docker's official registry must be prefixed with `docker.io/`.
-  - `config/` : Use this folder to store any files that will be mounted and used by the container. All the files in this folder will be measured by the init script before the container runs.
-  - `secrets/`: Use this folder to store any files that will be mounted and used by the container, but should not be measured. Examples include cert private keys, or database credentials.
-- Additionally, if you wish to load local images, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected in the VM's boot process and loaded.
-
-### Updating the workload on the Disk Image
-After you configure the `workload/` folder. Please use the following cmd to update the workload in the image:
-- Ensure the disk already exists.
-- Modify the files in workload/ folder.
-- Run the following command:
+After you configure everyting in the `workload/` folder, please use the following cmd to update the workload in the image:
 
 ```bash
-# for linux system
-./cvm-cli update-workload <disk> 
-
-# for mac system
-./cvm-cli update-disk-via-multipass <disk> 
+./cvm-cli update-workload <disk>
 ```
 
 ## Deploying the disk and creating the CVM

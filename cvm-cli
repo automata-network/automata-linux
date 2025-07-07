@@ -8,8 +8,7 @@ usage() {
     echo "  deploy-aws          Deploy a VM onto AWS using aws_disk.vmdk."
     echo "  deploy-gcp          Deploy a VM onto GCP using gcp_disk.tar.gz."
     echo "  update-workload     Update the workload on a deployed CVM."
-    echo "  update-disk         Update the workload on the specified VHD/RAW/VMDK disk file (Linux system only)."
-    echo "  update-disk-via-multipass        Update the workload on the specified VHD/RAW/VMDK disk file using multipass VM (Mac compatible)."
+    echo "  update-disk         Update the workload on a specified disk file."
     echo ""
     echo "Arguments for 'deploy-azure' command:"
     echo "  --resource_group <group>    The resource group for the deployment. **Mandatory**"
@@ -38,6 +37,9 @@ usage() {
     echo "  <VM IP>                 The IP of the VM running on the CSP."
     echo "  <API TOKEN>             API token authorize the workload change."
     echo ""
+    echo "Additional arguments for the 'update-disk' command:"
+    echo "  <DISK PATH>             The path to your disk image."
+    echo ""
     exit 1
 }
 
@@ -49,29 +51,6 @@ if [[ -z "$COMMAND" ]]; then
 fi
 
 case "$COMMAND" in
-    update-disk)
-        DISK_FILE=$1
-        shift 1
-        if [[ -z "$DISK_FILE" ]]; then
-            usage
-        fi
-        echo "Reloading workload onto an existing disk..."
-        ./scripts/copy_workload_to_existing_disk.sh $DISK_FILE
-        ;;
-    update-disk-via-multipass)
-        DISK_FILE=$1
-        shift 1
-        if [[ -z "$DISK_FILE" ]]; then
-            echo "❌ Please provide the disk file (e.g., azure_disk.vhd)"
-            exit 1
-        fi
-
-        echo "🔁 Using Multipass to update workload..."
-        SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/scripts" && pwd)"
-        bash "$SCRIPTS_DIR/update_disk_via_multipass.sh" "$DISK_FILE"
-        exit 0
-        ;;
-    
     deploy-aws)
         VM_NAME="cvm-test"
         BUCKET=""
@@ -241,6 +220,27 @@ case "$COMMAND" in
         echo "🔹Shared Image Gallery: $GALLERY_NAME"
         ./scripts/make_azure_vm.sh "$VM_NAME" "$RESOURCE_GROUP" "$VM_TYPE" "$ADDITIONAL_PORTS" "$STORAGE_ACC" "$GALLERY_NAME"
         set +e
+        ;;
+
+    update-disk)
+        DISK_FILE=$1
+        shift 1
+        if [[ -z "$DISK_FILE" ]]; then
+            echo "❌ Please provide the disk file (e.g., azure_disk.vhd)"
+            exit 1
+        fi
+        os_type="$(uname)"
+        if [[ "$os_type" == "Linux" ]]; then
+            echo "Reloading workload onto an existing disk..."
+            ./scripts/copy_workload_to_existing_disk.sh $DISK_FILE
+        elif [[ "$os_type" == "Darwin" ]]; then
+            echo "🔁 Using Multipass to update workload..."
+            SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/scripts" && pwd)"
+            bash "$SCRIPTS_DIR/update_disk_via_multipass.sh" "$DISK_FILE"
+        else
+            echo "Unsupported OS: $os_type"
+            exit 1
+        fi
         ;;
 
     update-workload)
