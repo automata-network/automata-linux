@@ -93,7 +93,7 @@ This section outlines the confidential computing capabilities offered by major c
 ## Download the CVM disk image
 Please download a CVM disk image into the root of this repository. Please pick the disk according to the cloud provider you wish to deploy on:
 
-### Production Image (Maintenance mode disabled in Security Policy)
+### Default Image (Maintenance mode disabled in Security Policy)
 ```
 # GCP Image
 curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/gcp_disk.tar.gz
@@ -104,31 +104,15 @@ curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/aws_disk.vmdk
 # Azure Image
 curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/azure_disk.vhd
 ```
-
-### Development/Test Image (Maintenance mode enabled in Security Policy)
-```
-# GCP Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/maintenance-enabled/gcp_disk.tar.gz
-
-# AWS Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/maintenance-enabled/aws_disk.vmdk
-
-# Azure Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/04072025/maintenance-enabled/azure_disk.vhd
-```
-
 > [!Note]
 > Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
+
+
 
 ## Configure the CVM agent
 The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks. 
 
->[!Note]
-> In the current iteration of the base image, the security policy used by the cvm-agent cannot be changed. However, there may be further changes as this feature is still in active development.
-
-An example of the security policy format can be found in ./workload/config/cvm-agent/cvm_agent_policy.json.
-
-### Default Security Policy for Production Image
+### Default Security Policy In The Image
 ```json
 {
     "cvm_config": {
@@ -160,40 +144,37 @@ An example of the security policy format can be found in ./workload/config/cvm-a
 }
 ```
 
-### Default Security Policy for Development/Test Image
-```json
-{
-    "cvm_config": {
-        "emulation_mode" :{
-            "enable": false,
-            "cloud_provider": "azure",
-            "tee_type": "snp" ,
-            "emulation_data_path": "./emulation_mode_data",
-            "enable_emulation_data_update": true
-        },
-
-        "https_server" :{
-            "enable_workload_update_endpoint": true,
-            "enable_maintenance_endpoint": true,
-            "enable_tls": true,
-            "enable_workload_update_auth": true
-        },
-
-        "container_api" : {
-            "container_engine": "podman",
-            "container_owner": "automata"
-        },
-
-        "maintenance_mode" : {
-            "signal" : "SIGUSR2",
-            "ssh_port_on_host": "2222"
-        }
-    }
-}
-```
-
 For a detailed description of each policy option, please see [this document](docs/cvm-agent-policy.md).
 
+> [!Note]
+> User should config their policy in [this document](workload/config/cvm_agent/cvm_agent_policy.json) before deploying the workload.
+> For how to update the policy in the image downloaded from intenet, please see the next section
+
+
+
+
+## Configure the workload in the `workload/` folder
+- In the folder, there are 3 things - a file called `docker-compose.yml` and 2 folders called `config/` and `secrets/`.
+  - `docker-compose.yml` : This is a standard docker compose file that can be used to specify your workload. However, do note that podman-compose will run this file instead of docker-compose. While this generally works fine, there are some caveats:
+    - Please see this [issue](https://github.com/containers/podman-compose/issues/575) regarding podman-compose and specific options in `depends_on`.
+    - Images that are hosted on docker's official registry must be prefixed with `docker.io/`.
+  - `config/` : Use this folder to store any files that will be mounted and used by the container. All the files in this folder will be measured by the init script before the container runs.
+  - `secrets/`: Use this folder to store any files that will be mounted and used by the container, but should not be measured. Examples include cert private keys, or database credentials.
+- Additionally, if you wish to load local images, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected in the VM's boot process and loaded.
+
+### Updating the workload on the Disk Image
+After you config the  `workload/` folder. please use following cmd to update the workload in the image:
+- Ensure the disk already exists.
+- Modify the files in workload/ folder.
+- Run the following command:
+
+```bash
+# for linux system
+./cvm-cli update-workload <disk> 
+
+# for mac system
+./cvm-cli update-disk-via-multipass <disk> 
+```
 
 ## Deploying the disk and creating the CVM
 Run the CLI to deploy the disk to the cloud provider.

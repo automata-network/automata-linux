@@ -9,7 +9,7 @@ usage() {
     echo "  deploy-gcp          Deploy a VM onto GCP using gcp_disk.tar.gz."
     echo "  update-workload     Update the workload on a deployed CVM."
     echo "  update-disk         Update the workload on the specified VHD/RAW/VMDK disk file (Linux system only)."
-    echo "  update-disk-via-docker         Update the workload on the specified VHD/RAW/VMDK disk file (Mac compatible)."
+    echo "  update-disk-via-multipass        Update the workload on the specified VHD/RAW/VMDK disk file using multipass VM (Mac compatible)."
     echo ""
     echo "Arguments for 'deploy-azure' command:"
     echo "  --resource_group <group>    The resource group for the deployment. **Mandatory**"
