@@ -227,7 +227,7 @@ The following parameters are optional, and default to:
 
 AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). If you're unable to curl the APIs provided in the next section, please reboot the VM.
 
-## Uploading workload to the CVM
+## Update workload to the CVM
 
 ### 1. Create asymmetric keypairs
 
@@ -270,7 +270,7 @@ curl -k https://<VM IP>:8000/api-token ; echo
 > [!IMPORTANT]
 > The API token can only be retrieved once. Do not lose it, or you will need to re-create the VM from scratch!
 
-### 5. Upload the workload
+### 5. Update the workload
 Run the following command to upload your `workload/` folder to your deployed CVM:
 ```bash
 ./cvm-cli update-workload <VM IP> <API TOKEN>
