@@ -35,7 +35,6 @@ fi
 echo "🧹 Creating clean temp copy (excluding .git)..."
 TMP_DIR=$(mktemp -d)
 TMP_NAME=$(basename "$TMP_DIR")
-VM_TMP_DIR="~/$TMP_NAME/$VM_PROJECT_DIR"
 rsync -a --exclude=".git" "$PROJECT_DIR/" "$TMP_DIR/$VM_PROJECT_DIR"
 
 # Step 5: Checksum before update
