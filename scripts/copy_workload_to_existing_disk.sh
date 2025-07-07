@@ -53,19 +53,38 @@ populate() {
 
 if [ -f $DISK_FILE ]; then
     if [[ "$DISK_FILE" == *.vmdk ]]; then
+        # Check if qemu-img is installed, otherwise install it.
+        if ! command -v qemu-img &> /dev/null; then
+            echo "qemu-img not found. Installing..."
+            # Detect package manager and install
+            if [ -x "$(command -v apt)" ]; then
+                sudo apt update && sudo apt install -y qemu-utils
+            elif [ -x "$(command -v yum)" ]; then
+                sudo yum install -y qemu-img
+            elif [ -x "$(command -v dnf)" ]; then
+                sudo dnf install -y qemu-img
+            elif [ -x "$(command -v pacman)" ]; then
+                sudo pacman -Sy --noconfirm qemu
+            else
+                echo "Unsupported package manager. Please install qemu-img manually."
+                exit 1
+            fi
+        fi
         qemu-img convert -p -f vmdk -O raw $DISK_FILE tmp.raw
         populate tmp.raw
         qemu-img convert -p -f raw tmp.raw -O vmdk -o subformat=streamOptimized,compat6 aws_disk.vmdk
         rm tmp.raw
+    elif [[ "$DISK_FILE" == *.tar.gz ]]; then
+        # unzip the disk and zip it back again later
+        tar -xzvf gcp_disk.tar.gz
+        populate disk.raw
+        tar -czvf gcp_disk.tar.gz disk.raw
+        rm disk.raw
     else
         populate $DISK_FILE
     fi
 else
     echo "❌ Error: $DISK_FILE does not exist!"
-fi
-
-if [[ "$DISK_FILE" == disk.raw ]]; then
-    tar -czvf gcp_disk.tar.gz disk.raw
 fi
 
 set +e
