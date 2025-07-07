@@ -163,7 +163,7 @@ For a detailed description of each policy option, please see [this document](doc
 - Additionally, if you wish to load local images, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected in the VM's boot process and loaded.
 
 ### Updating the workload on the Disk Image
-After you config the  `workload/` folder. please use following cmd to update the workload in the image:
+After you configure the `workload/` folder. Please use the following cmd to update the workload in the image:
 - Ensure the disk already exists.
 - Modify the files in workload/ folder.
 - Run the following command:
