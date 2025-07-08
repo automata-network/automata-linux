@@ -1,5 +1,5 @@
 # cvm-base-image
-
+> **_Note:_** The CVM base image is still in private phase, only those who signed NDA has access to the repo, please DO NOT share it to anyone else!
 ## Prerequisites
 
 1. You need the cli for the cloud provider you want to deploy on (either az cli, gcloud cli or aws cli)
