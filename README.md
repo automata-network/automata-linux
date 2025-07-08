@@ -371,7 +371,7 @@ If verification succeeds, the **verifier** can trust the **attester's VM** and p
 
 If the workload requires an update (eg. such as a new image version), the following steps can be taken:
 >[!Note]
-> If the podman runtime is selected in the agent policy, volume and network cannot be updated using this methode.
+> If the podman runtime is selected in the agent policy, volume and network cannot be updated using this method.
 
 
 ### 1. Remember to sign the docker images that will be used
