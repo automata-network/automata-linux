@@ -8,6 +8,7 @@
 - [Architecture](#architecture)
 - [Troubleshooting](#troubleshooting)
 
+> **_Note:_** The CVM base image is still in private phase, only those who signed NDA has access to the repo, please DO NOT share it to anyone else!
 
 ## Prerequisites
 
