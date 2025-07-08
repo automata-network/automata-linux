@@ -110,16 +110,42 @@ curl -O https://f004.backblazeb2.com/file/cvm-base-images/07072025/azure_disk.vh
 
 ## Configure the `workload/` folder
 
-### 1. Configure your workload itself
+### 1. Create asymmetric keypairs
+>[!Note]
+> This step doesn't have to be run yet as the image signing feature is not ready.
+
+Create one or more asymmetric keypairs, which will be used for the following steps:
+  - [Signing the docker images](#2-sign-the-docker-images-that-will-be-used)
+  - [Signing the golden measurements](#2-sign-the-golden-measurements)
+```bash
+# ECC key
+openssl ecparam -genkey -name prime256v1 -noout -out private.pem
+openssl ec -in private.pem -pubout -out public.pem
+
+# RSA key
+openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+openssl rsa -in private.pem -pubout -out public.pem
+```
+
+### 2. Sign the docker images that will be used
+
+TODO
+
+### 3. Modify the `workload/` folder:
 - In the folder, there are 3 things - a file called `docker-compose.yml` and 2 folders called `config/` and `secrets/`.
   - `docker-compose.yml` : This is a standard docker compose file that can be used to specify your workload. However, do note that podman-compose will run this file instead of docker-compose. While this generally works fine, there are some caveats:
     - Please see this [issue](https://github.com/containers/podman-compose/issues/575) regarding podman-compose and specific options in `depends_on`.
     - Images that are hosted on docker's official registry must be prefixed with `docker.io/`.
-  - `config/` : Use this folder to store any files that will be mounted and used by the container. All the files in this folder will be measured by the init script before the container runs.
+  - `config/` : Use this folder to store any files that will be mounted and used by the container. All the files in this folder will be measured by the init script into the TPM PCR before the container runs.
   - `secrets/`: Use this folder to store any files that will be mounted and used by the container, but should not be measured. Examples include cert private keys, or database credentials.
 - Additionally, if you wish to load local images, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded.
 
-### 2. Configure the cvm-agent and Security Policy
+> [!IMPORTANT]
+> If you have created any asymmetric keypairs in [Step 1](#1-create-asymmetric-keypairs), please also place the public keys into `workload/config/`.
+> This is to ensure that the public keys will also be measured into the TPM PCR, and prevents against tampering.
+
+
+### 4. Configure the cvm-agent and Security Policy
 The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks. The tasks that it is allowed to perform depends on a security policy, which can be configured by the user.
 
 The default security policy can be found in [workload/config/cvm_agent/cvm_agent_policy.json](workload/config/cvm_agent/cvm_agent_policy.json):
@@ -155,7 +181,7 @@ The default security policy can be found in [workload/config/cvm_agent/cvm_agent
 ```
 The default policy is conservative, prioritizes security and can be used as it is. However, if you wish to change any settings, a detailed description of each policy option can be found in [this document](docs/cvm-agent-policy.md).
 
-## Updating the workload on the Disk Image
+## Upload workload into the Disk Image
 >[!Note]
 > Before executing this step, please ensure that you have already done the following:
 > 1. You already have a disk image. Please follow [these instructions](#download-the-cvm-disk-image) to download a disk image if you have not.
@@ -215,58 +241,10 @@ The following parameters are optional, and default to:
 - vm_type: m6a.large
 - additional_ports: “”
 
-## Known Issues for AWS
+### Known Issues for AWS
 
 AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). If you're unable to curl the APIs provided in the next section, please reboot the VM.
 
-## Update workload to the CVM
-
-### 1. Create asymmetric keypairs
-
-Create one or more asymmetric keypairs, which will be used for the following steps:
-  - [Signing the docker images](#2-sign-the-docker-images-that-will-be-used)
-  - [Signing the golden measurements](#2-sign-the-golden-measurements)
-```bash
-# ECC key
-openssl ecparam -genkey -name prime256v1 -noout -out private.pem
-openssl ec -in private.pem -pubout -out public.pem
-
-# RSA key
-openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
-openssl rsa -in private.pem -pubout -out public.pem
-```
-
-### 2. Sign the docker images that will be used
-
-TODO
-
-### 3. Modify the `workload/` folder:
-- In the folder, there are 3 things - a file called `docker-compose.yml` and 2 folders called `config/` and `secrets/`.
-  - `docker-compose.yml` : This is a standard docker compose file that can be used to specify your workload. However, do note that podman-compose will run this file instead of docker-compose. While this generally works fine, there are some caveats:
-    - Please see this [issue](https://github.com/containers/podman-compose/issues/575) regarding podman-compose and specific options in `depends_on`.
-    - Images that are hosted on docker's official registry must be prefixed with `docker.io/`.
-  - `config/` : Use this folder to store any files that will be mounted and used by the container. All the files in this folder will be measured by the init script into the TPM PCR before the container runs.
-  - `secrets/`: Use this folder to store any files that will be mounted and used by the container, but should not be measured. Examples include cert private keys, or database credentials.
-- Additionally, if you wish to load local images, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded.
-
-> [!IMPORTANT]
-> If you have created any asymmetric keypairs in [Step 1](#1-create-asymmetric-keypairs), please also place the public keys into `workload/config/`.
-> This is to ensure that the public keys will also be measured into the TPM PCR, and prevents against tampering.
-
-### 4. Get the API Token
-Run the following command to retrieve the API token required to upload your workload:
-```bash
-curl -k https://<VM IP>:8000/api-token ; echo
-```
-
-> [!IMPORTANT]
-> The API token can only be retrieved once. Do not lose it, or you will need to re-create the VM from scratch!
-
-### 5. Update the workload
-Run the following command to upload your `workload/` folder to your deployed CVM:
-```bash
-./cvm-cli update-workload <VM IP> <API TOKEN>
-```
 
 ## Creating the golden measurements
 > [!IMPORTANT]
@@ -389,6 +367,34 @@ This use-case describes the remote attestation flow between two **Confidential V
 If verification succeeds, the **verifier** can trust the **attester's VM** and proceed with sensitive operations such as key sharing or secure computation.
 
 
+## Updating the workload
+
+If the workload requires an update (eg. such as a new image version), the following steps can be taken:
+
+### 1. Remember to sign the docker images that will be used
+
+Please refer to [this step](#2-sign-the-docker-images-that-will-be-used) for details.
+
+### 2. Update the `workload/` folder:
+Please refer to [this step](#3-modify-the-workload-folder) for details.
+
+### 3. Get the API Token
+Run the following command to retrieve the API token required to upload your workload:
+```bash
+curl -k https://<VM IP>:8000/api-token ; echo
+```
+
+> [!IMPORTANT]
+> The API token can only be retrieved once. Do not lose it, or you will need to re-create the VM from scratch!
+
+### 4. Update the workload
+Run the following command to upload your updated workload to your deployed CVM:
+```bash
+./cvm-cli update-workload <VM IP> <API TOKEN>
+```
+
+### 5. Remember to re-create the golden measurements
+You can reuse the steps from the section [Creating the golden measurements](#creating-the-golden-measurements).
 
 ## Architecture
 
