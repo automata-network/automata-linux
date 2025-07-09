@@ -19,7 +19,27 @@ The following settings manage the use of emulated mode of the agent:
 
 ---
 
-## 2. HTTPS Server (`https_server`)
+## 2. Firewall (`firewall`)
+
+By default, all incoming traffic on all ports are blocked. This setting allows you to define ports that should be allowed through the firewall.
+
+| Field               | Value       | Explanation                                                  |
+|---------------------|-------------|--------------------------------------------------------------|
+| `allowed_ports`     | `list[ PortConfig , ... ]` | List of allowed ports |
+| `maintenance_mode_host_port`  | `"2222"`    | SSH port on the VM host for accessing a ssh server running in a container during maintenance periods. |
+
+
+### Port Config Struct
+
+| Field               | Value       | Explanation                                                  |
+|---------------------|-------------|--------------------------------------------------------------|
+| `name`     | `string` | Label for user to identify what the port will be used for |
+| `protocol` | `string` | `"tcp"` or `"udp"` |
+| `port`     | `string` | Port number to allow through the firewall |
+
+---
+
+## 3. HTTPS Server (`https_server`)
 
 Defines HTTP(S) server settings to manage workload updates and VM maintenance:
 
@@ -32,7 +52,7 @@ Defines HTTP(S) server settings to manage workload updates and VM maintenance:
 
 ---
 
-## 3. Container API (`container_api`)
+## 4. Container API (`container_api`)
 
 Configuration related to container management within the CVM:
 
@@ -43,14 +63,13 @@ Configuration related to container management within the CVM:
 
 ---
 
-## 4. Maintenance Mode (`maintenance_mode`)
+## 5. Maintenance Mode (`maintenance_mode`)
 
 Settings that govern VM maintenance activities:
 
 | Field               | Value       | Explanation                                                  |
 |---------------------|-------------|--------------------------------------------------------------|
 | `signal`            | `"SIGUSR2"` | Specifies the signal (`SIGUSR2`) used to notify the containers that the maintenance mode is enabled or disabled.  Containers thus need to implement the signal handler for receiving the notification from the agent|
-| `ssh_port_on_host`  | `"2222"`    | SSH port on the VM host for accessing a ssh server running in a container during maintenance periods. |
 
 Note that users should add their public key to the appropriate location (i.e., `~/.ssh/authorized_keys`) within the container and enable port mapping for the SSH server. Example can be found at **Q&A**.  Also, for the proper signal handling, the application process must have **PID 1** in the container (This is very common in containerized applications such as redis and nginx). Otherwise, application may not be able to receive the signal sent by the cvm_agent.
 
