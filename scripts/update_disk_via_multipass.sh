@@ -54,10 +54,9 @@ echo "🛠️ Running update logic inside VM..."
 multipass exec "$VM_NAME" -- bash -c "
   set -euo pipefail
   cd ~/$VM_PROJECT_PATH
-  chmod +x ./scripts/copy_workload_to_existing_disk.sh
-  chmod +x ./cvm-cli
-  echo '▶️ Running: ./cvm-cli update-disk $DISK_FILENAME'
-  ./cvm-cli update-disk $DISK_FILENAME
+  chmod +x ./scripts/update_disk_locally.sh
+  echo '▶️ Running: ./scripts/update_disk_locally.sh $DISK_FILENAME'
+  ./scripts/update_disk_locally.sh $DISK_FILENAME
 "
 
 # Step 8: Retrieve updated disk
