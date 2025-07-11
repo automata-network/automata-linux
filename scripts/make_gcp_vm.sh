@@ -16,6 +16,17 @@ fi
 set -e
 set -x
 
+# Create bucket if it does not exist
+if ! gsutil ls -b "gs://$BUCKET_NAME" >/dev/null 2>&1; then
+  echo "Bucket gs://$BUCKET_NAME does not exist, creating it..."
+  if gcloud storage buckets create "$BUCKET_NAME" --location="$REGION"; then
+    echo "Bucket '$BUCKET_NAME' created successfully."
+  else
+    echo "Failed to create bucket '$BUCKET_NAME'."
+    exit 1
+  fi
+fi
+
 # Copy the image to bucket and create image
 gsutil cp $COMPRESSED_FILE gs://$BUCKET/$COMPRESSED_FILE
 

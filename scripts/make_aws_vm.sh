@@ -16,6 +16,20 @@ fi
 set -x
 set -e
 
+# Create S3 bucket if it does not exist
+if ! aws s3api head-bucket --bucket "$BUCKET" 2>/dev/null; then
+  echo "Bucket '$BUCKET' does not exist. Creating..."
+  if aws s3api create-bucket \
+    --bucket "$BUCKET" \
+    --region "$REGION" \
+    --create-bucket-configuration LocationConstraint="$REGION"; then
+    echo "Bucket created successfully in $REGION"
+  else
+    echo "❌ Error: Failed to create bucket in $REGION"
+    exit 1
+  fi
+fi
+
 # Import disk into S3
 aws s3 cp $DISK_FILE s3://$BUCKET/vms/$DISK_FILE
 

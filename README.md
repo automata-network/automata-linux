@@ -2,7 +2,9 @@
 
 ## Prerequisites
 
-1. You need the cli for the cloud provider you want to deploy on (either az cli, gcloud cli or aws cli)
+- Ensure that you have enough permissions on your CSP to create virtual machines, disks, networks, firewall rules, buckets/storage accounts and service roles.
+
+- You need the cli for the cloud provider you want to deploy on (either az cli, gcloud cli or aws cli)
    - az cli:
      - Download: [Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
      - Login: [Guide](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
@@ -12,101 +14,6 @@
    - aws cli:
      - Download: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
      - Login: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html)
-
-2. Additional dependencies if deploying to AWS:
-   - Service Role: You need a service role called [vmimport](https://docs.aws.amazon.com/vm-import/latest/userguide/required-permissions.html#vmimport-role)
-   - An S3 bucket to store the disk: [Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
-
-3. Additional dependencies if deploying to GCP:
-   - A GCP bucket to store the disk: [Guide](https://cloud.google.com/storage/docs/creating-buckets#console)
-   - Enable Compute Engine API on your chosen project:
-   ```bash
-   # Uses the default project that was selected during the gcloud cli initialization
-   gcloud services enable compute.googleapis.com
-
-   # To use a different project from the default project
-   gcloud services enable compute.googleapis.com --project <PROJECT_ID>
-   ```
-
-4. Additional dependencies if deploying to Azure:
-   - A resource group, a storage account, and image gallery
-     - Note: Resource group, storage account, and shared image gallery must be in the same region as the VM you want to create. Please see the next section for details on the CVM types available in each region.
-     - Note: SEV-SNP VMs may not be supported in the same region as TDX, so you may need to create separate resource groups, storage account and shared image gallery if you wish to support both CVM types on Azure.
-     - Note: storage account name and shared image gallery name must be unique.
-   ```bash
-   # Fill up the variables with a name of your choice.
-   RG="<resource group name>"
-   REGION="<region>"
-   STORAGE_ACCOUNT="<storage account name>" # lowercase letters and numbers only, length 3-24.
-   GALLERY_NAME="<gallery name>"
-
-   # Example variables could be:
-   # RG="cvm_testRg"
-   # REGION="East US 2"
-   # STORAGE_ACCOUNT="tdxcvm123"
-   # GALLERY_NAME="tdxGallery"
-
-   # Create a resource groups
-   az group create --name "$RG" --location "$REGION"
-
-   # Create a storage account
-   az storage account create --resource-group "$RG" --name "$STORAGE_ACCOUNT" --location "$REGION" --sku "Standard_LRS"
-
-   # Create a shared image gallery
-   az sig create --resource-group "$RG" --gallery-name "$GALLERY_NAME"
-   ```
-
-## CVM Information for each Cloud Provider 
-This section outlines the confidential computing capabilities offered by major cloud providers, specifying supported CVM technologies—SEV-SNP and TDX—along with their corresponding instance families and available regions.
-
-### AWS
-
-- SEV-SNP:
-  - Instance Family: [m6a, c6a, r6a](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sev-snp.html#snp-requirements)
-  - Region: us-east-2, eu-west-1
-- TDX:
-  - Not supported.
-
-
-### Azure
-
-- SEV-SNP:
-  - Instance Family: [DCasV5](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/general-purpose/dcasv5-series?tabs=sizebasic)
-  - Region: East US, West US, Switzerland North, Italy North, North Europe, West Europe, Germany West Central, UAE North, Japan East, Central India, East Asia, Southeast Asia
-
-- TDX:
-  - Instance Family: [DCesv5/DCedsv5](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/general-purpose/dcedsv5-series?tabs=sizebasic), [DCesv6](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/general-purpose/dcesv6-series?tabs=sizebasic)
-  - Region:
-    - DCesv5/DCedsv5: East US 2, Central US, West Europe, North Europe
-    - DCesv6: West Europe, East US, West US, and West US 3
-
-### GCP
-
-- SEV-SNP:
-  - Instance Family: [n2d-standard](https://cloud.google.com/compute/docs/general-purpose-machines#n2d_machine_types)
-  - Region: asia-southeast1-a/b/c, europe-west3-a/b/c, europe-west4-a/b/c, us-central1-a/b/c
-- TDX:
-  - Instance Family: [c3-standard](https://cloud.google.com/compute/docs/general-purpose-machines#c3_machine_types)
-  - Region: asia-southeast1-a/b/c, europe-west4-a/b/c, us-central1-a/b/c
-
-
-## Download the CVM disk image
-Please download a CVM disk image into the root of this repository. Please pick the disk according to the cloud provider you wish to deploy on:
-
-### Default Image (Maintenance mode disabled in Security Policy)
-```
-# GCP Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/07072025/gcp_disk.tar.gz
-
-# AWS Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/07072025/aws_disk.vmdk
-
-# Azure Image
-curl -O https://f004.backblazeb2.com/file/cvm-base-images/07072025/azure_disk.vhd
-```
-> [!Note]
-> Please ensure the the disk names are kept as is, as the scripts below assume that the disk names have not been changed.
-
 
 ## Configure the `workload/` folder
 
@@ -181,20 +88,7 @@ The default security policy can be found in [workload/config/cvm_agent/cvm_agent
 ```
 The default policy is conservative, prioritizes security and can be used as it is. However, if you wish to change any settings, a detailed description of each policy option can be found in [this document](docs/cvm-agent-policy.md).
 
-## Upload workload into the Disk Image
->[!Note]
-> Before executing this step, please ensure that you have already done the following:
-> 1. You already have a disk image. Please follow [these instructions](#download-the-cvm-disk-image) to download a disk image if you have not.
-> 2. Your workload has been added into the `workload/` folder, with the correct configuration and docker-compose.yml. Only services can be updated after the disk has been deployed to the CSP in the subsequent steps. The network and volume settings in the docker-compose.yml cannot be updated.
-> 3. You have modified the security policy in `workload/config/cvm_agent/cvm_agent_policy.json` according to your needs. The policy cannot be changed once the disk has been deployed to the CSP.
-
-After you configure everyting in the `workload/` folder, please use the following cmd to update the workload in the image:
-
-```bash
-./cvm-cli update-disk <disk>
-```
-
-## Deploying the disk and creating the CVM
+## Deploying the workload onto the Cloud Provider
 Run the CLI to deploy the disk to the cloud provider.
 
 1. To deploy to Azure:
@@ -208,11 +102,12 @@ The following **must** be provided:
 
 The following parameters are optional, and default to:
 - vm_name: cvm_test
-- vm_type: Standard_DC2es_v5 (Note: If the region used by your resource group does not support this VM type, creation of this VM will fail.)
+- vm_type: Standard_DC2es_v5
+- region: East US 2
 - additional_ports: “”
 
 
-2. To deploy to GCP:
+1. To deploy to GCP:
 ```bash
 ./cvm-cli deploy-gcp --additional_ports "80,443" --vm_name <name> --region "<region>" --project_id <project id> --bucket <bucket_name> --vm_type "<type>"
 ```
@@ -241,9 +136,8 @@ The following parameters are optional, and default to:
 - vm_type: m6a.large
 - additional_ports: “”
 
-### Known Issues for AWS
-
-AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). If you're unable to curl the APIs provided in the next section, please reboot the VM.
+> [!Warning]
+> AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). If you're unable to curl the APIs provided in the next section, please reboot the VM.
 
 
 ## Creating the golden measurements

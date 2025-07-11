@@ -4,8 +4,8 @@ VM_TYPE="$3"
 ADDITIONAL_PORTS="$4"
 STORAGE_ACC="$5"
 GALLERY_NAME="$6"
-REGION=$(az group show --name "$RG" --query location -o tsv)
-VHD=azure_disk.vhd 
+REGION="$7"
+VHD=azure_disk.vhd
 IMAGE_DEF="${VM_NAME}-def"
 SKU_NAME="${VM_NAME}-sku"
 GALLERY_IMAGE_VERSION="1.0.0"
@@ -14,13 +14,29 @@ STORAGE_CONTAINER="cvm-image-storage"
 blob_url="https://${STORAGE_ACC}.blob.core.windows.net/$STORAGE_CONTAINER/$VHD"
 
 # Ensure all arguments are provided
-if [[ $# -lt 6 ]]; then
+if [[ $# -lt 7 ]]; then
     echo "❌ Error: Arguments are missing!"
     exit 1
 fi
 
 set -x
 set -e
+
+# Create resource group if it doesn't exist
+if ! az group show --name "$RG" &>/dev/null; then
+  echo "Creating resource group: $RG"
+  az group create --name "$RG" --location "$REGION"
+fi
+
+# Create storage account if it doesn't exist
+if ! az storage account show --name "$STORAGE_ACC" --resource-group "$RG" &>/dev/null; then
+  az storage account create --resource-group "$RG" --name "$STORAGE_ACC" --location "$REGION" --sku "Standard_LRS"
+fi
+
+# Create shared image gallery if it doesn't exist
+if ! az sig show --gallery-name "$GALLERY_NAME" --resource-group "$RG" &>/dev/null; then
+  az sig create --resource-group "$RG" --gallery-name "$GALLERY_NAME"
+fi
 
 # -- Cleanup existing SIG resources --------------------------------------------------------------
 echo "ℹ️  Checking for existing Azure Compute Gallery resources..."

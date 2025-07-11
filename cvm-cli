@@ -8,7 +8,6 @@ usage() {
     echo "  deploy-aws          Deploy a VM onto AWS using aws_disk.vmdk."
     echo "  deploy-gcp          Deploy a VM onto GCP using gcp_disk.tar.gz."
     echo "  update-workload     Update the workload on a deployed CVM."
-    echo "  update-disk         Update the workload on a specified disk file."
     echo ""
     echo "Arguments for 'deploy-azure' command:"
     echo "  --resource_group <group>    The resource group for the deployment. **Mandatory**"
@@ -17,6 +16,7 @@ usage() {
     echo "  --additional_ports <ports>  Comma-separated list of additional ports to open (e.g., \"80,443\"). Default: None"
     echo "  --vm_name <name>            The name of the virtual machine. Default: cvm_test"
     echo "  --vm_type <type>            The type of VM to be deployed. Default: \"Standard_DC2es_v5\""
+    echo "  --region <region>           The region where the VM will be deployed. Default: \"East US 2\""
     echo ""
     echo "Arguments for 'deploy-gcp' command:"
     echo "  --project_id <id>           The project id for the deployment. **Mandatory**"
@@ -36,9 +36,6 @@ usage() {
     echo "Additional arguments for the 'update-workload' command:"
     echo "  <VM IP>                 The IP of the VM running on the CSP."
     echo "  <API TOKEN>             API token authorize the workload change."
-    echo ""
-    echo "Additional arguments for the 'update-disk' command:"
-    echo "  <DISK PATH>             The path to your disk image."
     echo ""
     exit 1
 }
@@ -92,6 +89,15 @@ case "$COMMAND" in
         fi
 
         set -e
+        # Check vm options
+        ./scripts/check_options.sh "aws" "$VM_TYPE" "$REGION"
+        # Ensure the disk image exists
+        ./scripts/get_disk_image.sh "aws"
+        # Update the disk image with the latest workload
+        ./scripts/update_disk.sh "aws_disk.vmdk"
+        # Check that CSP CLI dependencies are installed
+        ./scripts/check_csp_deps.sh "aws"
+        # Deploy the VM
         echo "Deploying aws_disk.vmdk with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
         echo "🔹Region: $REGION"
@@ -151,6 +157,15 @@ case "$COMMAND" in
         fi
 
         set -e
+        # Check vm options
+        ./scripts/check_options.sh "gcp" "$VM_TYPE" "$REGION"
+        # Ensure the disk image exists
+        ./scripts/get_disk_image.sh "gcp"
+        # Update the disk image with the latest workload
+        ./scripts/update_disk.sh "gcp_disk.tar.gz"
+        # Check that CSP CLI dependencies are installed
+        ./scripts/check_csp_deps.sh "gcp"
+        # Deploy the VM
         echo "Deploying gcp_disk.tar.gz with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
         echo "🔹Region: $REGION"
@@ -167,6 +182,7 @@ case "$COMMAND" in
         VM_NAME="cvm_test"
         RESOURCE_GROUP=""
         VM_TYPE="Standard_DC2es_v5"
+        REGION="East US 2"
         # To specify additional workload ports, pass them as a comma-separated string
         # eg. "80,443"
         ADDITIONAL_PORTS=""
@@ -191,6 +207,10 @@ case "$COMMAND" in
                     VM_TYPE=$2
                     shift 2
                     ;;
+                --region)
+                    REGION=$2
+                    shift 2
+                    ;;
                 --storage_account)
                     STORAGE_ACC=$2
                     shift 2
@@ -211,36 +231,25 @@ case "$COMMAND" in
         fi
 
         set -e
+        # Check vm options
+        ./scripts/check_options.sh "azure" "$VM_TYPE" "$REGION"
+        # Ensure the disk image exists
+        ./scripts/get_disk_image.sh "azure"
+        # Update the disk image with the latest workload
+        ./scripts/update_disk.sh "azure_disk.vhd"
+        # Check that CSP CLI dependencies are installed
+        ./scripts/check_csp_deps.sh "aws"
+        # Deploy the VM
         echo "Deploying azure_disk.vhd with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
         echo "🔹Resource Group: $RESOURCE_GROUP"
+        echo "🔹Region: $REGION"
         echo "🔹VM Type: $VM_TYPE"
         echo "🔹Additional Ports: $ADDITIONAL_PORTS"
         echo "🔹Storage Account: $STORAGE_ACC"
         echo "🔹Shared Image Gallery: $GALLERY_NAME"
-        ./scripts/make_azure_vm.sh "$VM_NAME" "$RESOURCE_GROUP" "$VM_TYPE" "$ADDITIONAL_PORTS" "$STORAGE_ACC" "$GALLERY_NAME"
+        ./scripts/make_azure_vm.sh "$VM_NAME" "$RESOURCE_GROUP" "$VM_TYPE" "$ADDITIONAL_PORTS" "$STORAGE_ACC" "$GALLERY_NAME" "$REGION"
         set +e
-        ;;
-
-    update-disk)
-        DISK_FILE=$1
-        shift 1
-        if [[ -z "$DISK_FILE" ]]; then
-            echo "❌ Please provide the disk file (e.g., azure_disk.vhd)"
-            exit 1
-        fi
-        os_type="$(uname)"
-        if [[ "$os_type" == "Linux" ]]; then
-            echo "Reloading workload onto an existing disk..."
-            ./scripts/copy_workload_to_existing_disk.sh $DISK_FILE
-        elif [[ "$os_type" == "Darwin" ]]; then
-            echo "🔁 Using Multipass to update workload..."
-            SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/scripts" && pwd)"
-            bash "$SCRIPTS_DIR/update_disk_via_multipass.sh" "$DISK_FILE"
-        else
-            echo "Unsupported OS: $os_type"
-            exit 1
-        fi
         ;;
 
     update-workload)
@@ -250,7 +259,7 @@ case "$COMMAND" in
         if [[ -z "$IP" || -z "$PASSWORD" ]]; then
             usage
         fi
-        ./scripts/update-remote-workload.sh $IP $PASSWORD
+        ./scripts/update_remote_workload.sh $IP $PASSWORD
         ;;
 
     *)
