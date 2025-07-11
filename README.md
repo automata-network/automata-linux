@@ -91,7 +91,7 @@ The default policy is conservative, prioritizes security and can be used as it i
 ## Deploying the workload onto the Cloud Provider
 Run the CLI to deploy the disk to the cloud provider.
 
-1. To deploy to Azure:
+### Deploying to Azure
 ```bash
 ./cvm-cli deploy-azure --resource_group <group> --storage_account <storage_account> --gallery_name <gallery_name> --additional_ports "80,443" --vm_name <name> --vm_type "<type>"
 ```
@@ -107,7 +107,7 @@ The following parameters are optional, and default to:
 - additional_ports: “”
 
 
-1. To deploy to GCP:
+### Deploying to GCP
 ```bash
 ./cvm-cli deploy-gcp --additional_ports "80,443" --vm_name <name> --region "<region>" --project_id <project id> --bucket <bucket_name> --vm_type "<type>"
 ```
@@ -122,7 +122,7 @@ The following parameters are optional, and default to:
 - vm_type: c3-standard-4
 - additional_ports: “”
 
-3. To deploy to AWS:
+### Deploying to AWS
 ```bash
 ./cvm-cli deploy-aws --additional_ports "80,443" --vm_name <name> --region "<region>" --bucket <bucket_name> --vm_type "<type>"
 ```
