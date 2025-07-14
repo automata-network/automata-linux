@@ -101,9 +101,9 @@ Run the CLI to deploy the disk to the cloud provider.
 ```
 The following **must** be provided:
 - storage_account: The name of the storage account to upload the cvm disk into.
-  - **Name must be between 3-24 characters and globally unique across Azure.**
+  - **Name must be between 3-24 characters and globally unique across Azure. The scripts will create it if it does not exist.**
 - gallery_name: The name of the shared image gallery to use. 
-  - **Name must be between 1-80 characters, made up of only letters, numbers and hyphens, and unique within the Subscription**
+  - **Name must be between 1-80 characters, made up of only letters, numbers and hyphens, and unique within the Subscription. The scripts will create it if it does not exist.**
 - resource_group: The name of the resource group to deploy the VM into.
 
 The following parameters are optional, and default to:
@@ -121,6 +121,7 @@ The following parameters are optional, and default to:
 The following **must** be provided:
 - project_id: Name of the project to deploy into
 - bucket : Name of the GCP bucket which will be used to temporarily store the disk image.
+  - **The name must be globally unique across GCP. The scripts will create it if it does not exist.**
 
 The following parameters are optional, and default to:
 - vm_name: cvm-test
@@ -134,7 +135,8 @@ The following parameters are optional, and default to:
 ```
 
 The following **must** be provided:
-- bucket : Name of the S3 bucket which will be used to temporarily store the disk image. This **must** be in the same region as the VM.
+- bucket : Name of the S3 bucket which will be used to temporarily store the disk image.
+  - **The name must be globally unique across AWS. The scripts will create it if it does not exist.**
 
 The following parameters are optional, and default to:
 - vm_name: cvm-test
