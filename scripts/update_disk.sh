@@ -11,14 +11,6 @@ if [[ $# -lt 1 ]]; then
   exit 1
 fi
 
-# First check whether there are any changes to workload/
-if ! git diff --quiet; then
-    echo "🔄 Workload has changed, updating disk..."
-else
-    echo "✅ No changes to workload, skipping disk update."
-    exit 0
-fi
-
 has_changes=false
 
 # Check for unstaged changes

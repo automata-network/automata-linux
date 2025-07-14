@@ -112,6 +112,7 @@ detect_rhel_variant() {
             centos)
                 if grep -q "Stream" /etc/centos-release 2>/dev/null; then
                     echo "centos_stream"
+                fi
                 ;;
             *)
                 echo "unknown_distro"
