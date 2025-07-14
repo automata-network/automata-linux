@@ -2,18 +2,7 @@
 
 ## Prerequisites
 
-- Ensure that you have enough permissions on your CSP to create virtual machines, disks, networks, firewall rules, buckets/storage accounts and service roles.
-
-- You need the cli for the cloud provider you want to deploy on (either az cli, gcloud cli or aws cli)
-   - az cli:
-     - Download: [Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
-     - Login: [Guide](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
-   - gcloud cli:
-     - Download: [Guide](https://cloud.google.com/sdk/docs/install)
-     - Login: [Guide](https://cloud.google.com/sdk/docs/initializing)
-   - aws cli:
-     - Download: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-     - Login: [Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html)
+- Ensure that you have enough permissions on your account on either GCP, AWS or Azure to create virtual machines, disks, networks, firewall rules, buckets/storage accounts and service roles.
 
 ## Configure the `workload/` folder
 

@@ -74,7 +74,7 @@ install_gcloud() {
     for tool in bq gsutil gcloud; do
         sudo ln -sf "$HOME/google-cloud-sdk/bin/$tool" /usr/local/bin/$tool
     done
-    echo "✅ gcloud installed successfully."
+    echo "✅ gcloud cli installed successfully."
     popd
 }
 
@@ -84,15 +84,140 @@ gcloud_init_login() {
     gcloud init --console-only --no-launch-browser
 }
 
+detect_package_manager() {
+    if command -v apt >/dev/null 2>&1; then
+        echo "apt"
+    elif command -v dnf >/dev/null 2>&1; then
+        echo "dnf"
+    elif command -v pacman >/dev/null 2>&1; then
+        echo "pacman"
+    else
+        echo "unknown"
+    fi
+}
+
+detect_rhel_variant() {
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        case "$ID" in
+            rhel)
+                if [ "$VERSION_ID" = "8" ]; then
+                    echo "rhel8"
+                elif [ "$VERSION_ID" = "9" ]; then
+                    echo "rhel9"
+                else
+                    echo "rhel_unknown"
+                fi
+                ;;
+            centos)
+                if grep -q "Stream" /etc/centos-release 2>/dev/null; then
+                    echo "centos_stream"
+                ;;
+            *)
+                echo "unknown_distro"
+                ;;
+        esac
+    fi
+    echo "unsupported_distro"
+}
+
+install_azcli() {
+    echo "🔽 Downloading and installing az cli..."
+
+    OS="$(uname -s)"
+    ARCH="$(uname -m)"
+    if [ "$OS" = "Darwin" ]; then
+        brew update && brew install azure-cli
+    elif [ "$OS" = "Linux" ]; then
+        PM=$(detect_package_manager)
+        case "$PM" in
+            apt)
+                echo "Detected apt. Installing Azure CLI..."
+                curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+                ;;
+            dnf)
+                echo "Detected dnf. Installing Azure CLI..."
+                sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+                RHEL_VARIANT=$(detect_rhel_variant)
+                case "$RHEL_VARIANT" in
+                    rhel8)
+                        sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
+                        ;;
+                    rhel9|centos_stream)
+                        sudo dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
+                        ;;
+                    *)
+                        echo "❌ Unsupported RHEL variant: $RHEL_VARIANT"
+                        exit 1
+                        ;;
+                esac
+                sudo dnf install -y azure-cli
+                ;;
+            *)
+                echo "❌ No supported package manager found. Cannot install Azure CLI."
+                exit 1
+                ;;
+        esac
+    else
+        echo "❌ Unsupported OS: $OS"
+        exit 1
+    fi
+    echo "✅ azcli installed successfully."
+}
+
+install_aws_cli() {
+    echo "🔽 Downloading and installing aws cli..."
+
+    OS="$(uname -s)"
+    ARCH="$(uname -m)"
+    if [ "$OS" = "Darwin" ]; then
+        brew update && brew install awscli
+    elif [ "$OS" = "Linux" ]; then
+        TMP_DIR=$(mktemp -d)
+        pushd "$TMP_DIR"
+
+        if [ "$ARCH" = "x86_64" ]; then
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        elif [ "$ARCH" = "arm64" ] || [ "$ARCH" = "aarch64" ]; then
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
+        else
+            echo "❌ Unsupported architecture: $ARCH"
+            exit 1
+        fi
+        unzip awscliv2.zip
+        sudo ./aws/install
+
+        popd
+        rm -rf "$TMP_DIR"
+    else
+        echo "❌ Unsupported OS: $OS"
+        exit 1
+    fi
+    echo "✅ AWS CLI installed successfully."
+}
+
+aws_login() {
+    echo "🔐 Logging in to AWS..."
+    echo "Enter your AWS Access Key ID:"
+    read -r AWS_ACCESS_KEY_ID
+    aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    echo "Enter your AWS Secret Access Key:"
+    read -r AWS_SECRET_ACCESS_KEY
+    aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    aws configure set region us-east-2
+    echo "✅ AWS CLI configured successfully."
+}
+
 if [ "$CSP" = "aws" ]; then
     # Check if AWS CLI is installed, otherwise install it.
     if ! command -v aws &> /dev/null; then
-        # 1. Install aws cli. TODO.
-        echo "TODO"
+        # 1. Install aws cli.
+        install_aws_cli
+        # 2. Configure AWS CLI
+        aws_login
     fi
-    # 2. Check if vmimport role exists, otherwise create it.
+    # 3. Check if vmimport role exists, otherwise create it.
     ROLE_NAME="vmimport"
-    # Check if the role exists
     if aws iam get-role --role-name "$ROLE_NAME" >/dev/null 2>&1; then
         echo "Role '$ROLE_NAME' already exists. Not re-creating."
     else
@@ -140,7 +265,7 @@ if [ "$CSP" = "aws" ]; then
             }]
         }'
 
-        echo "Role '$ROLE_NAME' created and configured."
+        echo "✅ Role '$ROLE_NAME' created and configured."
     fi
 elif [ "$CSP" = "gcp" ]; then
     # Check if gcloud CLI is installed
@@ -155,8 +280,10 @@ elif [ "$CSP" = "gcp" ]; then
 elif [ "$CSP" = "azure" ]; then
     # Check if Azure CLI is installed
     if ! command -v az &> /dev/null; then
-        # 1. Install Azure CLI. TODO.
-        echo "TODO: Install Azure CLI"
+        # 1. Install Azure CLI.
+        install_azcli
+        # 2. Login to Azure CLI
+        az login --use-device-code
     fi
 else
     echo "❌ Error: Unsupported CSP '$CSP'. Supported CSPs are 'aws', 'gcp', and 'azure'."
