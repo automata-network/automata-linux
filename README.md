@@ -97,8 +97,10 @@ Run the CLI to deploy the disk to the cloud provider.
 ```
 The following **must** be provided:
 - storage_account: The name of the storage account to upload the cvm disk into.
-- gallery_name: The name of the shared image gallery to use.
-- resource_group: The name of the resource group to deploy the VM into. It must also contain the storage account and shared image gallery.
+  - **Name must be between 3-24 characters and globally unique across Azure.**
+- gallery_name: The name of the shared image gallery to use. 
+  - **Name must be between 1-80 characters, made up of only letters, numbers and hyphens, and unique within the Subscription**
+- resource_group: The name of the resource group to deploy the VM into.
 
 The following parameters are optional, and default to:
 - vm_name: cvm_test
