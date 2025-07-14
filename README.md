@@ -56,6 +56,22 @@ The default security policy can be found in [workload/config/cvm_agent/cvm_agent
             "enable_emulation_data_update": true
         },
 
+        "firewall": {
+            "allowed_ports": [
+                {
+                    "name": "allow_agent_local",
+                    "protocol": "tcp",
+                    "port": "7999"
+                },
+                {
+                    "name": "allow_agent_external",
+                    "protocol": "tcp",
+                    "port": "8000"
+                }
+            ],
+            "maintenance_mode_host_port": "2222"
+        },
+
         "https_server" :{
             "enable_workload_update_endpoint": true,
             "enable_maintenance_endpoint": false,
@@ -69,8 +85,7 @@ The default security policy can be found in [workload/config/cvm_agent/cvm_agent
         },
 
         "maintenance_mode" : {
-            "signal" : "SIGUSR2",
-            "ssh_port_on_host": "2222"
+            "signal" : "SIGUSR2"
         }
     }
 }
