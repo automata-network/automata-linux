@@ -49,7 +49,8 @@ populate() {
         mkdir -p $(dirname $API_TOKEN_FILE)
         openssl rand -hex 16 | tr -d '\n' > $API_TOKEN_FILE
 
-        sudo sha256sum $API_TOKEN_FILE > /tmp/data/token_hash
+        sha256sum $API_TOKEN_FILE > _artifacts/token_hash
+        sudo cp _artifacts/token_hash /tmp/data/token_hash
         sudo chown 1000:1000 /tmp/data/token_hash
 
         sync

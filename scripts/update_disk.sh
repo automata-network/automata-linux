@@ -35,8 +35,7 @@ if [[ "$os_type" == "Linux" ]]; then
     ./scripts/update_disk_locally.sh $DISK_FILE
 elif [[ "$os_type" == "Darwin" ]]; then
     echo "🔁 Using Multipass to update workload..."
-    SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/scripts" && pwd)"
-    bash "$SCRIPTS_DIR/update_disk_via_multipass.sh" "$DISK_FILE"
+    bash "./scripts/update_disk_via_multipass.sh" "$DISK_FILE"
 else
     echo "Unsupported OS: $os_type"
     exit 1

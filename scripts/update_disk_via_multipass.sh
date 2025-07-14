@@ -9,8 +9,6 @@ PROJECT_DIR=$(dirname "$DISK_FILE")
 VM_PROJECT_DIR="cvm-tmp"
 UPDATED_DISK="$PROJECT_DIR/$DISK_FILENAME"
 
-echo "🔁 Using Multipass to update workload..."
-
 # Step 1: Install multipass if missing
 if ! command -v multipass &>/dev/null; then
   echo "🔧 Installing Multipass..."
@@ -18,12 +16,14 @@ if ! command -v multipass &>/dev/null; then
 fi
 
 # Step 2: Launch VM if it doesn't exist
-if ! multipass info "$VM_NAME" &>/dev/null; then
-  echo "🚀 Launching VM '$VM_NAME'..."
-  multipass launch jammy --name "$VM_NAME" --disk 10G --memory 4G --cpus 2
-else
-  echo "⚠️ VM '$VM_NAME' already exists"
+if multipass info "$VM_NAME" &>/dev/null; then
+  echo "⚠️ VM '$VM_NAME' already exists. Re-creating clean environment..."
+  multipass delete "$VM_NAME"
+  multipass purge
 fi
+
+echo "🚀 Launching VM '$VM_NAME'..."
+multipass launch jammy --name "$VM_NAME" --disk 10G --memory 4G --cpus 2
 
 # Step 3: Validate disk exists
 if [[ ! -f "$DISK_FILE" ]]; then

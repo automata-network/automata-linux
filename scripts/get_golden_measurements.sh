@@ -24,7 +24,9 @@ URL="https://$VM_IP:8000/golden-measurement"
 for attempt in $(seq 1 $MAX_RETRIES); do
   echo "Attempt $attempt: Fetching $URL..."
 
-  HTTP_CODE=$(curl -k -s -o "$GOLDEN_MEASUREMENT_FILE" -w "%{http_code}" "$URL")
+  set -e
+  HTTP_CODE=$(curl --max-time 10 -k -s -o "$GOLDEN_MEASUREMENT_FILE" -w "%{http_code}" "$URL")
+  set +e
 
   if [[ "$HTTP_CODE" == "200" ]]; then
     echo "✅ Golden measurements saved to $GOLDEN_MEASUREMENT_FILE"
