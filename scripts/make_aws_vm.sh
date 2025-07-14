@@ -9,7 +9,7 @@ export AWS_PAGER=""
 
 # Ensure all arguments are provided
 if [[ $# -lt 5 ]]; then
-    echo "❌ Error: Arguments are missing!"
+    echo "❌ Error: Arguments are missing! (make_aws_vm.sh)"
     exit 1
 fi
 
@@ -194,6 +194,10 @@ PUBLIC_IP=$(aws ec2 describe-instances \
   --output text)
 
 echo "VM Public IP: $PUBLIC_IP"
+
+# Save public IP to a file for later use
+mkdir -p _artifacts
+echo "$PUBLIC_IP" > _artifacts/vm_ip
 
 set +x
 set +e

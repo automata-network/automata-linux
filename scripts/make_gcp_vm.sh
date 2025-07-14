@@ -9,7 +9,7 @@ IMAGE_NAME="${VM_NAME}-image"
 
 # Ensure all arguments are provided
 if [[ $# -lt 6 ]]; then
-    echo "❌ Error: Arguments are missing!"
+    echo "❌ Error: Arguments are missing! (make_gcp_vm.sh)"
     exit 1
 fi
 
@@ -101,6 +101,16 @@ gcloud compute instances create $VM_NAME \
   --project=$PROJECT_ID \
   --tags $RULE_NAME \
   --metadata serial-port-enable=1,serial-port-logging-enable=1
+
+PUBLIC_IP=$(gcloud compute instances describe "$VM_NAME" \
+  --zone="$ZONE" \
+  --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+
+echo "Public IP: $PUBLIC_IP"
+
+# Save public IP to a file for later use
+mkdir -p _artifacts
+echo "$PUBLIC_IP" > _artifacts/vm_ip
 
 set +x
 set +e

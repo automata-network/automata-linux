@@ -93,7 +93,7 @@ Run the CLI to deploy the disk to the cloud provider.
 
 ### Deploying to Azure
 ```bash
-./cvm-cli deploy-azure --resource_group <group> --storage_account <storage_account> --gallery_name <gallery_name> --additional_ports "80,443" --vm_name <name> --vm_type "<type>"
+./cvm-cli deploy-azure --resource_group <group> --storage_account <storage_account> --gallery_name <gallery_name> --additional_ports "80,443" --vm_name <name> --vm_type "<type>" --region "<region>"
 ```
 The following **must** be provided:
 - storage_account: The name of the storage account to upload the cvm disk into.
@@ -140,24 +140,15 @@ The following parameters are optional, and default to:
 > AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). If you're unable to curl the APIs provided in the next section, please reboot the VM.
 
 
-## Creating the golden measurements
+## Signing and Publishing the Golden Measurements
 > [!IMPORTANT]
 > The golden measurements are required for the [verification phase](#verifying-the-image-and-workload), as they serve as the reference against which verifiers compare an attester's collaterals to confirm alignment with a known, expected state. The publisher of the workload should create and publish the golden measurement for verifiers to reference.
 
-### 1. Get the golden measurements
-Once the VM's external ip is available and the VM has completely booted, query the cvm-agent on the CVM to get the golden measurements.
+- Off-chain: After you have deployed the CVM on the cloud provider in the previous step, you should now have a file `_artifacts/golden-measurement.json`.
+- On-chain: TODO
 
-For off-chain:
-```bash
-curl -k https://<VM IP>:8000/golden-measurement > golden-measurement.json
-```
 
-For on-chain:
-```bash
-TODO.
-```
-
-### 2. Sign the golden measurements
+### 1. Sign the golden measurements
 
 > [!NOTE]
 > This step is optional, and depends on where the golden measurement will be hosted. For off-chain verification, it is recommended to sign the golden measurement if it will be hosted somewhere untrusted, like on a cloud provider's S3 bucket.
@@ -165,15 +156,15 @@ TODO.
 - For off-chain:
   - Step 1: Sign the golden measurement. A reference helper script has been provided in this repo:
    ```bash
-   ./json_sig_tool.py sign golden-measurement.json private.pem -o signed-golden-measurement.json
+   ./json_sig_tool.py sign _artifacts/golden-measurement.json private.pem -o signed-golden-measurement.json
    ```
   - Step 2: (Optional, Sanity check) Verify the signature
    ```bash
    ./json_sig_tool.py verify signed-golden-measurement.json public.pem
    ```
-- For on-chain: TODO (is it needed?)
+- For on-chain: TODO
 
-### 3. Publish the golden measurements
+### 2. Publish the golden measurements
 Publish the golden measurements for verifiers to reference.
 
 - For off-chain:
@@ -202,9 +193,7 @@ To verify that the workload is running a CVM with the expected measurements, the
      ```
    - If the verifier runs outside of a TEE environment, the [cvm-verifier SDK](https://github.com/automata-network/cvm-verifier) can be used to verify the collaterals against the golden-measurement:
      ```bash
-     # 1. Pull out the golden_measurement field
-     jq -r '.golden_measurement | @json' signed-golden-measurement.json > golden-measurement.json
-     # 2. Run the verifier. Assuming the verifier saves the collaterals as collaterals.json:
+     # Run the verifier. Assuming the verifier saves the collaterals as collaterals.json:
      cargo run --release --bin cvm-verifier collaterals.json golden-measurement.json
      ```
 
@@ -275,23 +264,11 @@ Please refer to [this step](#2-sign-the-docker-images-that-will-be-used) for det
 ### 2. Update the `workload/` folder:
 Please refer to [this step](#3-modify-the-workload-folder) for details.
 
-### 3. Get the API Token
-Run the following command to retrieve the API token required to upload your workload:
-```bash
-curl -k https://<VM IP>:8000/api-token ; echo
-```
-
-> [!IMPORTANT]
-> The API token can only be retrieved once. Do not lose it, or you will need to re-create the VM from scratch!
-
-### 4. Update the workload
+### 3. Update the workload
 Run the following command to upload your updated workload to your deployed CVM:
 ```bash
-./cvm-cli update-workload <VM IP> <API TOKEN>
+./cvm-cli update-workload
 ```
-
-### 5. Remember to re-create the golden measurements
-You can reuse the steps from the section [Creating the golden measurements](#creating-the-golden-measurements).
 
 ## Architecture
 

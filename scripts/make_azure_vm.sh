@@ -15,7 +15,7 @@ blob_url="https://${STORAGE_ACC}.blob.core.windows.net/$STORAGE_CONTAINER/$VHD"
 
 # Ensure all arguments are provided
 if [[ $# -lt 7 ]]; then
-    echo "❌ Error: Arguments are missing!"
+    echo "❌ Error: Arguments are missing! (make_azure_vm.sh)"
     exit 1
 fi
 
@@ -203,6 +203,39 @@ az vm create \
   --specialized \
   --admin-username dummyuser \
   --admin-password DummyPassword123
+
+# Get public ip of Azure VM.
+
+# Get NIC name attached to the VM
+NIC_ID=$(az vm show \
+  --resource-group "$RG" \
+  --name "$VM_NAME" \
+  --query 'networkProfile.networkInterfaces[0].id' \
+  --output tsv)
+
+NIC_NAME=$(basename "$NIC_ID")
+
+# Get the public IP name from the NIC
+PUBLIC_IP_ID=$(az network nic show \
+  --resource-group "$RG" \
+  --name "$NIC_NAME" \
+  --query 'ipConfigurations[0].publicIpAddress.id' \
+  --output tsv)
+
+PUBLIC_IP_NAME=$(basename "$PUBLIC_IP_ID")
+
+# Get the actual public IP address
+PUBLIC_IP=$(az network public-ip show \
+  --resource-group "$RG" \
+  --name "$PUBLIC_IP_NAME" \
+  --query 'ipAddress' \
+  --output tsv)
+
+echo "Public IP of VM: $PUBLIC_IP"
+
+# Save public IP to a file for later use
+mkdir -p _artifacts
+echo "$PUBLIC_IP" > _artifacts/vm_ip
 
 set +x
 set +e

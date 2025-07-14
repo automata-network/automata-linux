@@ -63,19 +63,25 @@ multipass exec "$VM_NAME" -- bash -c "
 echo "📥 Retrieving updated disk..."
 multipass transfer "$VM_NAME:$VM_PROJECT_PATH/$DISK_FILENAME" "$UPDATED_DISK"
 
-# Step 9: Checksum after update
+# Step 9: Retrieve api_token
+echo "📥 Retrieving API token..."
+API_TOKEN_FILE="_artifacts/api_token"
+mkdir -p "$(dirname "$API_TOKEN_FILE")"
+multipass transfer "$VM_NAME:$VM_PROJECT_PATH/$API_TOKEN_FILE" "$API_TOKEN_FILE"
+
+# Step 10: Checksum after update
 echo "🔍 Calculating checksum after update..."
 AFTER_SUM=$(shasum -a 256 "$UPDATED_DISK" | awk '{print $1}')
 echo "After:  $AFTER_SUM"
 
-# Step 10: Compare
+# Step 11: Compare
 if [[ "$BEFORE_SUM" == "$AFTER_SUM" ]]; then
   echo "❌ No change — update failed!"
 else
   echo "✅ Disk successfully updated!"
 fi
 
-# Step 11: Cleanup
+# Step 12: Cleanup
 rm -rf "$TMP_DIR"
 
 echo "🧹 Cleaning up Multipass VM..."

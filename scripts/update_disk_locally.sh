@@ -42,10 +42,20 @@ populate() {
 
         sudo cp -r $WORKLOAD_FOLDER /tmp/data/
         sudo chown -R 1000:1000 /tmp/data/$WORKLOAD_FOLDER
+
+        # Generate API token
+        API_TOKEN_FILE="_artifacts/api_token"
+        echo "ℹ️  Generating API token..."
+        mkdir -p $(dirname $API_TOKEN_FILE)
+        openssl rand -hex 16 | tr -d '\n' > $API_TOKEN_FILE
+
+        sudo sha256sum $API_TOKEN_FILE > /tmp/data/token_hash
+        sudo chown 1000:1000 /tmp/data/token_hash
+
         sync
         sudo umount ${LOOP_DEV}p3
 
-        echo "✅ Done! Workload data has been reloaded into disk!"
+        echo "✅ Done! Workload data has been reloaded into disk and API token generated!"
     else
         echo "❌ Disk does not have the right partitioning scheme!"
     fi
