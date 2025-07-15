@@ -18,8 +18,8 @@ REPO_ONLY="${REPO_NAME#*/}"             # alpine
 # Example: ./sign-and-verify.sh alpine:latest docker.io/yaoxin111/alpine:secure
 # ───────────────────────────────────────────────────────────────────────────────
 
-if [ "$#" -ne 2 ]; then
-  echo "Usage: $0 <source-image> <target-image>"
+if [ "$#" -ne 4 ]; then
+  echo "Usage: $0 <source-image> <target-image> <cosign.key> <cosign.pub>"
   echo "Example: $0 alpine:latest docker.io/yaoxin111/alpine:signed"
   exit 1
 fi
