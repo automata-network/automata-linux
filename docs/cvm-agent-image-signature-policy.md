@@ -17,6 +17,7 @@ The image signature verification policy defines the rules that govern which cont
         }
     }
 }
+```
 
 The two top-level fields are:
 
