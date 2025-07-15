@@ -28,7 +28,7 @@ The two top-level fields are:
 
 > [!Note]
 > The detailed explaination of the policy and be found in the opensource project [Image](https://github.com/containers/image/blob/main/docs/containers-policy.json.5.md).
-> Currently we only support `sigstoreSigned` and user must specify their signing in the policy.
+> Currently we only support `sigstoreSigned` and user must specify their signing key in the policy.
 
 ---
 
@@ -50,7 +50,7 @@ A common rule for trusted registries involves requiring images to be signed usin
     "ghcr.io/automata": [
         {
             "type": "sigstoreSigned",
-            "keyPath": "kbs:///default/cosign-key/1"
+            "keyPath": "/data/workload/secret/cosign.pub"
         }
     ]
 }
@@ -58,7 +58,7 @@ A common rule for trusted registries involves requiring images to be signed usin
 
 This rule ensures that:
 
-- Only images pulled from `ghcr.io/automata` that are **signed using the specified Cosign key** are allowed.
+- Only images pulled from `ghcr.io/automata` that are **signed using the specified Cosign key** stored in **/data/workload/secret/cosign.pub** are allowed.
 - All other images are blocked due to the fallback `default: reject` rule.
 
 ---
