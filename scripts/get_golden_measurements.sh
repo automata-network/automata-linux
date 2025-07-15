@@ -17,7 +17,7 @@ echo "ℹ️  Waiting for $VM_IP to be ready..."
 sleep 20 # Wait a while for the API to be ready
 echo "ℹ️  Getting golden measurements from $VM_IP..."
 
-MAX_RETRIES=5
+MAX_RETRIES=10
 RETRY_DELAY=30
 URL="https://$VM_IP:8000/golden-measurement"
 

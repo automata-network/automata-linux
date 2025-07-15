@@ -26,7 +26,7 @@ GCP_TDX_REGIONS=(
   "us-central1-a" "us-central1-b" "us-central1-c"
 )
 
-AWS_SNP_REGIONS=("us-east-2", "eu-west-1")
+AWS_SNP_REGIONS=("us-east-2" "eu-west-1")
 
 AZURE_TDX_V5_REGIONS=(
   "East US 2" "Central US" "West Europe" "North Europe"
@@ -54,7 +54,7 @@ contains() {
 echo "⌛ Double-checking the VM type and region for CSP..."
 
 if [ "$CSP" = "aws" ]; then
-  if ! [[ $INSTANCE_TYPE =~ ^(m6a\.(large|xlarge|2xlarge|4xlarge|8xlarge)|c6a\.(large|xlarge|2xlarge|4xlarge|8xlarge|12xlarge|16xlarge)|r6a\.(large|xlarge|2xlarge|4xlarge))$ ]]; then
+  if ! [[ $VM_TYPE =~ ^(m6a\.(large|xlarge|2xlarge|4xlarge|8xlarge)|c6a\.(large|xlarge|2xlarge|4xlarge|8xlarge|12xlarge|16xlarge)|r6a\.(large|xlarge|2xlarge|4xlarge))$ ]]; then
     echo "❌ Error: The selected VM type '$VM_TYPE' is not supported for AWS."
     echo "Please choose a VM type that supports SEV-SNP."
     echo "Supported types for SEV-SNP: m6a, c6a, r6a"
