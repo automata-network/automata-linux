@@ -145,7 +145,7 @@ The following parameters are optional, and default to:
 - additional_ports: “”
 
 > [!Warning]
-> AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). If you're unable to curl the APIs provided in the next section, please reboot the VM.
+> AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). Please reboot the VM if you do not see a file called `_artifacts/golden-measurement.json` after the deployment script has completed. Once the VM has been rebooted, you can manually run `./scripts/get_golden_measurements.sh` to get the golden measurement.
 
 
 ## Signing and Publishing the Golden Measurements
