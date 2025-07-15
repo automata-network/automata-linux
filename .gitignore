@@ -4,3 +4,5 @@ gcp_disk.tar.gz
 token
 *.pem
 *.json
+*.key
+*.pub
