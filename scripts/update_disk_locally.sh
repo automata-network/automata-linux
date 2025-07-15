@@ -50,6 +50,7 @@ populate() {
         openssl rand -hex 16 | tr -d '\n' > $API_TOKEN_FILE
 
         sha256sum $API_TOKEN_FILE > _artifacts/token_hash
+        tr -d '\n' < $API_TOKEN_FILE | sha256sum | cut -d ' ' -f1 > _artifacts/token_hash
         sudo cp _artifacts/token_hash /tmp/data/token_hash
         sudo chown 1000:1000 /tmp/data/token_hash
 
