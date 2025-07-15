@@ -90,9 +90,11 @@ Controls the verification of container images before execution.
 | `auth_info.password`             | `""`     | Optional password for above user. |
 | `signature_verification_policy_path` | `"/data/workload/config/cvm_agent/sample_image_verify_policy.json"` | Path to JSON policy file defining valid signing keys and rules. |
 
-> You can pre-configure the policy even if enforcement is currently disabled.
+You can pre-configure the policy even if enforcement is currently disabled.
 
 The `signature_verification_policy_path` points to a policy file that defines rules for which images are allowed to run.
+
+For more detail of the image verification policy, please check out [this document](docs/cvm-agent-image-signature-policy.md)
 ---
 
 ## Usage Notes
