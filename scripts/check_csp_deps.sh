@@ -166,6 +166,28 @@ install_azcli() {
     echo "✅ azcli installed successfully."
 }
 
+install_other_az_deps() {
+    OS="$(uname -s)"
+    if ! command -v jq >/dev/null 2>&1; then
+        if [ "$OS" = "Darwin" ]; then
+            brew update && brew install jq
+        elif [ "$OS" = "Linux" ]; then
+            PM=$(detect_package_manager)
+            case "$PM" in
+                apt)
+                    sudo apt install -y jq
+                    ;;
+                dnf)
+                    sudo dnf install jq
+                    ;;
+            esac
+        else
+            echo "❌ Unsupported OS: $OS"
+            exit 1
+        fi
+    fi
+}
+
 install_aws_cli() {
     echo "🔽 Downloading and installing aws cli..."
 
@@ -279,6 +301,7 @@ elif [ "$CSP" = "gcp" ]; then
         gcloud services enable compute.googleapis.com
     fi
 elif [ "$CSP" = "azure" ]; then
+    install_other_az_deps
     # Check if Azure CLI is installed
     if ! command -v az &> /dev/null; then
         # 1. Install Azure CLI.
