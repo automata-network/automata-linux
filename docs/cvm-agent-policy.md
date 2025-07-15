@@ -93,8 +93,8 @@ Controls the verification of container images before execution.
 You can pre-configure the policy even if enforcement is currently disabled.
 
 The `signature_verification_policy_path` points to a policy file that defines rules for which images are allowed to run.
-
 For more detail of the image verification policy, please check out [this document](docs/cvm-agent-image-signature-policy.md)
+
 ---
 
 ## Usage Notes
