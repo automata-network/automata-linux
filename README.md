@@ -125,11 +125,16 @@ openssl ec -in private.pem -pubout -out public.pem
 # RSA key
 openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
 openssl rsa -in private.pem -pubout -out public.pem
+
+# RSA key
+cosign generate-key-pair
 ```
+> [!Note]
+> Please ensure to generate the image signing using **cosign**. The key is disigned for container image signing and verification.
 
 ### 2. Sign the docker images that will be used
 
-TODO
+For image signing and verification, please check out [this document](docs/cvm-agent-image-signature-policy.md).
 
 ### 3. Modify the `workload/` folder:
 - In the folder, there are 3 things - a file called `docker-compose.yml` and 2 folders called `config/` and `secrets/`.
@@ -160,6 +165,32 @@ The default security policy can be found in [workload/config/cvm_agent/cvm_agent
             "enable_emulation_data_update": true
         },
 
+        "firewall": {
+            "allowed_ports": [
+                {
+                    "name": "allow_agent_local",
+                    "protocol": "tcp",
+                    "port": "7999"
+                },
+                {
+                    "name": "allow_agent_external",
+                    "protocol": "tcp",
+                    "port": "8000"
+                },
+                {
+                    "name": "allow_agent_external",
+                    "protocol": "udp",
+                    "port": "53"
+                },
+                {
+                    "name": "allow_agent_external",
+                    "protocol": "tcp",
+                    "port": "443"
+                }
+            ],
+            "maintenance_mode_host_port": "2222"
+        },
+
         "https_server" :{
             "enable_workload_update_endpoint": true,
             "enable_maintenance_endpoint": false,
@@ -173,8 +204,18 @@ The default security policy can be found in [workload/config/cvm_agent/cvm_agent
         },
 
         "maintenance_mode" : {
-            "signal" : "SIGUSR2",
-            "ssh_port_on_host": "2222"
+            "signal" : "SIGUSR2"
+        }
+    },
+
+    "workload_config": {
+        "image_signature_verification": {
+            "enable":false,
+            "auth_info": {
+                "user_name": "",
+                "password": ""
+            },
+            "siganture_verification_policy_path":"/data/workload/config/cvm_agent/sample_image_verify_policy.json"
         }
     }
 }

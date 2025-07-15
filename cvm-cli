@@ -9,6 +9,7 @@ usage() {
     echo "  deploy-gcp          Deploy a VM onto GCP using gcp_disk.tar.gz."
     echo "  update-workload     Update the workload on a deployed CVM."
     echo "  update-disk         Update the workload on a specified disk file."
+    echo "  sign-image          Sign and verify a container image using Cosign."
     echo ""
     echo "Arguments for 'deploy-azure' command:"
     echo "  --resource_group <group>    The resource group for the deployment. **Mandatory**"
@@ -39,6 +40,12 @@ usage() {
     echo ""
     echo "Additional arguments for the 'update-disk' command:"
     echo "  <DISK PATH>             The path to your disk image."
+    echo ""
+    echo "Arguments for 'sign-image' command:"
+    echo "  <source-image>           Source image (e.g., alpine:latest)"
+    echo "  <target-image>           Target image (e.g., docker.io/user/image:signed)"
+    echo "  <cosign-private>         Cosign private key"
+    echo "  <cosign-public>          Cosign public key"
     echo ""
     exit 1
 }
@@ -251,6 +258,19 @@ case "$COMMAND" in
             usage
         fi
         ./scripts/update-remote-workload.sh $IP $PASSWORD
+        ;;
+    
+    sign-image)
+        SOURCE_IMAGE="$1"
+        TARGET_IMAGE="$2"
+        COSIGN_PRI="$3"
+        COSIGN_PUB="$4"
+
+        shift 2
+        if [[ -z "$SOURCE_IMAGE" || -z "$TARGET_IMAGE" || -z "$COSIGN_PRI" || -z "$COSIGN_PUB" ]]; then
+            usage
+        fi
+        ./scripts/sign-and-verify.sh $SOURCE_IMAGE $TARGET_IMAGE $COSIGN_PRI $COSIGN_PUB
         ;;
 
     *)
