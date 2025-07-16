@@ -92,6 +92,15 @@ Controls the verification of container images before execution.
 
 You can pre-configure the policy even if enforcement is currently disabled.
 
+>[!Note]
+> Before executing this step, please ensure that you have already done the following:
+> If pulling from a public registry, ensure both `auth_info.user_name` and `auth_info.password` remain empty.
+> Populate `auth_info` only when accessing private registries. 
+> **Warning**: Credentials provided in this section are subject to measurement by `cvm-agent` and may be exposed in attestation. Use **minimal-privilege accounts** or **short-lived tokens** to mitigate risk.
+
+
+
+
 The `signature_verification_policy_path` points to a policy file that defines rules for which images are allowed to run.
 For more detail of the image verification policy, please check out [this document](./cvm-agent-image-signature-policy.md)
 

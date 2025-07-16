@@ -130,7 +130,7 @@ openssl rsa -in private.pem -pubout -out public.pem
 cosign generate-key-pair
 ```
 > [!Note]
-> Please ensure to generate the image signing using **cosign**. The key is disigned for container image signing and verification.
+> Please ensure to generate the image signing using **cosign**. The key is designed for container image signing and verification.
 
 ### 2. Sign the docker images that will be used
 
@@ -176,16 +176,6 @@ The default security policy can be found in [workload/config/cvm_agent/cvm_agent
                     "name": "allow_agent_external",
                     "protocol": "tcp",
                     "port": "8000"
-                },
-                {
-                    "name": "allow_agent_external",
-                    "protocol": "udp",
-                    "port": "53"
-                },
-                {
-                    "name": "allow_agent_external",
-                    "protocol": "tcp",
-                    "port": "443"
                 }
             ],
             "maintenance_mode_host_port": "2222"
@@ -215,7 +205,7 @@ The default security policy can be found in [workload/config/cvm_agent/cvm_agent
                 "user_name": "",
                 "password": ""
             },
-            "siganture_verification_policy_path":"/data/workload/config/cvm_agent/sample_image_verify_policy.json"
+            "signature_verification_policy_path":"/data/workload/config/cvm_agent/sample_image_verify_policy.json"
         }
     }
 }
