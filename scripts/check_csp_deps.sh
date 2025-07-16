@@ -238,57 +238,57 @@ if [ "$CSP" = "aws" ]; then
         install_aws_cli
         # 2. Configure AWS CLI
         aws_login
-    fi
-    # 3. Check if vmimport role exists, otherwise create it.
-    ROLE_NAME="vmimport"
-    if aws iam get-role --role-name "$ROLE_NAME" >/dev/null 2>&1; then
-        echo "Role '$ROLE_NAME' already exists. Not re-creating."
-    else
-        echo "Role '$ROLE_NAME' does not exist. Creating..."
+        # 3. Check if vmimport role exists, otherwise create it.
+        ROLE_NAME="vmimport"
+        if aws iam get-role --role-name "$ROLE_NAME" >/dev/null 2>&1; then
+            echo "Role '$ROLE_NAME' already exists. Not re-creating."
+        else
+            echo "Role '$ROLE_NAME' does not exist. Creating..."
 
-        aws iam create-role --role-name "$ROLE_NAME" --assume-role-policy-document '{
-            "Version": "2012-10-17",
-            "Statement": [{
-                "Effect": "Allow",
-                "Principal": { "Service": "vmie.amazonaws.com" },
-                "Action": "sts:AssumeRole",
-                "Condition": {
-                    "StringEquals": {
-                        "sts:Externalid": "vmimport"
+            aws iam create-role --role-name "$ROLE_NAME" --assume-role-policy-document '{
+                "Version": "2012-10-17",
+                "Statement": [{
+                    "Effect": "Allow",
+                    "Principal": { "Service": "vmie.amazonaws.com" },
+                    "Action": "sts:AssumeRole",
+                    "Condition": {
+                        "StringEquals": {
+                            "sts:Externalid": "vmimport"
+                        }
                     }
-                }
-            }]
-        }'
+                }]
+            }'
 
-        echo "Attaching policy to '$ROLE_NAME'..."
+            echo "Attaching policy to '$ROLE_NAME'..."
 
-        aws iam put-role-policy --role-name "$ROLE_NAME" --policy-name "$ROLE_NAME" --policy-document '{
-            "Version": "2012-10-17",
-            "Statement": [{
-                "Effect": "Allow",
-                "Action": [
-                    "s3:GetBucketLocation",
-                    "s3:GetObject",
-                    "s3:ListBucket"
-                ],
-                "Resource": [
-                        "arn:aws:s3:::*",
-                        "arn:aws:s3:::*/*"
-                    ]
-            },
-            {
-                "Effect": "Allow",
-                "Action": [
-                    "ec2:ModifySnapshotAttribute",
-                    "ec2:CopySnapshot",
-                    "ec2:RegisterImage",
-                    "ec2:Describe*"
-                ],
-                "Resource": "*"
-            }]
-        }'
+            aws iam put-role-policy --role-name "$ROLE_NAME" --policy-name "$ROLE_NAME" --policy-document '{
+                "Version": "2012-10-17",
+                "Statement": [{
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:GetBucketLocation",
+                        "s3:GetObject",
+                        "s3:ListBucket"
+                    ],
+                    "Resource": [
+                            "arn:aws:s3:::*",
+                            "arn:aws:s3:::*/*"
+                        ]
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "ec2:ModifySnapshotAttribute",
+                        "ec2:CopySnapshot",
+                        "ec2:RegisterImage",
+                        "ec2:Describe*"
+                    ],
+                    "Resource": "*"
+                }]
+            }'
 
-        echo "✅ Role '$ROLE_NAME' created and configured."
+            echo "✅ Role '$ROLE_NAME' created and configured."
+        fi
     fi
 elif [ "$CSP" = "gcp" ]; then
     # Check if gcloud CLI is installed
