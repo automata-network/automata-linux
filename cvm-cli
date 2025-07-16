@@ -158,8 +158,37 @@ case "$COMMAND" in
             esac
         done
 
-        if [[ -z "$PROJECT_ID" || -z "$BUCKET" ]]; then
-            usage
+        # === Derive PROJECT_ID if not provided ===
+        if [[ -z "$PROJECT_ID" ]]; then
+            PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+            if [[ -z "$PROJECT_ID" ]]; then
+                echo "❌ PROJECT_ID not provided and no default found in gcloud config."
+                exit 1
+            fi
+            echo "ℹ️  Using default gcloud project: $PROJECT_ID"
+        fi
+
+
+        # === Derive bucket name if not provided ===
+        if [[ -z "$BUCKET" ]]; then
+            SANITIZED_VM_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
+            RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w6 | head -n1)
+            BUCKET="${SANITIZED_VM_NAME:-cvm}${RANDOM_SUFFIX}"
+            echo "ℹ️  No bucket provided. Using generated bucket name: $BUCKET"
+        fi
+
+        # === Derive region for GCS bucket creation ===
+        BUCKET_REGION=$(echo "$REGION" | sed 's/-[a-z]$//')
+
+        # === Ensure GCS bucket exists ===
+        if gsutil ls -b "gs://${BUCKET}" 2>/dev/null; then
+            echo "✅ Bucket gs://${BUCKET} already exists."
+        else
+            echo "⏳ Bucket gs://${BUCKET} does not exist. Creating it..."
+            gcloud storage buckets create "gs://${BUCKET}" --location="$BUCKET_REGION" || {
+                echo "❌ Failed to create bucket 'gs://${BUCKET}'."
+                exit 1
+            }
         fi
 
         set -e
