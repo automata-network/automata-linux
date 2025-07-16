@@ -85,8 +85,12 @@ case "$COMMAND" in
             esac
         done
 
+        # === Derive bucket name if not provided ===
         if [[ -z "$BUCKET" ]]; then
-            usage
+            SANITIZED_VM_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
+            RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w6 | head -n1)
+            BUCKET="${SANITIZED_VM_NAME:-cvm}${RANDOM_SUFFIX}"
+            echo "ℹ️  No bucket provided. Using generated bucket name: $BUCKET"
         fi
 
         set -e
