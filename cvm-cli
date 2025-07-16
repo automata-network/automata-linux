@@ -10,13 +10,18 @@ usage() {
     echo "  update-workload     Update the workload on a deployed CVM."
     echo ""
     echo "Arguments for 'deploy-azure' command:"
-    echo "  --resource_group <group>    The resource group for the deployment. **Mandatory**"
-    echo "  --storage_account <name>    The name of a custom storage account. Must be in the resource group you list. **Mandatory**"
-    echo "  --gallery_name <name>       The name of a shared image gallery. Must be in the resource group you list. **Mandatory**"
-    echo "  --additional_ports <ports>  Comma-separated list of additional ports to open (e.g., \"80,443\"). Default: None"
     echo "  --vm_name <name>            The name of the virtual machine. Default: cvm_test"
+    echo "                              This value is used to automatically derive:"
+    echo "                                - resource_group   => <vm_name>_rg"
+    echo "                                - storage_account  => sanitized lowercase form (max 24 chars)"
+    echo "                                - gallery_name     => sanitized lowercase form (max 80 chars)"
+    echo ""
+    echo "  --additional_ports <ports>  Comma-separated list of additional ports to open (e.g., \"80,443\"). Default: None"
     echo "  --vm_type <type>            The type of VM to be deployed. Default: \"Standard_DC2es_v5\""
     echo "  --region <region>           The region where the VM will be deployed. Default: \"East US 2\""
+    echo ""
+    echo "  ⚠️  Do NOT provide --resource_group, --storage_account, or --gallery_name."
+    echo "     These values are automatically derived from --vm_name to reduce config errors."
     echo ""
     echo "Arguments for 'deploy-gcp' command:"
     echo "  --project_id <id>           The project id for the deployment. **Mandatory**"
@@ -176,46 +181,22 @@ case "$COMMAND" in
         ;;
 
     deploy-azure)
-        # Default values
+        # Defaults
         VM_NAME="cvm_test"
-        RESOURCE_GROUP=""
         VM_TYPE="Standard_DC2es_v5"
         REGION="East US 2"
-        # To specify additional workload ports, pass them as a comma-separated string
-        # eg. "80,443"
         ADDITIONAL_PORTS=""
-        STORAGE_ACC=""
-        GALLERY_NAME=""
 
+        # Parse CLI args
         while [[ "$#" -gt 0 ]]; do
             case "$1" in
-                --additional_ports)
-                    ADDITIONAL_PORTS=$2
-                    shift 2
-                    ;;
-                --vm_name)
-                    VM_NAME=$2
-                    shift 2
-                    ;;
-                --resource_group)
-                    RESOURCE_GROUP=$2
-                    shift 2
-                    ;;
-                --vm_type)
-                    VM_TYPE=$2
-                    shift 2
-                    ;;
-                --region)
-                    REGION=$2
-                    shift 2
-                    ;;
-                --storage_account)
-                    STORAGE_ACC=$2
-                    shift 2
-                    ;;
-                --gallery_name)
-                    GALLERY_NAME=$2
-                    shift 2
+                --additional_ports) ADDITIONAL_PORTS=$2; shift 2 ;;
+                --vm_name) VM_NAME=$2; shift 2 ;;
+                --vm_type) VM_TYPE=$2; shift 2 ;;
+                --region) REGION=$2; shift 2 ;;
+                --resource_group|--storage_account|--gallery_name)
+                    echo "❌ Do not pass --$1 directly. It is derived from --vm_name."
+                    exit 1
                     ;;
                 *)
                     echo "Unknown argument: $1"
@@ -224,9 +205,18 @@ case "$COMMAND" in
             esac
         done
 
-        if [[ -z "$RESOURCE_GROUP" || -z "$STORAGE_ACC" || -z "$GALLERY_NAME" ]]; then
-            usage
+        # === Derive from VM_NAME ===
+        RESOURCE_GROUP="${VM_NAME}_rg"
+
+        STORAGE_ACC=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9' | cut -c1-24)
+        while [[ ${#STORAGE_ACC} -lt 3 ]]; do
+            STORAGE_ACC="${STORAGE_ACC}0"
+        done
+        GALLERY_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9_.' | sed 's/^[_.]*//;s/[_.]*$//' | cut -c1-80)
+        if [[ -z "$GALLERY_NAME" ]]; then
+            GALLERY_NAME="default-gallery"
         fi
+
 
         set -e
         # Check vm options
@@ -236,7 +226,7 @@ case "$COMMAND" in
         # Update the disk image with the latest workload
         ./scripts/update_disk.sh "azure_disk.vhd"
         # Check that CSP CLI dependencies are installed
-        ./scripts/check_csp_deps.sh "aws"
+        ./scripts/check_csp_deps.sh "azure"
         # Deploy the VM
         echo "Deploying azure_disk.vhd with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
