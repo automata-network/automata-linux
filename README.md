@@ -130,7 +130,7 @@ openssl rsa -in private.pem -pubout -out public.pem
 cosign generate-key-pair
 ```
 > [!Note]
-> Please ensure to generate the image signing using **cosign**. The key is designed for container image signing and verification.
+> Please ensure to generate the image signing key using **cosign**. The key is designed for container image signing and verification.
 
 ### 2. Sign the docker images that will be used
 
