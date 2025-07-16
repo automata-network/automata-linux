@@ -61,7 +61,18 @@ TODO
     - Images that are hosted on docker's official registry must be prefixed with `docker.io/`.
   - `config/` : Use this folder to store any files that will be mounted and used by the container. All the files in this folder will be measured by the cvm-agent into the TPM PCR before the container runs.
   - `secrets/`: Use this folder to store any files that will be mounted and used by the container, but should not be measured. Examples include cert private keys, or database credentials.
+  > ⚠️ **Security Implication**  
+  > Files in `secrets/` are **not measured** and are embedded into the disk image **before deployment**.  
+  > This means they are **visible to the Cloud Service Provider (CSP)** and **not protected by the hardware execution enviroment (TEE)**.  
+  >  
+  > 🔐 **Mitigation:** If confidentiality from the CSP is required:  
+  > - **Avoid placing long-lived or highly sensitive secrets in `secrets/`.**
+  > - Use a **remote secret management service**, such as:
+  >   - [Key Broker Service](https://docs.trustauthority.intel.com/main/articles/articles/ita/key-broker-service.html?tabs=passport-verification-mode)
+  > - Fetch secrets at runtime **only after attestation is verified**.
 - Additionally, if you wish to load local images, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded.
+
+
 
 > [!IMPORTANT]
 > If you have created any asymmetric keypairs in [Step 1](#1-create-asymmetric-keypairs), please also place the public keys into `workload/config/`.
