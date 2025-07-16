@@ -1,5 +1,32 @@
 # cvm-base-image
 
+## 📑 Table of Contents
+- [Prerequisites](#prerequisites)
+- [Configure the `workload/` folder](#configure-the-workload-folder)
+  - [1. Create asymmetric keypairs](#1-create-asymmetric-keypairs)
+  - [2. Sign the docker images that will be used](#2-sign-the-docker-images-that-will-be-used)
+  - [3. Modify the `workload/` folder](#3-modify-the-workload-folder)
+  - [4. Configure the cvm-agent and Security Policy](#4-configure-the-cvm-agent-and-security-policy)
+- [Deploying the workload onto the Cloud Provider](#deploying-the-workload-onto-the-cloud-provider)
+  - [Deploying to Azure](#deploying-to-azure)
+  - [Deploying to GCP](#deploying-to-gcp)
+  - [Deploying to AWS](#deploying-to-aws)
+- [Signing and Publishing the Golden Measurements](#signing-and-publishing-the-golden-measurements)
+  - [1. Sign the golden measurements](#1-sign-the-golden-measurements)
+  - [2. Publish the golden measurements](#2-publish-the-golden-measurements)
+- [Verifying the image and workload](#verifying-the-image-and-workload)
+  - [Off-chain verification](#off-chain-verification)
+  - [On-chain verification](#on-chain-verification)
+  - [Example: Peer Node Verification Workflow (Off-chain)](#example-peer-node-verification-workflow-off-chain)
+- [Updating the workload](#updating-the-workload)
+- [Architecture](#architecture)
+  - [Trust Architecture](#trust-architecture)
+  - [Measured Boot](#measured-boot)
+  - [Workload Architecture](#workload-architecture)
+  - [Workflow from Image Build -> Deployment -> Measurement](#workflow-from-image-build---deployment---measurement)
+- [Troubleshooting](#troubleshooting)
+  - [Failed to deploy cvm on Azure due to network error](#failed-to-deploy-cvm-on-azure-due-to-network-error)
+
 ## Prerequisites
 
 - Ensure that you have enough permissions on your account on either GCP, AWS or Azure to create virtual machines, disks, networks, firewall rules, buckets/storage accounts and service roles.
