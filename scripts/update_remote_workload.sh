@@ -1,5 +1,16 @@
-IP_FILE="_artifacts/vm_ip"
-API_TOKEN_FILE="_artifacts/api_token"
+#!/bin/bash
+
+CSP = $1
+VM_NAME = $2
+
+# Ensure all arguments are provided
+if [[ $# -lt 2 ]]; then
+    echo "❌ Error: Arguments are missing! (update_remote_workload.sh)"
+    exit 1
+fi
+
+IP_FILE="_artifacts/${CSP}_${VM_NAME}_ip"
+API_TOKEN_FILE="_artifacts/${CSP}_${VM_NAME}_token"
 
 # quit when any error occurs
 set -Eeuo pipefail

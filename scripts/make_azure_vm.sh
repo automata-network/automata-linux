@@ -11,7 +11,8 @@ SKU_NAME="${VM_NAME}-sku"
 GALLERY_IMAGE_VERSION="1.0.0"
 PUBLISHER="automata"
 STORAGE_CONTAINER="cvm-image-storage"
-blob_url="https://${STORAGE_ACC}.blob.core.windows.net/$STORAGE_CONTAINER/$VHD"
+VHD_BLOB_NAME="${VM_NAME}.vhd"
+blob_url="https://${STORAGE_ACC}.blob.core.windows.net/$STORAGE_CONTAINER/$VHD_BLOB_NAME"
 
 # Ensure all arguments are provided
 if [[ $# -lt 7 ]]; then
@@ -81,7 +82,7 @@ az storage blob upload \
   --account-name "$STORAGE_ACC" \
   --account-key "$ACCOUNT_KEY" \
   --container-name "$STORAGE_CONTAINER" \
-  --name "$VHD" \
+  --name "$VHD_BLOB_NAME" \
   --file "$VHD" \
   --type page \
   --overwrite
@@ -207,9 +208,10 @@ vm_output=$(az vm create \
 PUBLIC_IP=$(echo "$vm_output" | jq -r '.publicIpAddress')
 echo "Public IP of VM: $PUBLIC_IP"
 
-# Save public IP to a file for later use
+# Save artifacts for later use
 mkdir -p _artifacts
-echo "$PUBLIC_IP" > _artifacts/vm_ip
+echo "$PUBLIC_IP" > _artifacts/azure_${VM_NAME}_ip
+echo "$RG" > _artifacts/azure_${VM_NAME}_resource_group
 
 set +x
 set +e

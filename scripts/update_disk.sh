@@ -11,24 +11,6 @@ if [[ $# -lt 1 ]]; then
   exit 1
 fi
 
-has_changes=false
-
-# Check for unstaged changes
-if ! git diff --quiet -- workload/; then
-  has_changes=true
-fi
-
-# Check for untracked files
-if [[ -n $(git ls-files --others --exclude-standard workload/) ]]; then
-  has_changes=true
-fi
-
-if ! $has_changes; then
-  echo "ℹ️  No changes detected in workload/, skipping disk update."
-  exit 0
-fi
-
-
 os_type="$(uname)"
 if [[ "$os_type" == "Linux" ]]; then
     echo "Reloading workload onto an existing disk..."

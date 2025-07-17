@@ -1,12 +1,14 @@
 #!/bin/bash
 
 DISK_FILE=$1
+CSP=$2
+VM_NAME=$3
 
 # quit when any error occurs
 set -Eeuo pipefail
 
 # Ensure all arguments are provided
-if [[ $# -lt 1 ]]; then
+if [[ $# -lt 3 ]]; then
     echo "❌ Error: Arguments are missing! (update_disk_locally.sh)"
     exit 1
 fi
@@ -25,7 +27,6 @@ trap 'exit 1' INT HUP TERM
 
 populate() {
     local DISK="$1"
-
     # Mount the disk onto a loop device
     sudo losetup -fP $DISK
     LOOP_DEV=$(losetup -j $DISK | awk -F: '{print $1}')
@@ -34,19 +35,26 @@ populate() {
     # Check that disk has the right partitioning before reloading workload
     PART_COUNT=$(lsblk -l $LOOP_DEV | grep -E "^\s*$(basename "$LOOP_DEV")p[0-9]+" | wc -l)
     if [ "$PART_COUNT" -eq 3 ]; then
-        # Reload workload
-        echo "ℹ️  Copying workload folder into /MNT/data/workload..."
+        # Mount partition 3
         mkdir -p /tmp/data
         sudo mount ${LOOP_DEV}p3 /tmp/data
-        WORKLOAD_FOLDER=./workload
 
-        sudo cp -r $WORKLOAD_FOLDER /tmp/data/
-        sudo chown -R 1000:1000 /tmp/data/$WORKLOAD_FOLDER
+        # Generate API token
+        API_TOKEN_FILE="_artifacts/${CSP}_${VM_NAME}_token"
+        echo "ℹ️  Generating API token..."
+        mkdir -p $(dirname $API_TOKEN_FILE)
+        openssl rand -hex 16 | tr -d '\n' > $API_TOKEN_FILE
 
+        tr -d '\n' < $API_TOKEN_FILE | sha256sum | cut -d ' ' -f1 > _artifacts/token_hash
+        sudo cp _artifacts/token_hash /tmp/data/token_hash
+        sudo chown 1000:1000 /tmp/data/token_hash
         sync
+        #Remove temporary file.
+        rm -f _artifacts/token_hash
+        # Unmount partition
         sudo umount ${LOOP_DEV}p3
 
-        echo "✅ Done! Workload data has been added to disk!"
+        echo "✅ Done! API token generated!"
     else
         echo "❌ Disk does not have the right partitioning scheme!"
     fi

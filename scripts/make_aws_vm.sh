@@ -4,6 +4,7 @@ VM_TYPE=$3
 BUCKET=$4
 ADDITIONAL_PORTS=$5
 DISK_FILE=aws_disk.vmdk
+UPLOADED_DISK_FILE="${VM_NAME}.vmdk"
 IMAGE_NAME="${VM_NAME}-image"
 export AWS_PAGER=""
 
@@ -31,7 +32,7 @@ if ! aws s3api head-bucket --bucket "$BUCKET" 2>/dev/null; then
 fi
 
 # Import disk into S3
-aws s3 cp $DISK_FILE s3://$BUCKET/vms/$DISK_FILE
+aws s3 cp $DISK_FILE s3://$BUCKET/vms/$UPLOADED_DISK_FILE
 
 # Create the container.json file
 cat <<EOF > container.json
@@ -40,7 +41,7 @@ cat <<EOF > container.json
   "Format": "vmdk",
   "UserBucket": {
     "S3Bucket": "$BUCKET",
-    "S3Key":   "vms/$DISK_FILE"
+    "S3Key":   "vms/$UPLOADED_DISK_FILE"
   }
 }
 EOF
@@ -195,9 +196,13 @@ PUBLIC_IP=$(aws ec2 describe-instances \
 
 echo "VM Public IP: $PUBLIC_IP"
 
-# Save public IP to a file for later use
+# Save artifacts for later use
 mkdir -p _artifacts
-echo "$PUBLIC_IP" > _artifacts/vm_ip
+echo "$PUBLIC_IP" > _artifacts/aws_${VM_NAME}_ip
+echo "$BUCKET" > _artifacts/aws_${VM_NAME}_bucket
+echo "$REGION" > _artifacts/aws_${VM_NAME}_region
+echo "$IMAGE_ID" > _artifacts/aws_${VM_NAME}_image
+echo "$SECGRP_ID" > _artifacts/aws_${VM_NAME}_secgrp
 
 set +x
 set +e

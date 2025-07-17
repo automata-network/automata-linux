@@ -5,6 +5,7 @@ VM_TYPE=$4
 BUCKET=$5
 ADDITIONAL_PORTS=$6
 COMPRESSED_FILE="gcp_disk.tar.gz"
+UPLOADED_COMPRESSED_FILE="${VM_NAME}.tar.gz"
 IMAGE_NAME="${VM_NAME}-image"
 
 # Ensure all arguments are provided
@@ -19,7 +20,8 @@ set -x
 # Create bucket if it does not exist
 if ! gsutil ls -b "gs://$BUCKET_NAME" >/dev/null 2>&1; then
   echo "Bucket gs://$BUCKET_NAME does not exist, creating it..."
-  if gcloud storage buckets create "$BUCKET_NAME" --location="$REGION"; then
+  BUCKET_REGION=$(echo "$ZONE" | sed 's/-[a-z]$//')
+  if gcloud storage buckets create "$BUCKET_NAME" --location="$BUCKET_REGION"; then
     echo "Bucket '$BUCKET_NAME' created successfully."
   else
     echo "Failed to create bucket '$BUCKET_NAME'."
@@ -28,7 +30,7 @@ if ! gsutil ls -b "gs://$BUCKET_NAME" >/dev/null 2>&1; then
 fi
 
 # Copy the image to bucket and create image
-gsutil cp $COMPRESSED_FILE gs://$BUCKET/$COMPRESSED_FILE
+gsutil cp $COMPRESSED_FILE gs://$BUCKET/$UPLOADED_COMPRESSED_FILE
 
 LOCATION="asia"
 if [[ "$ZONE" == *eu* ]]; then
@@ -46,7 +48,7 @@ if gcloud compute images describe $IMAGE_NAME --project="$PROJECT_ID" --quiet > 
 fi
 
 gcloud compute images create $IMAGE_NAME \
-  --source-uri gs://$BUCKET/$COMPRESSED_FILE \
+  --source-uri gs://$BUCKET/$UPLOADED_COMPRESSED_FILE \
   --project="$PROJECT_ID" \
   --guest-os-features "TDX_CAPABLE,SEV_SNP_CAPABLE,GVNIC,UEFI_COMPATIBLE,VIRTIO_SCSI_MULTIQUEUE" \
   --storage-location="$LOCATION" \
@@ -108,9 +110,11 @@ PUBLIC_IP=$(gcloud compute instances describe "$VM_NAME" \
 
 echo "Public IP: $PUBLIC_IP"
 
-# Save public IP to a file for later use
+# Save artifacts for later use
 mkdir -p _artifacts
-echo "$PUBLIC_IP" > _artifacts/vm_ip
+echo "$PUBLIC_IP" > _artifacts/gcp_${VM_NAME}_ip
+echo "$BUCKET_NAME" > _artifacts/gcp_${VM_NAME}_bucket
+echo "$ZONE" > _artifacts/gcp_${VM_NAME}_region
 
 set +x
 set +e

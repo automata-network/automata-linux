@@ -1,7 +1,16 @@
 #!/bin/bash
 
-IP_FILE="_artifacts/vm_ip"
-GOLDEN_MEASUREMENT_FILE="_artifacts/golden-measurement.json"
+CSP=$1
+VM_NAME=$2
+
+# Ensure all arguments are provided
+if [[ $# -lt 2 ]]; then
+    echo "❌ Error: Arguments are missing! (get_golden_measurements.sh)"
+    exit 1
+fi
+
+IP_FILE="_artifacts/${CSP}_${VM_NAME}_ip"
+GOLDEN_MEASUREMENT_FILE="_artifacts/golden-measurements/${CSP}-{$VM_NAME}.json"
 
 # quit when any error occurs
 set -Eeuo pipefail
@@ -12,6 +21,7 @@ if [[ ! -f "$IP_FILE" ]]; then
 fi
 
 VM_IP=$(<"$IP_FILE")  # Load IP from file
+mkdir -p "$(dirname "$GOLDEN_MEASUREMENT_FILE")"
 
 echo "ℹ️  Waiting for $VM_IP to be ready..."
 sleep 20 # Wait a while for the API to be ready

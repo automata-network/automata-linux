@@ -1,42 +1,51 @@
 #!/bin/bash
 
 usage() {
-    echo "Usage: ./cvm-cli <command> [options]"
+    echo "Usage: $0 <command> [options]"
     echo ""
     echo "Commands:"
     echo "  deploy-azure        Deploy a VM onto Azure using azure_disk.vhd."
     echo "  deploy-aws          Deploy a VM onto AWS using aws_disk.vmdk."
     echo "  deploy-gcp          Deploy a VM onto GCP using gcp_disk.tar.gz."
     echo "  update-workload     Update the workload on a deployed CVM."
+    echo "  update-disk         Update the workload on a specified disk file."
     echo ""
     echo "Arguments for 'deploy-azure' command:"
+    echo "  --resource_group <group>    The resource group for the deployment. Default: randomly generated"
+    echo "  --storage_account <name>    The name of a custom storage account. Default: randomly generated"
+    echo "  --gallery_name <name>       The name of a shared image gallery. Default: randomly generated"
     echo "  --vm_name <name>            The name of the virtual machine. Default: cvm_test"
-    echo "                              This value is used to automatically derive:"
-    echo "                                - resource_group   => <vm_name>_rg"
-    echo "                                - storage_account  => sanitized lowercase form (max 24 chars)"
-    echo "                                - gallery_name     => sanitized lowercase form (max 80 chars)"
-    echo ""
     echo "  --additional_ports <ports>  Comma-separated list of additional ports to open (e.g., \"80,443\"). Default: None"
     echo "  --vm_type <type>            The type of VM to be deployed. Default: \"Standard_DC2es_v5\""
     echo "  --region <region>           The region where the VM will be deployed. Default: \"East US 2\""
-    echo ""
-    echo "  ⚠️  Do NOT provide --resource_group, --storage_account, or --gallery_name."
-    echo "     These values are automatically derived from --vm_name to reduce config errors."
+    echo "  --add-workload              Update the workload on the disk before deploying. Just pass this flag without a value."
+    echo "                              If flag is not passed, the script will not update the workload onto the existing disk."
     echo ""
     echo "Arguments for 'deploy-gcp' command:"
-    echo "  --project_id <id>           The project id for the deployment. **Mandatory**"
-    echo "  --bucket <name>             The name of a gcp bucket to store the vm image to. **Mandatory**"
+    echo "  --project_id <id>           The project id for the deployment. Default: the default gcloud project"
+    echo "  --bucket <name>             The name of a gcp bucket to store the vm image to. Default: randomly generated"
     echo "  --additional_ports <ports>  Comma-separated list of additional ports to open (e.g., \"80,443\"). Default: None"
     echo "  --vm_name <name>            The name of the virtual machine. Default: cvm-test"
     echo "  --region <region>           The region where the VM will be deployed. Default: \"asia-southeast1-b\""
     echo "  --vm_type <type>            The type of VM to be deployed. Default: \"c3-standard-4\""
+    echo "  --add-workload              Update the workload on the disk before deploying. Just pass this flag without a value."
+    echo "                              If flag is not passed, the script will not update the workload onto the existing disk."
     echo ""
     echo "Arguments for 'deploy-aws' command:"
-    echo "  --bucket <name>             The name of an AWS bucket to store the vm image to. **Mandatory**"
+    echo "  --bucket <name>             The name of an AWS bucket to store the vm image to. Default: randomly generated"
     echo "  --additional_ports <ports>  Comma-separated list of additional ports to open (e.g., \"80,443\"). Default: None"
     echo "  --vm_name <name>            The name of the virtual machine. Default: cvm-test"
     echo "  --region <region>           The region where the VM will be deployed. Default: \"us-east-2\""
     echo "  --vm_type <type>            The type of VM to be deployed. Default: \"m6a.large\""
+    echo "  --add-workload              Update the workload on the disk before deploying. Just pass this flag without a value."
+    echo "                              If flag is not passed, the script will not update the workload onto the existing disk."
+    echo ""
+    echo "Additional arguments for the 'update-workload' command:"
+    echo "  <CSP>          The cloud service provider (aws, gcp, azure)"
+    echo "  <VM_NAME>      The name of the virtual machine to update"
+    echo ""
+    echo "Additional arguments for the 'update-disk' command:"
+    echo "  <DISK PATH>    The path to your disk image."
     echo ""
     exit 1
 }
@@ -55,33 +64,17 @@ case "$COMMAND" in
         REGION="us-east-2"
         VM_TYPE="m6a.large"
         ADDITIONAL_PORTS=""
+        ADD_WORKLOAD=false
 
         while [[ "$#" -gt 0 ]]; do
             case "$1" in
-                --additional_ports)
-                    ADDITIONAL_PORTS=$2
-                    shift 2
-                    ;;
-                --vm_name)
-                    VM_NAME=$2
-                    shift 2
-                    ;;
-                --region)
-                    REGION=$2
-                    shift 2
-                    ;;
-                --vm_type)
-                    VM_TYPE=$2
-                    shift 2
-                    ;;
-                --bucket)
-                    BUCKET=$2
-                    shift 2
-                    ;;
-                *)
-                    echo "Unknown argument: $1"
-                    usage
-                    ;;
+                --additional_ports) ADDITIONAL_PORTS=$2; shift 2 ;;
+                --vm_name) VM_NAME=$2; shift 2 ;;
+                --region) REGION=$2; shift 2 ;;
+                --vm_type) VM_TYPE=$2; shift 2 ;;
+                --bucket) BUCKET=$2; shift 2 ;;
+                --add-workload) ADD_WORKLOAD=true; shift ;;
+                *) echo "Unknown argument: $1"; usage ;;
             esac
         done
 
@@ -99,9 +92,13 @@ case "$COMMAND" in
         # Ensure the disk image exists
         ./scripts/get_disk_image.sh "aws"
         # Update the disk image with the latest workload
-        ./scripts/update_disk.sh "aws_disk.vmdk"
+        if [ "$ADD_WORKLOAD" = true ]; then
+            ./scripts/update_disk.sh "aws_disk.vmdk"
+        fi
         # Check that CSP CLI dependencies are installed
         ./scripts/check_csp_deps.sh "aws"
+        # Generate API token for disk
+        ./scripts/generate_api_token.sh "aws_disk.vmdk" "aws" "$VM_NAME"
         # Deploy the VM
         echo "Deploying aws_disk.vmdk with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
@@ -110,7 +107,7 @@ case "$COMMAND" in
         echo "🔹Bucket : $BUCKET"
         echo "🔹Additional Ports: $ADDITIONAL_PORTS"
         ./scripts/make_aws_vm.sh "$VM_NAME" "$REGION" "$VM_TYPE" "$BUCKET" "$ADDITIONAL_PORTS"
-        ./scripts/get_golden_measurements.sh
+        ./scripts/get_golden_measurements.sh "aws" "$VM_NAME"
         set +e
         ;;
 
@@ -124,37 +121,18 @@ case "$COMMAND" in
         # To specify additional workload ports, pass them as a comma-separated string
         # eg. "80,443"
         ADDITIONAL_PORTS=""
+        ADD_WORKLOAD=false
 
         while [[ "$#" -gt 0 ]]; do
             case "$1" in
-                --additional_ports)
-                    ADDITIONAL_PORTS=$2
-                    shift 2
-                    ;;
-                --vm_name)
-                    VM_NAME=$2
-                    shift 2
-                    ;;
-                --region)
-                    REGION=$2
-                    shift 2
-                    ;;
-                --project_id)
-                    PROJECT_ID=$2
-                    shift 2
-                    ;;
-                --vm_type)
-                    VM_TYPE=$2
-                    shift 2
-                    ;;
-                --bucket)
-                    BUCKET=$2
-                    shift 2
-                    ;;
-                *)
-                    echo "Unknown argument: $1"
-                    usage
-                    ;;
+                --additional_ports) ADDITIONAL_PORTS=$2; shift 2 ;;
+                --vm_name) VM_NAME=$2; shift 2 ;;
+                --region) REGION=$2; shift 2 ;;
+                --project_id) PROJECT_ID=$2; shift 2 ;;
+                --vm_type) VM_TYPE=$2; shift 2 ;;
+                --bucket) BUCKET=$2; shift 2 ;;
+                --add-workload) ADD_WORKLOAD=true; shift ;;
+                *) echo "Unknown argument: $1"; usage ;;
             esac
         done
 
@@ -177,29 +155,19 @@ case "$COMMAND" in
             echo "ℹ️  No bucket provided. Using generated bucket name: $BUCKET"
         fi
 
-        # === Derive region for GCS bucket creation ===
-        BUCKET_REGION=$(echo "$REGION" | sed 's/-[a-z]$//')
-
-        # === Ensure GCS bucket exists ===
-        if gsutil ls -b "gs://${BUCKET}" 2>/dev/null; then
-            echo "✅ Bucket gs://${BUCKET} already exists."
-        else
-            echo "⏳ Bucket gs://${BUCKET} does not exist. Creating it..."
-            gcloud storage buckets create "gs://${BUCKET}" --location="$BUCKET_REGION" || {
-                echo "❌ Failed to create bucket 'gs://${BUCKET}'."
-                exit 1
-            }
-        fi
-
         set -e
         # Check vm options
         ./scripts/check_options.sh "gcp" "$VM_TYPE" "$REGION"
         # Ensure the disk image exists
         ./scripts/get_disk_image.sh "gcp"
         # Update the disk image with the latest workload
-        ./scripts/update_disk.sh "gcp_disk.tar.gz"
+        if [ "$ADD_WORKLOAD" = true ]; then
+            ./scripts/update_disk.sh "gcp_disk.tar.gz"
+        fi
         # Check that CSP CLI dependencies are installed
         ./scripts/check_csp_deps.sh "gcp"
+        # Generate API token for disk
+        ./scripts/generate_api_token.sh "gcp_disk.tar.gz" "gcp" "$VM_NAME"
         # Deploy the VM
         echo "Deploying gcp_disk.tar.gz with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
@@ -209,7 +177,7 @@ case "$COMMAND" in
         echo "🔹Bucket : $BUCKET"
         echo "🔹Additional Ports: $ADDITIONAL_PORTS"
         ./scripts/make_gcp_vm.sh "$VM_NAME" "$REGION" "$PROJECT_ID" "$VM_TYPE" "$BUCKET" "$ADDITIONAL_PORTS"
-        ./scripts/get_golden_measurements.sh
+        ./scripts/get_golden_measurements.sh "gcp" "$VM_NAME"
         set +e
         ;;
 
@@ -218,7 +186,11 @@ case "$COMMAND" in
         VM_NAME="cvm_test"
         VM_TYPE="Standard_DC2es_v5"
         REGION="East US 2"
+        RESOURCE_GROUP=""
+        STORAGE_ACC=""
+        GALLERY_NAME=""
         ADDITIONAL_PORTS=""
+        ADD_WORKLOAD=false
 
         # Parse CLI args
         while [[ "$#" -gt 0 ]]; do
@@ -227,27 +199,26 @@ case "$COMMAND" in
                 --vm_name) VM_NAME=$2; shift 2 ;;
                 --vm_type) VM_TYPE=$2; shift 2 ;;
                 --region) REGION=$2; shift 2 ;;
-                --resource_group|--storage_account|--gallery_name)
-                    echo "❌ Do not pass --$1 directly. It is derived from --vm_name."
-                    exit 1
-                    ;;
-                *)
-                    echo "Unknown argument: $1"
-                    usage
-                    ;;
+                --resource_group) RESOURCE_GROUP=$2; shift 2;;
+                --storage_account) STORAGE_ACC=$2; shift 2 ;;
+                --gallery_name) GALLERY_NAME=$2; shift 2 ;;
+                --add-workload) ADD_WORKLOAD=true; shift ;;
+                *) echo "Unknown argument: $1"; usage ;;
             esac
         done
 
         # === Derive from VM_NAME ===
-        RESOURCE_GROUP="${VM_NAME}_rg"
-
-        STORAGE_ACC=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9' | cut -c1-24)
-        while [[ ${#STORAGE_ACC} -lt 3 ]]; do
-            STORAGE_ACC="${STORAGE_ACC}0"
-        done
-        GALLERY_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9_.' | sed 's/^[_.]*//;s/[_.]*$//' | cut -c1-80)
+        if [[ -z "$RESOURCE_GROUP" ]]; then
+          RESOURCE_GROUP="${VM_NAME}_Rg"
+        fi
+        if [[ -z "$STORAGE_ACC" ]]; then
+            STORAGE_ACC=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9' | cut -c1-24)
+            while [[ ${#STORAGE_ACC} -lt 3 ]]; do
+                STORAGE_ACC="${STORAGE_ACC}0"
+            done
+        fi
         if [[ -z "$GALLERY_NAME" ]]; then
-            GALLERY_NAME="default-gallery"
+            GALLERY_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9_.' | sed 's/^[_.]*//;s/[_.]*$//' | cut -c1-80)
         fi
 
 
@@ -257,9 +228,13 @@ case "$COMMAND" in
         # Ensure the disk image exists
         ./scripts/get_disk_image.sh "azure"
         # Update the disk image with the latest workload
-        ./scripts/update_disk.sh "azure_disk.vhd"
+        if [ "$ADD_WORKLOAD" = true ]; then
+            ./scripts/update_disk.sh "azure_disk.vhd"
+        fi
         # Check that CSP CLI dependencies are installed
         ./scripts/check_csp_deps.sh "azure"
+        # Generate API token for disk
+        ./scripts/generate_api_token.sh "azure_disk.vhd" "azure" "$VM_NAME"
         # Deploy the VM
         echo "Deploying azure_disk.vhd with the following parameters:"
         echo "🔹VM Name: $VM_NAME"
@@ -270,16 +245,34 @@ case "$COMMAND" in
         echo "🔹Storage Account: $STORAGE_ACC"
         echo "🔹Shared Image Gallery: $GALLERY_NAME"
         ./scripts/make_azure_vm.sh "$VM_NAME" "$RESOURCE_GROUP" "$VM_TYPE" "$ADDITIONAL_PORTS" "$STORAGE_ACC" "$GALLERY_NAME" "$REGION"
-        ./scripts/get_golden_measurements.sh
+        ./scripts/get_golden_measurements.sh "azure" "$VM_NAME"
         set +e
         ;;
 
     update-workload)
+        CSP=$1; shift 1
+        VM_NAME=$1; shift 1
+        if [[ -z "$CSP" || -z "$VM_NAME" ]]; then
+            echo "❌ Please provide the CSP (aws, gcp or azure) and VM name."
+            echo "❌ Usage: $0 update-workload <CSP> <VM_NAME>"
+            exit 1
+        fi
         set -e
-        ./scripts/update_remote_workload.sh
+        ./scripts/update_remote_workload.sh "$CSP" "$VM_NAME"
         echo "Updating golden measurements..."
-        ./scripts/get_golden_measurements.sh
+        ./scripts/get_golden_measurements.sh "$CSP" "$VM_NAME"
         set +e
+        ;;
+
+    update-disk)
+        DISK_FILE=$1; shift 1
+        if [[ -z "$DISK_FILE" ]]; then
+            echo "❌ Please provide the disk file (e.g., azure_disk.vhd)"
+            echo "❌ Usage: $0 update-workload <DISK_FILE>"
+            exit 1
+        fi
+        echo "Updating workload on disk: $DISK_FILE"
+        ./scripts/update_disk.sh "$DISK_FILE"
         ;;
 
     *)
