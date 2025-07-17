@@ -85,10 +85,17 @@ case "$COMMAND" in
 
         # === Derive bucket name if not provided ===
         if [[ -z "$BUCKET" ]]; then
-            SANITIZED_VM_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
-            RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w6 | head -n1)
-            BUCKET="${SANITIZED_VM_NAME:-cvm}${RANDOM_SUFFIX}"
-            echo "ℹ️  No bucket provided. Using generated bucket name: $BUCKET"
+            # Check whether bucket exists in _artifacts, use that first, if not generate a new one
+            if [[ -f "./_artifacts/aws_${VM_NAME}_bucket" ]]; then
+                BUCKET=$(<"_artifacts/aws_${VM_NAME}_bucket")
+                echo "ℹ️  Using existing bucket name from _artifacts: $BUCKET"
+            else
+                # Generate a new bucket name
+                SANITIZED_VM_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
+                RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w6 | head -n1)
+                BUCKET="${SANITIZED_VM_NAME:-cvm}${RANDOM_SUFFIX}"
+                echo "ℹ️  No bucket provided. Using generated bucket name: $BUCKET"
+            fi
         fi
 
         set -e
@@ -154,10 +161,17 @@ case "$COMMAND" in
 
         # === Derive bucket name if not provided ===
         if [[ -z "$BUCKET" ]]; then
-            SANITIZED_VM_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
-            RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w6 | head -n1)
-            BUCKET="${SANITIZED_VM_NAME:-cvm}${RANDOM_SUFFIX}"
-            echo "ℹ️  No bucket provided. Using generated bucket name: $BUCKET"
+            # Check whether bucket exists in _artifacts, use that first, if not generate a new one
+            if [[ -f "./_artifacts/gcp_${VM_NAME}_bucket" ]]; then
+                BUCKET=$(<"_artifacts/gcp_${VM_NAME}_bucket")
+                echo "ℹ️  Using existing bucket name from _artifacts: $BUCKET"
+            else
+                # Generate a new bucket name
+                SANITIZED_VM_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
+                RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w6 | head -n1)
+                BUCKET="${SANITIZED_VM_NAME:-cvm}${RANDOM_SUFFIX}"
+                echo "ℹ️  No bucket provided. Using generated bucket name: $BUCKET"
+            fi
         fi
 
         set -e
@@ -212,25 +226,49 @@ case "$COMMAND" in
             esac
         done
 
+        set -e
+        # Check that CSP CLI dependencies are installed
+        ./scripts/check_csp_deps.sh "azure"
+
         # === Derive from VM_NAME ===
         if [[ -z "$RESOURCE_GROUP" ]]; then
           RESOURCE_GROUP="${VM_NAME}_Rg"
         fi
+
         RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w4 | head -n1)
         if [[ -z "$STORAGE_ACC" ]]; then
-            STORAGE_ACC=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9' | cut -c1-20)
-            STORAGE_ACC="${STORAGE_ACC}${RANDOM_SUFFIX}"
-            while [[ ${#STORAGE_ACC} -lt 3 ]]; do
-                STORAGE_ACC="${STORAGE_ACC}0"
-            done
+            # Get the name of the first storage account (if any)
+            STORAGE_ACC=$(az storage account list --resource-group "$RESOURCE_GROUP" --query "[0].name" --output tsv)
+            if [[ -n "$STORAGE_ACC" ]]; then
+                echo "Found storage account: $STORAGE_ACC"
+            else
+                STORAGE_ACC=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9' | cut -c1-20)
+                STORAGE_ACC="${STORAGE_ACC}${RANDOM_SUFFIX}"
+                while [[ ${#STORAGE_ACC} -lt 3 ]]; do
+                    STORAGE_ACC="${STORAGE_ACC}0"
+                done
+            fi
         fi
         if [[ -z "$GALLERY_NAME" ]]; then
-            GALLERY_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9_.' | sed 's/^[_.]*//;s/[_.]*$//' | cut -c1-80)
-            GALLERY_NAME="${GALLERY_NAME}${RANDOM_SUFFIX}"
+            # Get the name of the first Shared Image Gallery (if any)
+            GALLERY_NAME=$(az sig list --resource-group "$RESOURCE_GROUP" --query "[0].name" --output tsv)
+            if [[ -n "$GALLERY_NAME" ]]; then
+                echo "Found shared image gallery: $GALLERY_NAME"
+            else
+                GALLERY_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9_.' | sed 's/^[_.]*//;s/[_.]*$//' | cut -c1-80)
+                GALLERY_NAME="${GALLERY_NAME}${RANDOM_SUFFIX}"
+            fi
+        fi
+        # In case the resource group exists, ensure the region matches
+        LOCATION=$(az group show --name "$RESOURCE_GROUP" --query "location" --output tsv 2>/dev/null)
+        if [[ -n "$LOCATION" ]]; then
+            FRIENDLY_LOCATION=$(az account list-locations --query "[?name=='$LOCATION'].displayName" --output tsv)
+            if [[ "$FRIENDLY_LOCATION" != "$REGION" ]]; then
+                echo "Resource group is in $FRIENDLY_LOCATION. Updating REGION to match."
+                REGION="$FRIENDLY_LOCATION"
+            fi
         fi
 
-
-        set -e
         # Check vm options
         ./scripts/check_options.sh "azure" "$VM_TYPE" "$REGION"
         # Ensure the disk image exists
@@ -239,8 +277,6 @@ case "$COMMAND" in
         if [ "$ADD_WORKLOAD" = true ]; then
             ./scripts/update_disk.sh "azure_disk.vhd"
         fi
-        # Check that CSP CLI dependencies are installed
-        ./scripts/check_csp_deps.sh "azure"
         # Generate API token for disk
         ./scripts/generate_api_token.sh "azure_disk.vhd" "azure" "$VM_NAME"
         # Deploy the VM
