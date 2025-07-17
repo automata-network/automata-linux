@@ -10,7 +10,7 @@ if [[ $# -lt 2 ]]; then
 fi
 
 IP_FILE="_artifacts/${CSP}_${VM_NAME}_ip"
-GOLDEN_MEASUREMENT_FILE="_artifacts/golden-measurements/${CSP}-{$VM_NAME}.json"
+GOLDEN_MEASUREMENT_FILE="_artifacts/golden-measurements/${CSP}-${VM_NAME}.json"
 
 # quit when any error occurs
 set -Eeuo pipefail
