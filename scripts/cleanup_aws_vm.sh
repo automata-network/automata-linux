@@ -10,6 +10,7 @@ if [[ $# -lt 1 ]]; then
     exit 1
 fi
 
+export AWS_PAGER=""
 BUCKET=$(<"_artifacts/aws_${VM_NAME}_bucket")
 AMI_ID=$(<"_artifacts/aws_${VM_NAME}_image")
 REGION=$(<"_artifacts/aws_${VM_NAME}_region")
@@ -30,8 +31,8 @@ SNAPSHOTS=$(aws ec2 describe-images --image-ids "$AMI_ID" --region "$REGION" \
   --query 'Images[0].BlockDeviceMappings[*].Ebs.SnapshotId' \
   --output text)
 # Delete the AMI
-aws ec2 deregister-image --image-id "$IMAGE_ID" --region "$REGION"
-echo "✅ AMI '$IMAGE_ID' deregistered."
+aws ec2 deregister-image --image-id "$AMI_ID" --region "$REGION"
+echo "✅ AMI '$AMI_ID' deregistered."
 # Delete the snapshots
 for SNAP_ID in $SNAPSHOTS; do
   echo "Deleting snapshot $SNAP_ID"

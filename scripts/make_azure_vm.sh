@@ -212,6 +212,8 @@ echo "Public IP of VM: $PUBLIC_IP"
 mkdir -p _artifacts
 echo "$PUBLIC_IP" > _artifacts/azure_${VM_NAME}_ip
 echo "$RG" > _artifacts/azure_${VM_NAME}_resource_group
+echo "$GALLERY_NAME" > _artifacts/azure_${VM_NAME}_gallery
+echo "$STORAGE_ACC" > _artifacts/azure_${VM_NAME}_storage_account
 
 set +x
 set +e
