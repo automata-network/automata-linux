@@ -18,13 +18,13 @@ set -e
 set -x
 
 # Create bucket if it does not exist
-if ! gsutil ls -b "gs://$BUCKET_NAME" >/dev/null 2>&1; then
-  echo "Bucket gs://$BUCKET_NAME does not exist, creating it..."
+if ! gsutil ls -b "gs://$BUCKET" >/dev/null 2>&1; then
+  echo "Bucket gs://$BUCKET does not exist, creating it..."
   BUCKET_REGION=$(echo "$ZONE" | sed 's/-[a-z]$//')
-  if gcloud storage buckets create "$BUCKET_NAME" --location="$BUCKET_REGION"; then
-    echo "Bucket '$BUCKET_NAME' created successfully."
+  if gcloud storage buckets create "gs://$BUCKET" --location="$BUCKET_REGION"; then
+    echo "Bucket '$BUCKET' created successfully."
   else
-    echo "Failed to create bucket '$BUCKET_NAME'."
+    echo "Failed to create bucket '$BUCKET'."
     exit 1
   fi
 fi
@@ -113,8 +113,9 @@ echo "Public IP: $PUBLIC_IP"
 # Save artifacts for later use
 mkdir -p _artifacts
 echo "$PUBLIC_IP" > _artifacts/gcp_${VM_NAME}_ip
-echo "$BUCKET_NAME" > _artifacts/gcp_${VM_NAME}_bucket
+echo "$BUCKET" > _artifacts/gcp_${VM_NAME}_bucket
 echo "$ZONE" > _artifacts/gcp_${VM_NAME}_region
+echo "$PROJECT_ID" > _artifacts/gcp_${VM_NAME}_project
 
 set +x
 set +e

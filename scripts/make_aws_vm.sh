@@ -203,6 +203,7 @@ echo "$BUCKET" > _artifacts/aws_${VM_NAME}_bucket
 echo "$REGION" > _artifacts/aws_${VM_NAME}_region
 echo "$IMAGE_ID" > _artifacts/aws_${VM_NAME}_image
 echo "$SECGRP_ID" > _artifacts/aws_${VM_NAME}_secgrp
+echo "$INSTANCE_ID" > _artifacts/aws_${VM_NAME}_vmid
 
 set +x
 set +e
