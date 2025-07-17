@@ -77,7 +77,7 @@ TODO
 ### 4. Configure the cvm-agent and Security Policy
 The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks. The tasks that it is allowed to perform depends on a security policy, which can be configured by the user.
 
-The default security policy can be found in [workload/config/cvm_agent/cvm_agent_policy.json](workload/config/cvm_agent/cvm_agent_policy.json):
+The default security policy can be found in [workload/config/cvm_agent/cvm_agent_policy.json](../workload/config/cvm_agent/cvm_agent_policy.json):
 ```json
 {
     "cvm_config": {
@@ -123,72 +123,60 @@ The default security policy can be found in [workload/config/cvm_agent/cvm_agent
     }
 }
 ```
-The default policy is conservative, prioritizes security and can be used as it is. However, if you wish to change any settings, a detailed description of each policy option can be found in [this document](docs/cvm-agent-policy.md).
+The default policy is conservative, prioritizes security and can be used as it is. However, if you wish to change any settings, a detailed description of each policy option can be found in [this document](cvm-agent-policy.md).
 
 ## Deploying the workload onto the Cloud Provider
 Run the CLI to deploy the disk to the cloud provider.
 
 ### Deploying to Azure
 ```bash
-./cvm-cli deploy-azure --vm_name <name> --vm_type "<type>" --region "<region>" --additional_ports "80,443"
+./cvm-cli deploy-azure --add-workload --vm_name <name> --vm_type "<type>" --region "<region>" --additional_ports "80,443"
 ```
+
+**If you need to upload your workload onto the disk, please run this command with the `--add-workload` parameter.**
+
+
 The following parameters are optional, and default to:
 - vm_name: cvm_test
 - vm_type: Standard_DC2es_v5
 - region: East US 2
 - additional_ports: “”
-
-> [!NOTE]
-> `--vm_name` the name of the vm is used to automatically derive the following Azure resources:
->  - `resource_group`: `<vm_name>_rg`
->  - `storage_account`: Lowercase alphanumeric version of `<vm_name>` (max 24 characters)
->  - `gallery_name`: Lowercase alphanumeric + hyphens version of `<vm_name>` (max 80 characters)
->  To ensure valid derived names, vm_nameL:
->    - Must start with a **letter**
->    - Use only **letters**, **numbers**, and **hyphens**
->    - Avoid special characters (e.g., `_`, `!`, `@`) — they will be stripped or sanitized
->    - Keep it short — recommended ≤ 20 characters to avoid downstream name truncation
-
-#### Examples
-
-| `--vm_name` | Derived `resource_group` | Derived `storage_account` | Derived `gallery_name` |
-|-------------|---------------------------|----------------------------|--------------------------|
-| `tdx-demo`  | `tdx-demo_rg`             | `tdxdemo`                  | `tdx-demo`               |
-| `MyCvm01`   | `MyCvm01_rg`              | `mycvm01`                  | `mycvm01`                |
-| `a!@`       | `a!@_rg`                  | `a00`                      | `a`                      |
-
+- resource_group: Depends on the vm_name
+- storage_account: Randomly generated
+- gallery_name: Randomly generated
 
 
 ### Deploying to GCP
 ```bash
-./cvm-cli deploy-gcp --additional_ports "80,443" --vm_name <name> --region "<region>" --project_id <project id> --bucket <bucket_name> --vm_type "<type>"
+./cvm-cli deploy-gcp --add-workload --additional_ports "80,443" --vm_name <name> --region "<region>" --project_id <project id> --bucket <bucket_name> --vm_type "<type>"
 ```
 
-The following **must** be provided:
-- project_id: Name of the project to deploy into
-- bucket : Name of the GCP bucket which will be used to temporarily store the disk image.
-  - **The name must be globally unique across GCP. The scripts will create it if it does not exist.**
+
+**If you need to upload your workload onto the disk, please run this command with the `--add-workload` parameter.**
+
 
 The following parameters are optional, and default to:
 - vm_name: cvm-test
 - region: asia-southeast1-b
 - vm_type: c3-standard-4
 - additional_ports: “”
+- project_id: Uses your default gcloud project
+- bucket: Randomly generated. 
 
 ### Deploying to AWS
 ```bash
-./cvm-cli deploy-aws --additional_ports "80,443" --vm_name <name> --region "<region>" --bucket <bucket_name> --vm_type "<type>"
+./cvm-cli deploy-aws --add-workload --additional_ports "80,443" --vm_name <name> --region "<region>" --bucket <bucket_name> --vm_type "<type>"
 ```
 
-The following **must** be provided:
-- bucket : Name of the S3 bucket which will be used to temporarily store the disk image.
-  - **The name must be globally unique across AWS. The scripts will create it if it does not exist.**
+**If you need to upload your workload onto the disk, please run this command with the `--add-workload` parameter.**
+
 
 The following parameters are optional, and default to:
 - vm_name: cvm-test
 - region: us-east-2
 - vm_type: m6a.large
 - additional_ports: “”
+- bucket: Random name will be generated
 
 > [!Warning]
 > AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). Please reboot the VM if you do not see a file called `_artifacts/golden-measurement.json` after the deployment script has completed. Once the VM has been rebooted, you can manually run `./scripts/get_golden_measurements.sh` to get the golden measurement.

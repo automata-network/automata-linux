@@ -1,7 +1,7 @@
 #!/bin/bash
 
-CSP = $1
-VM_NAME = $2
+CSP=$1
+VM_NAME=$2
 
 # Ensure all arguments are provided
 if [[ $# -lt 2 ]]; then
