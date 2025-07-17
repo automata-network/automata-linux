@@ -211,14 +211,17 @@ case "$COMMAND" in
         if [[ -z "$RESOURCE_GROUP" ]]; then
           RESOURCE_GROUP="${VM_NAME}_Rg"
         fi
+        RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w4 | head -n1)
         if [[ -z "$STORAGE_ACC" ]]; then
-            STORAGE_ACC=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9' | cut -c1-24)
+            STORAGE_ACC=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9' | cut -c1-20)
+            STORAGE_ACC="${STORAGE_ACC}${RANDOM_SUFFIX}"
             while [[ ${#STORAGE_ACC} -lt 3 ]]; do
                 STORAGE_ACC="${STORAGE_ACC}0"
             done
         fi
         if [[ -z "$GALLERY_NAME" ]]; then
             GALLERY_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9_.' | sed 's/^[_.]*//;s/[_.]*$//' | cut -c1-80)
+            GALLERY_NAME="${GALLERY_NAME}${RANDOM_SUFFIX}"
         fi
 
 
