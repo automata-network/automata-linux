@@ -8,7 +8,6 @@
   - [4. Configure the cvm-agent and Security Policy](#4-configure-the-cvm-agent-and-security-policy)
 - [Deploying the workload onto the Cloud Provider](#deploying-the-workload-onto-the-cloud-provider)
   - [Deploying to Azure](#deploying-to-azure)
-    - [Examples](#examples)
   - [Deploying to GCP](#deploying-to-gcp)
   - [Deploying to AWS](#deploying-to-aws)
 - [Signing and Publishing the Golden Measurements](#signing-and-publishing-the-golden-measurements)
@@ -203,7 +202,7 @@ The following parameters are optional, and default to:
 - bucket: Random name will be generated
 
 > [!Warning]
-> AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). Please reboot the VM if you do not see a file called `_artifacts/golden-measurement.json` after the deployment script has completed. Once the VM has been rebooted, you can manually run `./scripts/get_golden_measurements.sh` to get the golden measurement.
+> AWS currently has a known issue where the [boot process may intermittently hang for an SEV-SNP VM](https://bugs.launchpad.net/cloud-images/+bug/2076217). Please reboot the VM if you do not see a file called `_artifacts/golden-measurement.json` after the deployment script has completed. Once the VM has been rebooted, you can manually run `./scripts/get_golden_measurements.sh <csp> <vm-name>` to get the golden measurement.
 
 
 ## Signing and Publishing the Golden Measurements
@@ -333,5 +332,5 @@ Please refer to [this step](#3-modify-the-workload-folder) for details.
 ### 3. Update the workload
 Run the following command to upload your updated workload to your deployed CVM:
 ```bash
-./cvm-cli update-workload
+./cvm-cli update-workload <csp> <vm-name>
 ```
