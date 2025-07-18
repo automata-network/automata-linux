@@ -98,7 +98,7 @@ case "$COMMAND" in
             fi
         fi
 
-        set -e
+        set -euo pipefail
         # Check vm options
         ./scripts/check_options.sh "aws" "$VM_TYPE" "$REGION"
         # Ensure the disk image exists
@@ -120,6 +120,7 @@ case "$COMMAND" in
         echo "🔹Additional Ports: $ADDITIONAL_PORTS"
         ./scripts/make_aws_vm.sh "$VM_NAME" "$REGION" "$VM_TYPE" "$BUCKET" "$ADDITIONAL_PORTS"
         ./scripts/get_golden_measurements.sh "aws" "$VM_NAME"
+        echo "✨ Deployment complete! Your VM Name: $VM_NAME"
         set +e
         ;;
 
@@ -174,7 +175,7 @@ case "$COMMAND" in
             fi
         fi
 
-        set -e
+        set -euo pipefail
         # Check vm options
         ./scripts/check_options.sh "gcp" "$VM_TYPE" "$REGION"
         # Ensure the disk image exists
@@ -197,6 +198,7 @@ case "$COMMAND" in
         echo "🔹Additional Ports: $ADDITIONAL_PORTS"
         ./scripts/make_gcp_vm.sh "$VM_NAME" "$REGION" "$PROJECT_ID" "$VM_TYPE" "$BUCKET" "$ADDITIONAL_PORTS"
         ./scripts/get_golden_measurements.sh "gcp" "$VM_NAME"
+        echo "✨ Deployment complete! Your VM Name: $VM_NAME"
         set +e
         ;;
 
@@ -226,7 +228,7 @@ case "$COMMAND" in
             esac
         done
 
-        set -e
+        set -euo pipefail
         # Check that CSP CLI dependencies are installed
         ./scripts/check_csp_deps.sh "azure"
 
@@ -238,7 +240,7 @@ case "$COMMAND" in
         RANDOM_SUFFIX=$(openssl rand -base64 32 | tr -dc 'a-z0-9' | head -c4)
         if [[ -z "$STORAGE_ACC" ]]; then
             # Get the name of the first storage account (if any)
-            STORAGE_ACC=$(az storage account list --resource-group "$RESOURCE_GROUP" --query "[0].name" --output tsv)
+            STORAGE_ACC=$(az storage account list --resource-group "$RESOURCE_GROUP" --query "[0].name" --output tsv 2>/dev/null || true)
             if [[ -n "$STORAGE_ACC" ]]; then
                 echo "Found storage account: $STORAGE_ACC"
             else
@@ -251,7 +253,7 @@ case "$COMMAND" in
         fi
         if [[ -z "$GALLERY_NAME" ]]; then
             # Get the name of the first Shared Image Gallery (if any)
-            GALLERY_NAME=$(az sig list --resource-group "$RESOURCE_GROUP" --query "[0].name" --output tsv)
+            GALLERY_NAME=$(az sig list --resource-group "$RESOURCE_GROUP" --query "[0].name" --output tsv 2>/dev/null || true)
             if [[ -n "$GALLERY_NAME" ]]; then
                 echo "Found shared image gallery: $GALLERY_NAME"
             else
@@ -260,7 +262,7 @@ case "$COMMAND" in
             fi
         fi
         # In case the resource group exists, ensure the region matches
-        LOCATION=$(az group show --name "$RESOURCE_GROUP" --query "location" --output tsv 2>/dev/null)
+        LOCATION=$(az group show --name "$RESOURCE_GROUP" --query "location" --output tsv 2>/dev/null || true)
         if [[ -n "$LOCATION" ]]; then
             FRIENDLY_LOCATION=$(az account list-locations --query "[?name=='$LOCATION'].displayName" --output tsv)
             if [[ "$FRIENDLY_LOCATION" != "$REGION" ]]; then
@@ -290,6 +292,7 @@ case "$COMMAND" in
         echo "🔹Shared Image Gallery: $GALLERY_NAME"
         ./scripts/make_azure_vm.sh "$VM_NAME" "$RESOURCE_GROUP" "$VM_TYPE" "$ADDITIONAL_PORTS" "$STORAGE_ACC" "$GALLERY_NAME" "$REGION"
         ./scripts/get_golden_measurements.sh "azure" "$VM_NAME"
+        echo "✨ Deployment complete! Your VM Name: $VM_NAME"
         set +e
         ;;
 
@@ -301,7 +304,7 @@ case "$COMMAND" in
             echo "❌ Usage: $0 update-workload <CSP> <VM_NAME>"
             exit 1
         fi
-        set -e
+        set -euo pipefail
         ./scripts/update_remote_workload.sh "$CSP" "$VM_NAME"
         echo "Updating golden measurements..."
         ./scripts/get_golden_measurements.sh "$CSP" "$VM_NAME"

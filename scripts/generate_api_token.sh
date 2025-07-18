@@ -18,7 +18,7 @@ if [[ "$os_type" == "Linux" ]]; then
     echo "⌛ Adding API token to disk..."
     ./scripts/generate_api_token_locally.sh "$DISK_FILE" "$CSP" "$VM_NAME"
 elif [[ "$os_type" == "Darwin" ]]; then
-    echo "🔁 Using Multipass add API token to disk..."
+    echo "🔁 Using Multipass to add API token to disk..."
     bash "./scripts/generate_api_token_multipass.sh" "$DISK_FILE" "$CSP" "$VM_NAME"
 else
     echo "Unsupported OS: $os_type"

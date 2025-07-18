@@ -23,15 +23,16 @@ if ! command -v multipass &>/dev/null; then
   brew install --cask multipass
 fi
 
-# Step 2: Launch VM if it doesn't exist
-if multipass info "$VM_NAME" &>/dev/null; then
-  echo "⚠️ VM '$VM_NAME' already exists. Re-creating clean environment..."
-  multipass delete "$VM_NAME"
-  multipass purge
-fi
+# Step 2: Launch VM if it doesn't exist or is stopped
+STATUS=$(multipass info "$VM_NAME" 2>/dev/null | grep '^State:' | awk '{print $2}')
 
-echo "🚀 Launching VM '$VM_NAME'..."
-multipass launch jammy --name "$VM_NAME" --disk 10G --memory 4G --cpus 2
+if [[ "$STATUS" == "Stopped" ]]; then
+  echo "🔌 Instance '$VM_NAME' exists but is stopped. Starting it..."
+  multipass start "$VM_NAME"
+elif [[ -z "$STATUS" ]]; then
+  echo "🚀 Launching VM '$VM_NAME'..."
+  multipass launch jammy --name "$VM_NAME" --disk 10G --memory 4G --cpus 2
+fi
 
 # Step 3: Validate disk exists
 if [[ ! -f "$DISK_FILE" ]]; then
@@ -39,59 +40,53 @@ if [[ ! -f "$DISK_FILE" ]]; then
   exit 1
 fi
 
-# Step 4: Create clean temp copy (excluding .git)
-echo "🧹 Creating clean temp copy (excluding .git)..."
-TMP_DIR=$(mktemp -d)
-TMP_NAME=$(basename "$TMP_DIR")
-rsync -a --exclude=".git" "$PROJECT_DIR/" "$TMP_DIR/$VM_PROJECT_DIR"
-
-# Step 5: Checksum before update
+# Step 4: Checksum before update
 echo "🔍 Calculating checksum before update..."
 BEFORE_SUM=$(shasum -a 256 "$DISK_FILE" | awk '{print $1}')
 echo "Before: $BEFORE_SUM"
 
-# Step 6: Transfer to VM
+# Step 5: Transfer to VM
 echo "📤 Transferring project to VM..."
-multipass transfer -r "$TMP_DIR" "$VM_NAME:"
+VM_PROJECT_PATH="/tmp/$VM_PROJECT_DIR"
+multipass exec "$VM_NAME" -- bash -c "
+  mkdir -p $VM_PROJECT_PATH
+"
+multipass transfer -r "scripts/" "$DISK_FILE" "$VM_NAME:$VM_PROJECT_PATH"
 
-VM_TMP_NAME=$(basename "$TMP_DIR")
-VM_PROJECT_PATH="$VM_TMP_NAME/$VM_PROJECT_DIR"
-
-# Step 7: Add API token to VM.
+# Step 6: Add API token to VM.
 echo "🛠️ Running update logic inside VM..."
 multipass exec "$VM_NAME" -- bash -c "
   set -euo pipefail
-  cd ~/$VM_PROJECT_PATH
+  cd $VM_PROJECT_PATH
   chmod +x ./scripts/generate_api_token_locally.sh
   echo '▶️ Running: ./scripts/generate_api_token_locally.sh $DISK_FILENAME $CSP $CSP_VM_NAME'
   ./scripts/generate_api_token_locally.sh $DISK_FILENAME $CSP $CSP_VM_NAME
 "
 
-# Step 8: Retrieve updated disk
+# Step 7: Retrieve updated disk
 echo "📥 Retrieving updated disk..."
 multipass transfer "$VM_NAME:$VM_PROJECT_PATH/$DISK_FILENAME" "$UPDATED_DISK"
 
-# Step 9: Retrieve api_token
+# Step 8: Retrieve api_token
 echo "📥 Retrieving API token..."
 API_TOKEN_FILE="_artifacts/${CSP}_${CSP_VM_NAME}_token"
 mkdir -p "$(dirname "$API_TOKEN_FILE")"
 multipass transfer "$VM_NAME:$VM_PROJECT_PATH/$API_TOKEN_FILE" "$API_TOKEN_FILE"
 
-# Step 10: Checksum after update
+# Step 9: Checksum after update
 echo "🔍 Calculating checksum after update..."
 AFTER_SUM=$(shasum -a 256 "$UPDATED_DISK" | awk '{print $1}')
 echo "After:  $AFTER_SUM"
 
-# Step 11: Compare
+# Step 10: Compare
 if [[ "$BEFORE_SUM" == "$AFTER_SUM" ]]; then
   echo "❌ No change — Failed to add API token!"
 else
   echo "✅ API token successfully added to disk!"
 fi
 
-# Step 12: Cleanup
-rm -rf "$TMP_DIR"
-
-echo "🧹 Cleaning up Multipass VM..."
-multipass delete "$VM_NAME"
-multipass purge
+# Step 11: Cleanup
+echo "🧹 Stopping Multipass VM..."
+multipass stop "$VM_NAME"
+# multipass delete "$VM_NAME"
+# multipass purge
