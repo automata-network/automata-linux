@@ -3,3 +3,7 @@ aws_disk.vmdk
 gcp_disk.tar.gz
 
 _artifacts/*
+*.pem
+*.json
+*.key
+*.pub
