@@ -24,6 +24,7 @@
   - [1. Remember to sign the docker images that will be used](#1-remember-to-sign-the-docker-images-that-will-be-used)
   - [2. Update the `workload/` folder:](#2-update-the-workload-folder)
   - [3. Update the workload](#3-update-the-workload)
+- [Adding your workload to a base disk image to distribute to other users](#adding-your-workload-to-a-base-disk-image-to-distribute-to-other-users)
 
 
 
@@ -76,13 +77,17 @@ For image signing and verification, please check out [this document](cvm-agent-i
   > - Use a **remote secret management service**, such as:
   >   - [Key Broker Service](https://docs.trustauthority.intel.com/main/articles/articles/ita/key-broker-service.html?tabs=passport-verification-mode)
   > - Fetch secrets at runtime **only after attestation is verified**.
-- Additionally, if you wish to load local images, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded.
-
-
 
 > [!IMPORTANT]
 > If you have created any asymmetric keypairs in [Step 1](#1-create-asymmetric-keypairs), please also place the public keys into `workload/config/`.
 > This is to ensure that the public keys will also be measured into the TPM PCR, and prevents against tampering.
+
+> [!Caution]
+> Remember to build your container images for X86_64, especially if you're using an ARM64 machine!
+
+
+> > [!Note]
+> If you wish to load container images that are not published to any container registry, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded at runtime.
 
 
 ### 4. Configure the cvm-agent and Security Policy
@@ -333,4 +338,22 @@ Please refer to [this step](#3-modify-the-workload-folder) for details.
 Run the following command to upload your updated workload to your deployed CVM:
 ```bash
 ./cvm-cli update-workload <csp> <vm-name>
+```
+
+## Adding your workload to a base disk image to distribute to other users
+
+In case you wish to add your workload to a disk image to distribute to others for usage, you can undertake the following steps:
+
+```bash
+# 1. Download a disk for a CSP if you need
+# ./cvm-cli get-disk <csp>
+# <csp> : azure, gcp or aws
+./cvm-cli get-disk azure
+
+# 2. Update the disk to add your workload contents onto it.
+# These are the following disk file names for each CSP:
+# GCP: gcp_disk.tar.gz
+# Azure: azure_disk.vhd
+# AWS: aws_disk.vmdk
+./cvm-cli update-disk azure_disk.vhd
 ```

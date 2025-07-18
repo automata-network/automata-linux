@@ -8,6 +8,7 @@ usage() {
     echo "  deploy-aws          Deploy a VM onto AWS using aws_disk.vmdk."
     echo "  deploy-gcp          Deploy a VM onto GCP using gcp_disk.tar.gz."
     echo "  update-workload     Update the workload on a deployed CVM."
+    echo "  get-disk            Get the disk image for a specific Cloud Provider."
     echo "  update-disk         Update the workload on a specified disk file."
     echo "  cleanup             Clean up resources for a specific Cloud Provider and VM Name."
     echo "  sign-image          Sign and verify a container image using Cosign."
@@ -45,6 +46,9 @@ usage() {
     echo "Additional arguments for the 'update-workload' command:"
     echo "  <CSP>          The cloud service provider (aws, gcp, azure)"
     echo "  <VM_NAME>      The name of the virtual machine to update"
+    echo ""
+    echo "Additional arguments for the 'get-disk' command:"
+    echo "  <CSP>          The cloud service provider (aws, gcp, azure)"
     echo ""
     echo "Additional arguments for the 'update-disk' command:"
     echo "  <DISK PATH>    The path to your disk image."
@@ -316,6 +320,16 @@ case "$COMMAND" in
         echo "Updating golden measurements..."
         ./scripts/get_golden_measurements.sh "$CSP" "$VM_NAME"
         set +e
+        ;;
+
+    get-disk)
+        CSP=$1; shift 1
+        if [[ -z "$CSP" ]]; then
+            echo "❌ Please provide the CSP (aws, gcp or azure)."
+            echo "❌ Usage: $0 get-disk <CSP>"
+            exit 1
+        fi
+        ./scripts/get_disk_image.sh "$CSP"
         ;;
 
     update-disk)
