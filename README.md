@@ -29,10 +29,13 @@ To quickly deploy the CVM with the **default** workload, you can run the followi
 ```
 
 > [!Note]
-> In case you plan to use a custom disk instead of the default one used by the scripts, please make sure to download the disks into the root of this folder and ensure that the names are kept as the following:  
-> - For gcp: gcp_disk.tar.gz
-> - For aws: aws_disk.vmdk
-> - For azure: azure_disk.vhd
+> The script will automatically download a default disk to use. <br/>
+> If another developer has given you a custom disk, you can use it instead of the default disk. To do so, simply:
+> - Place the custom disk file in the root of this folder.
+> - Make sure the file is named exactly as follows, depending on which cloud provider you plan to deploy on:
+>   - GCP: gcp_disk.tar.gz
+>   - AWS: aws_disk.vmdk
+>   - Azure: azure_disk.vhd
 
 ### 2. Measurements & Artifacts
 Once the VM is up, you can find your golden-measurements in the `_artifacts/golden-measurements/` folder. There will also be some files related to your vm deployment in the `_artifacts` folder. For example, if you deployed on GCP with the default VM name of `cvm-test`, you should see files like `gcp_cvm-test_ip`, `gcp_cvm-test_bucket`, etc. The artifacts vary per cloud provider.
