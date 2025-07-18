@@ -92,7 +92,7 @@ case "$COMMAND" in
             else
                 # Generate a new bucket name
                 SANITIZED_VM_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
-                RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w6 | head -n1)
+                RANDOM_SUFFIX=$(openssl rand -base64 32 | tr -dc 'a-z0-9' | head -c6)
                 BUCKET="${SANITIZED_VM_NAME:-cvm}${RANDOM_SUFFIX}"
                 echo "ℹ️  No bucket provided. Using generated bucket name: $BUCKET"
             fi
@@ -168,7 +168,7 @@ case "$COMMAND" in
             else
                 # Generate a new bucket name
                 SANITIZED_VM_NAME=$(echo "$VM_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
-                RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w6 | head -n1)
+                RANDOM_SUFFIX=$(openssl rand -base64 32 | tr -dc 'a-z0-9' | head -c6)
                 BUCKET="${SANITIZED_VM_NAME:-cvm}${RANDOM_SUFFIX}"
                 echo "ℹ️  No bucket provided. Using generated bucket name: $BUCKET"
             fi
@@ -235,7 +235,7 @@ case "$COMMAND" in
           RESOURCE_GROUP="${VM_NAME}_Rg"
         fi
 
-        RANDOM_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w4 | head -n1)
+        RANDOM_SUFFIX=$(openssl rand -base64 32 | tr -dc 'a-z0-9' | head -c4)
         if [[ -z "$STORAGE_ACC" ]]; then
             # Get the name of the first storage account (if any)
             STORAGE_ACC=$(az storage account list --resource-group "$RESOURCE_GROUP" --query "[0].name" --output tsv)
