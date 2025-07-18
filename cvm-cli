@@ -10,10 +10,11 @@ usage() {
     echo "  update-workload     Update the workload on a deployed CVM."
     echo "  get-disk            Get the disk image for a specific Cloud Provider."
     echo "  update-disk         Update the workload on a specified disk file."
+    echo "  get-logs            Retrieve logs from a deployed CVM."
     echo "  cleanup             Clean up resources for a specific Cloud Provider and VM Name."
     echo "  sign-image          Sign and verify a container image using Cosign."
     echo ""
-    echo "Arguments for 'deploy-azure' command:"
+    echo "Optional arguments for 'deploy-azure' command:"
     echo "  --resource_group <group>    The resource group for the deployment. Default: randomly generated"
     echo "  --storage_account <name>    The name of a custom storage account. Default: randomly generated"
     echo "  --gallery_name <name>       The name of a shared image gallery. Default: randomly generated"
@@ -24,7 +25,7 @@ usage() {
     echo "  --add-workload              Update the workload on the disk before deploying. Just pass this flag without a value."
     echo "                              If flag is not passed, the script will not update the workload onto the existing disk."
     echo ""
-    echo "Arguments for 'deploy-gcp' command:"
+    echo "Optional arguments for 'deploy-gcp' command:"
     echo "  --project_id <id>           The project id for the deployment. Default: the default gcloud project"
     echo "  --bucket <name>             The name of a gcp bucket to store the vm image to. Default: randomly generated"
     echo "  --additional_ports <ports>  Comma-separated list of additional ports to open (e.g., \"80,443\"). Default: None"
@@ -34,7 +35,7 @@ usage() {
     echo "  --add-workload              Update the workload on the disk before deploying. Just pass this flag without a value."
     echo "                              If flag is not passed, the script will not update the workload onto the existing disk."
     echo ""
-    echo "Arguments for 'deploy-aws' command:"
+    echo "Optional arguments for 'deploy-aws' command:"
     echo "  --bucket <name>             The name of an AWS bucket to store the vm image to. Default: randomly generated"
     echo "  --additional_ports <ports>  Comma-separated list of additional ports to open (e.g., \"80,443\"). Default: None"
     echo "  --vm_name <name>            The name of the virtual machine. Default: cvm-test"
@@ -43,19 +44,15 @@ usage() {
     echo "  --add-workload              Update the workload on the disk before deploying. Just pass this flag without a value."
     echo "                              If flag is not passed, the script will not update the workload onto the existing disk."
     echo ""
-    echo "Additional arguments for the 'update-workload' command:"
-    echo "  <CSP>          The cloud service provider (aws, gcp, azure)"
-    echo "  <VM_NAME>      The name of the virtual machine to update"
-    echo ""
-    echo "Additional arguments for the 'get-disk' command:"
+    echo "Arguments for the 'get-disk' command:"
     echo "  <CSP>          The cloud service provider (aws, gcp, azure)"
     echo ""
-    echo "Additional arguments for the 'update-disk' command:"
+    echo "Arguments for the 'update-disk' command:"
     echo "  <DISK PATH>    The path to your disk image."
     echo ""
-    echo "Additional arguments for the 'cleanup' command:"
+    echo "Arguments for the 'update-workload/get-logs/cleanup' command:"
     echo "  <CSP>          The cloud service provider (aws, gcp, azure)"
-    echo "  <VM_NAME>      The name of the virtual machine to delete"
+    echo "  <VM_NAME>      The name of the virtual machine to update"
     echo ""
     echo "Arguments for 'sign-image' command:"
     echo "  <source-image>           Source image (e.g., alpine:latest)"
@@ -341,6 +338,19 @@ case "$COMMAND" in
         fi
         echo "Updating workload on disk: $DISK_FILE"
         ./scripts/update_disk.sh "$DISK_FILE"
+        ;;
+
+    get-logs)
+        CSP=$1; shift 1
+        VM_NAME=$1; shift 1
+        if [[ -z "$CSP" || -z "$VM_NAME" ]]; then
+            echo "❌ Please provide the CSP (aws, gcp or azure) and VM name."
+            echo "❌ Usage: $0 get-logs <CSP> <VM_NAME>"
+            exit 1
+        fi
+        set -euo pipefail
+        ./scripts/get_cvm_logs.sh "$CSP" "$VM_NAME"
+        set +e
         ;;
 
     cleanup)
