@@ -32,22 +32,34 @@
 
 ### 1. Create asymmetric keypairs
 
-Create one or more asymmetric keypairs, which will be used for the following steps:
+Create asymmetric keypairs, which will be used for the following steps:
   - [Signing the docker images](#2-sign-the-docker-images-that-will-be-used)
   - [Signing the golden measurements](#2-sign-the-golden-measurements)
 ```bash
-# ECC key
+# 1. Generate a key for signing golden measurements
+# ==================================================
+# Option 1: ECC key
 openssl ecparam -genkey -name prime256v1 -noout -out private.pem
 openssl ec -in private.pem -pubout -out public.pem
-
-# RSA key
+# Option 2: RSA key
 openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
 openssl rsa -in private.pem -pubout -out public.pem
+
+# 2. Generate a key for image signing & verification
+# ==================================================
+cosign generate-key-pair
 ```
+
+>[!Note]
+> Please generate the image signing key using **cosign**. The key is designed for container image signing and verification.
 
 ### 2. Sign the docker images that will be used
 
-TODO
+For image signing and verification, please check out [this document](cvm-agent-image-signature-policy.md).
+
+>[!Note]
+> A sample image verification policy can be found in [workload/config/cvm_agent/sample_image_verify_policy.json](../workload/config/cvm_agent/sample_image_verify_policy.json)
+> To enable the image verification, user should also config the security policy of the cvm-agent. For the detail of the security policy, please check [Configure the cvm-agent and Security Policy](#4-configure-the-cvm-agent-and-security-policy) 
 
 ### 3. Modify the `workload/` folder:
 - In the folder, there are 3 things - a file called `docker-compose.yml` and 2 folders called `config/` and `secrets/`.
@@ -119,10 +131,22 @@ The default security policy can be found in [workload/config/cvm_agent/cvm_agent
 
         "maintenance_mode" : {
             "signal" : "SIGUSR2"
+        },
+
+        "workload_config": {
+            "image_signature_verification": {
+                "enable":false,
+                "auth_info": {
+                    "user_name": "",
+                    "password": ""
+                },
+                "signature_verification_policy_path":"/data/workload/config/cvm_agent/sample_image_verify_policy.json"
+            }
         }
     }
 }
 ```
+
 The default policy is conservative, prioritizes security and can be used as it is. However, if you wish to change any settings, a detailed description of each policy option can be found in [this document](cvm-agent-policy.md).
 
 ## Deploying the workload onto the Cloud Provider
@@ -248,11 +272,11 @@ For a more concrete example of the verification workflow, please check out the [
 TODO.
 ```
 
-For more details on the APIs available on the cvm-agent, please check out [this document](docs/cvm-agent-api.md).
+For more details on the APIs available on the cvm-agent, please check out [this document](cvm-agent-api.md).
 
 
 ### Example: Peer Node Verification Workflow (Off-chain)
-![Example - Peer Node Verification Workflow](docs/automata_cvm_peer_node_verification.png "Peer Node Verification Workflow")
+![Example - Peer Node Verification Workflow](automata_cvm_peer_node_verification.png "Peer Node Verification Workflow")
 
 This use-case describes the remote attestation flow between two **Confidential Virtual Machines (VMs)**—an **attester** and a **verifier**—using **attestation agents** and optional **remote storage** for verification.
 
