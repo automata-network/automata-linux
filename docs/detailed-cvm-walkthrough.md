@@ -117,7 +117,7 @@ The following parameters are optional, and default to:
 - vm_name: cvm_test
 - vm_type: Standard_DC2es_v5
 - region: East US 2
-- additional_ports: “”
+- additional_ports: “” (this option is for the cloud provider firewall, not the nftables firewall)
 - resource_group: Depends on the vm_name
 - storage_account: Randomly generated
 - gallery_name: Randomly generated
@@ -136,7 +136,7 @@ The following parameters are optional, and default to:
 - vm_name: cvm-test
 - region: asia-southeast1-b
 - vm_type: c3-standard-4
-- additional_ports: “”
+- additional_ports: “” (this option is for the cloud provider firewall, not the nftables firewall)
 - project_id: Uses your default gcloud project
 - bucket: Randomly generated. 
 
@@ -152,7 +152,7 @@ The following parameters are optional, and default to:
 - vm_name: cvm-test
 - region: us-east-2
 - vm_type: m6a.large
-- additional_ports: “”
+- additional_ports: “” (this option is for the cloud provider firewall, not the nftables firewall)
 - bucket: Random name will be generated
 
 > [!Warning]
