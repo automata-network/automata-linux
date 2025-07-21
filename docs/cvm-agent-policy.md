@@ -73,7 +73,21 @@ Settings that govern VM maintenance activities:
 
 Note that users should add their public key to the appropriate location (i.e., `~/.ssh/authorized_keys`) within the container and enable port mapping for the SSH server. Example can be found at **Q&A**.  Also, for the proper signal handling, the application process must have **PID 1** in the container (This is very common in containerized applications such as redis and nginx). Otherwise, application may not be able to receive the signal sent by the cvm_agent.
 
+---
+
 ## 6. Workload Configuration (`workload_config`)
+
+### `workload` Rules
+Defines worload update rules during cvm runtime
+
+| Field                      | Value                            | Explanation |
+|----------------------------|----------------------------------|-------------|
+| `allow_remove`             | `false`                          | Services cannot be removed at runtime. |
+| `allow_update`             | `true`                           | Existing services can be updated. |
+| `allow_add_new_service`    | `true`                           | New services can be deployed. |
+| `update_white_list`        | `["prometheus", "node-exporter", "metrics-proxy"]` | Only these services are allowed to be updated at runtime if `allow_update` is enabled. |
+
+### `image_signature_verification`
 
 Controls the verification of container images before execution.
 
