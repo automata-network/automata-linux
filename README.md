@@ -49,8 +49,8 @@ At the end of the previous step, you should have the following output:
 Using the provided VM name, you can retrieve logs from the VM like this:
 
 ```bash
-# ./cvm-cli get-logs <vm-name>
-./cvm-cli get-logs cvm-test
+# ./cvm-cli get-logs <cloud-provider> <vm-name>
+./cvm-cli get-logs aws cvm-test
 ```
 
 ### 3. Destroy the VM <!-- omit in toc -->
