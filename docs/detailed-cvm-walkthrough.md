@@ -86,7 +86,7 @@ For image signing and verification, please check out [this document](cvm-agent-i
 > Remember to build your container images for X86_64, especially if you're using an ARM64 machine!
 
 
-> > [!Note]
+> [!Note]
 > If you wish to load container images that are not published to any container registry, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded at runtime.
 
 
@@ -94,64 +94,13 @@ For image signing and verification, please check out [this document](cvm-agent-i
 The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks. The tasks that it is allowed to perform depends on a security policy, which can be configured by the user.
 
 The default security policy can be found in [workload/config/cvm_agent/cvm_agent_policy.json](../workload/config/cvm_agent/cvm_agent_policy.json):
-```json
-{
-    "cvm_config": {
-        "emulation_mode" :{
-            "enable": false,
-            "cloud_provider": "azure",
-            "tee_type": "snp" ,
-            "emulation_data_path": "./emulation_mode_data",
-            "enable_emulation_data_update": true
-        },
 
-        "firewall": {
-            "allowed_ports": [
-                {
-                    "name": "allow_agent_local",
-                    "protocol": "tcp",
-                    "port": "7999"
-                },
-                {
-                    "name": "allow_agent_external",
-                    "protocol": "tcp",
-                    "port": "8000"
-                }
-            ],
-            "maintenance_mode_host_port": "2222"
-        },
+ There are 2 settings that you **must** configure:
 
-        "https_server" :{
-            "enable_workload_update_endpoint": true,
-            "enable_maintenance_endpoint": false,
-            "enable_tls": true,
-            "enable_workload_update_auth": true
-        },
+- `firewall.allowed_ports`: By default, all incoming traffic on all ports are blocked, except for CVM agent ports 7999 and 8000. If your workload requires incoming traffic on other ports (eg. you need a p2p port on 30000), please follow the given example and add the ports you require.
+- `workload_config.workload.update_white_list`: This list specifies which services in your docker-compose.yml are allowed to be updated remotely via the cvm-agent API `/update-workload`. **You must list the names of your services in your docker-compose.yml if you wish to allow remote updates. Otherwise, set it to an empty list `[]` to disallow remote updates.**
 
-        "container_api" : {
-            "container_engine": "podman",
-            "container_owner": "automata"
-        },
-
-        "maintenance_mode" : {
-            "signal" : "SIGUSR2"
-        },
-
-        "workload_config": {
-            "image_signature_verification": {
-                "enable":false,
-                "auth_info": {
-                    "user_name": "",
-                    "password": ""
-                },
-                "signature_verification_policy_path":"/data/workload/config/cvm_agent/sample_image_verify_policy.json"
-            }
-        }
-    }
-}
-```
-
-The default policy is conservative, prioritizes security and can be used as it is. However, if you wish to change any settings, a detailed description of each policy option can be found in [this document](cvm-agent-policy.md).
+The other settings not mentioned can be left as its default values. If you wish to modify the other settings, a detailed description of each policy option can be found in [this document](cvm-agent-policy.md).
 
 ## Deploying the workload onto the Cloud Provider
 Run the CLI to deploy the disk to the cloud provider.
@@ -339,6 +288,13 @@ Run the following command to upload your updated workload to your deployed CVM:
 ```bash
 ./cvm-cli update-workload <csp> <vm-name>
 ```
+
+> [!Note]
+> If you are having troubles updating the workload, you might have forgotten to set the `workload_config.workload.update_white_list`. Please see the above section on [configuring the security policy](#4-configure-the-cvm-agent-and-security-policy).
+
+> [!Warning]
+> Updating a workload remotely will cause the workload to be down for the duration of the update. Attestation measurements will also be reset, and any collateral verification that is performed by your workload will fail until you update the golden measurements.
+
 
 ## Adding your workload to a base disk image to distribute to other users
 

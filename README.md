@@ -79,25 +79,29 @@ In this folder, you will see 3 things - a file called `docker-compose.yml`, and 
 > [!Note]
 > If you wish to load container images that are not published to any container registry, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded at runtime.
 
-### 2. (Optional) Edit the Security Policy <!-- omit in toc -->
+### 2. Edit the Security Policy <!-- omit in toc -->
+The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks. The tasks that it is allowed to perform depends on a security policy, which can be configured by the user.
 
-By default, the CVM will use the default security policy found in [workload/config/cvm_agent/cvm_agent_policy.json](workload/config/cvm_agent/cvm_agent_policy.json). This default policy is conservative, prioritizes security and can be used as it is without any changes. 
+By default, the CVM will use the default security policy found in [workload/config/cvm_agent/cvm_agent_policy.json](workload/config/cvm_agent/cvm_agent_policy.json). There are 2 settings that you **must** configure:
 
-However, if you wish to edit the policy to enable advanced options, such as restricting docker images to specific signers, a detailed description of each policy option can be found in [this document](docs/cvm-agent-policy.md).
+- `firewall.allowed_ports`: By default, all incoming traffic on all ports are blocked, except for CVM agent ports 7999 and 8000. If your workload requires incoming traffic on other ports (eg. you need a p2p port on 30000), please follow the given example and add the ports you require.
+- `workload_config.workload.update_white_list`: This list specifies which services in your docker-compose.yml are allowed to be updated remotely via the cvm-agent API `/update-workload`. **You must list the names of your services in your docker-compose.yml if you wish to allow remote updates. Otherwise, set it to an empty list `[]` to disallow remote updates.**
+
+The other settings not mentioned can be left as its default values. If you wish to modify the other settings, a detailed description of each policy option can be found in [this document](docs/cvm-agent-policy.md).
 
 ### 3. Deploy the CVM <!-- omit in toc -->
 
-This step is similar to the quickstart, except with an additional option to add your workload to the default disk.
+In this example, we assume that you're deploying a workload that needs a p2p port on port 30000. If your workload does not need the additional port, feel free to omit `--additional_ports "30000"`:
 
 ```bash
 # Option 1. Deploy to GCP
-./cvm-cli deploy-gcp --add-workload
+./cvm-cli deploy-gcp --add-workload --additional_ports "30000"
 
 # Option 2. Deploy to AWS
-./cvm-cli deploy-aws --add-workload
+./cvm-cli deploy-aws --add-workload --additional_ports "30000"
 
 # Option 3. Deploy to Azure
-./cvm-cli deploy-azure --add-workload
+./cvm-cli deploy-azure --add-workload --additional_ports "30000"
 ```
 
 At the end of the deployment, you should be able to see the name of the deployed CVM in the shell, and the location where the golden measurement of this CVM is stored:
@@ -134,6 +138,9 @@ In the scenario where you have updated the your app version and made a new conta
 ```
 
 When the script is finished, the golden measurements will be automatically regenerated for you.
+
+> [!Note]
+> If you are having troubles updating the workload, you might have forgotten to set the `workload_config.workload.update_white_list`. Please see the above section on [editing the security policy](#2-edit-the-security-policy).
 
 #### Deleting the VM: <!-- omit in toc -->
 Use this command to delete the VM once you no longer need it.
