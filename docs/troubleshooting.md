@@ -90,3 +90,24 @@ $ cat  ~/.aws/credentials
 aws_access_key_id = bdea299cb2e013216137e874e99c640c6f002e033adffa227f61c29e10cefff1
 aws_secret_access_key = bdea299cb2e013216137e874e99c640c6f002e033adffa227f61c29e10cefff
 ```
+
+### Google cloud
+#### Failed to deploy cvm on Azure due to lack of permission
+
+Q: Help! I got the following error when deploying the CVM on GCP:
+```bash
+$ ./cvm-cli deploy-gcp
+...
+✅ gcloud cli installed successfully.
+...
+ERROR: (gcloud.services.enable) PERMISSION_DENIED: Permission denied to enable service [compute.googleapis.com]
+Help Token: AeNz4PhxParNqfjHJryxj9rcabnYjU-y7ngd1D8WWI1Tziajg1xi7iTfLg_YxjtMp2ebQEFBzmDOtd0QX4WK-JWnk6vVFW65nv8dI3a-sJuv1sZf. This command is authenticated as yaoxin.j@ata.network which is the active account specified by the [core/account] property
+- '@type': type.googleapis.com/google.rpc.PreconditionFailure
+  violations:
+  - subject: '110002'
+    type: googleapis.com
+- '@type': type.googleapis.com/google.rpc.ErrorInfo
+  domain: serviceusage.googleapis.com
+  reason: AUTH_PERMISSION_DENIED
+  ```
+  A: The error is due to lack of permission to service [compute.googleapis.com]. To fix it, enable the  [compute.googleapis.com] service and redeploy the cvm again.
