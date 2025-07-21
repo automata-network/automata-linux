@@ -213,7 +213,7 @@ case "$COMMAND" in
 
     deploy-azure)
         # Defaults
-        VM_NAME="cvm_test"
+        VM_NAME="cvm-test"
         VM_TYPE="Standard_DC2es_v5"
         REGION="East US 2"
         RESOURCE_GROUP=""
