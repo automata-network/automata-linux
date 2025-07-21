@@ -19,16 +19,6 @@
                     "name": "allow_agent_external",
                     "protocol": "tcp",
                     "port": "8000"
-                },
-                {
-                    "name": "allow_agent_external",
-                    "protocol": "udp",
-                    "port": "53"
-                },
-                {
-                    "name": "allow_agent_external",
-                    "protocol": "tcp",
-                    "port": "443"
                 }
             ],
             "maintenance_mode_host_port": "2222"
@@ -52,13 +42,19 @@
     },
 
     "workload_config": {
+        "workload": {
+            "allow_remove": false,
+            "allow_update": true,
+            "allow_add_new_service": true,
+            "update_white_list" : ["prometheus", "node-exporter", "metrics-proxy"]
+        },
         "image_signature_verification": {
             "enable":false,
             "auth_info": {
                 "user_name": "",
                 "password": ""
             },
-            "siganture_verification_policy_path":"/data/workload/config/cvm_agent/sample_image_verify_policy.json"
+            "signature_verification_policy_path":"/data/workload/config/cvm_agent/sample_image_verify_policy.json"
         }
     }
 }
