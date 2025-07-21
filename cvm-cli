@@ -157,17 +157,6 @@ case "$COMMAND" in
             esac
         done
 
-        # === Derive PROJECT_ID if not provided ===
-        if [[ -z "$PROJECT_ID" ]]; then
-            PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
-            if [[ -z "$PROJECT_ID" ]]; then
-                echo "❌ PROJECT_ID not provided and no default found in gcloud config."
-                exit 1
-            fi
-            echo "ℹ️  Using default gcloud project: $PROJECT_ID"
-        fi
-
-
         # === Derive bucket name if not provided ===
         if [[ -z "$BUCKET" ]]; then
             # Check whether bucket exists in _artifacts, use that first, if not generate a new one
@@ -194,6 +183,18 @@ case "$COMMAND" in
         fi
         # Check that CSP CLI dependencies are installed
         ./scripts/check_csp_deps.sh "gcp"
+
+        # === Derive PROJECT_ID if not provided ===
+        if [[ -z "$PROJECT_ID" ]]; then
+            PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+            if [[ -z "$PROJECT_ID" ]]; then
+                echo "❌ PROJECT_ID not provided and no default found in gcloud config."
+                echo "❌ To fix run this command: gcloud init --console-only --no-launch-browser"
+                exit 1
+            fi
+            echo "ℹ️  Using default gcloud project: $PROJECT_ID"
+        fi
+
         # Generate API token for disk
         ./scripts/generate_api_token.sh "gcp_disk.tar.gz" "gcp" "$VM_NAME"
         # Deploy the VM
