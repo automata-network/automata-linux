@@ -135,7 +135,7 @@ Use our CLI to generate keys that will be used at a later step to sign and verif
   - `-o`: The output folder where the built `livepatch-XXXX.ko` will be stored.
 
 > [!NOTE]
->  The source file of `patch1.patch` can be found [here][meminfo.patch]. You can use it as the example patch and test the livepatching feature.
+>  The source file of `patch1.patch` can be found [here](meminfo.patch). You can use it as the example patch and test the livepatching feature.
 
   After the build is done, you should see a `livepatch-XXXX.ko` inside the `patch-output-folder/`. kpatch-build will only output one module that contains all the patched functions from across different components in the kernel.
 
