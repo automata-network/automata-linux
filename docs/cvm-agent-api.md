@@ -212,7 +212,7 @@ The server will broadcast on 2 ports:
     ```
 
 - `/offchain/golden-measurement` [GET]
-    - Port Availability: 8000
+    - Port Availability: 7999, 8000
     - Generates offchain golden measurements for the current CVM
     - **Important Note**: Generated golden measurements are specific to:
         - The CVM type (SEV-SNP, TDX)
