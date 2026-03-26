@@ -294,7 +294,7 @@ To verify that the workload is running a CVM with the expected measurements, the
    - If the verifier runs within a TEE environment that is created from our cvm-image, the verifier can use the cvm-agent to verify the collaterals against the published golden measurements:
      ```bash
      # Assuming that the verifier saves the collaterals as collaterals.json:
-     jq -s '{ golden_measurement: (.[1].golden_measurement | @json), collaterals: (.[0] | @json) }' collaterals.json signed-golden-measurement.json | curl -X POST 127.0.0.1:7999/offchain-verify -H "Content-Type: application/json" -d @-
+     jq -s '{ golden_measurement: (.[1].golden_measurement | @json), collaterals: (.[0] | @json) }' collaterals.json signed-golden-measurement.json | curl -X POST 127.0.0.1:7999/offchain/verify -H "Content-Type: application/json" -d @-
      ```
    - If the verifier runs outside of a TEE environment, the [cvm-verifier SDK](https://github.com/automata-network/cvm-verifier) can be used to verify the collaterals against the golden-measurement:
      ```bash
@@ -434,7 +434,7 @@ This use-case describes the remote attestation flow between two **Confidential V
    The **attester workload** replies the verifier workload with its collaterals.
 
 5. **Verify Evidence**  
-   The **verifier workload** calls its **attestation agent** using `/offchain-verify` to perform cryptographic validation and verify trustworthiness.
+   The **verifier workload** calls its **attestation agent** using `/offchain/verify` to perform cryptographic validation and verify trustworthiness.
 
 #### ✅ Outcome
 
