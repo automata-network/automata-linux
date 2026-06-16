@@ -3,7 +3,11 @@ name: Build and Release Packages
 on:
   push:
     tags:
-      - 'v*'
+      # v0.2.0+ base-image releases are published by atakit-imgbuild push.
+      # Keep this legacy package workflow off those image-release tags so it
+      # does not overwrite release notes or attach stale package assets.
+      - 'v0.0.*'
+      - 'v0.1.*'
   workflow_dispatch:
 
 jobs:
