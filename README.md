@@ -6,278 +6,142 @@
   </picture>
 </div>
 
-# automata-linux
+# Automata Linux
+
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![GitHub Release](https://img.shields.io/github/v/release/automata-network/automata-linux)](https://github.com/automata-network/automata-linux/releases)
 
-A command-line tool for deploying and managing Confidential Virtual Machines (CVMs) across AWS, GCP, and Azure.
+Automata Linux is a minimal Confidential VM base image for running atakit
+workloads. It provides the guest-side portal, container runtime, attestation
+support, and a verified read-only root filesystem used by atakit deployments.
 
-## Installation
+Current release: `automata-linux:v0.2.1-debug`
 
-## 📑 Table of Contents <!-- omit in toc -->
-- [Quick Install](#quick-install)
-- [Prerequisites](#prerequisites)
-- [Quickstart](#quickstart)
-- [Deploying the CVM with your Workload](#deploying-the-cvm-with-your-workload)
-- [Live Demo](#live-demo)
-- [Detailed Walkthrough](#detailed-walkthrough)
-- [Architecture](#architecture)
-- [Troubleshooting](#troubleshooting)
+Release page:
 
-
-## Quick Install
-
-**Ubuntu/Debian:**
-```bash
-# Get the latest release tag (requires jq: sudo apt-get install jq)
-LATEST=$(curl -sL https://api.github.com/repos/automata-network/automata-linux/releases/latest | jq -r .tag_name)
-if [[ -z "$LATEST" || "$LATEST" == "null" ]]; then echo "Failed to fetch latest release"; exit 1; fi
-VERSION=${LATEST#v}
-
-# Download and install
-wget "https://github.com/automata-network/automata-linux/releases/download/${LATEST}/atakit_${VERSION}-1_all.deb"
-sudo dpkg -i atakit_${VERSION}-1_all.deb
-sudo apt-get install -f
+```text
+https://github.com/automata-network/automata-linux/releases/tag/v0.2.1-debug
 ```
 
-**macOS (Homebrew):**
-```bash
-brew tap automata-network/automata-linux https://github.com/automata-network/automata-linux.git
-brew install atakit
+## What It Provides
+
+- Minimal Linux guest image for Confidential VM workloads
+- Guest portal used by atakit to initialize workloads
+- Podman-based container runtime
+- TPM-backed attestation support
+- UEFI Secure Boot and dm-verity verified root filesystem
+- GCP, AWS, Azure, and QEMU image archives
+
+The base image does not expose SSH. Access a deployment through the workload's
+declared ports, atakit status commands, and cloud serial output when needed. If
+a workload exposes SSH, that SSH server belongs to the workload container, not
+to the base image.
+
+## Release Assets
+
+The `v0.2.1-debug` release contains:
+
+- `automata-linux-v0.2.1-debug-all.atabi`
+- `automata-linux-v0.2.1-debug-gcp.atabi`
+- `automata-linux-v0.2.1-debug-aws.atabi`
+- `automata-linux-v0.2.1-debug-azure.atabi`
+- `automata-linux-v0.2.1-debug-qemu.atabi`
+
+## Install atakit
+
+Install the public atakit CLI from
+[`automata-network/atakit`](https://github.com/automata-network/atakit):
+
+```sh
+git clone https://github.com/automata-network/atakit.git
+cd atakit
+cargo install --path crates/atakit-cli
 ```
 
-📖 **For detailed installation instructions, see [INSTALL.md](INSTALL.md)**
+Confirm it is available:
 
-## Prerequisites
-
-- Ensure that you have enough permissions on your account on either GCP, AWS or Azure to create virtual machines, disks, networks, firewall rules, buckets/storage accounts and service roles.
-
-### For Package Installation
-
-If you installed `atakit` via a package manager (recommended), it's already available system-wide. Just run:
-```bash
+```sh
 atakit --help
 ```
 
-### For Development/Source Installation
+## Configure The Image Repository
 
-```bash
-git clone --recurse-submodules https://github.com/automata-network/automata-linux
-cd automata-linux
-sudo make install
+Add the public Automata Linux image repository to
+`~/.config/atakit/config.toml`:
+
+```toml
+[image.repositories]
+automata = { repo = "automata-network/automata-linux" }
 ```
 
-### Downloading and Verifying Disk Images <!-- omit in toc -->
+## Pull The Base Image
 
-The deployment scripts automatically download pre-built disk images from [GitHub Releases](https://github.com/automata-network/automata-linux/releases). By default, the latest release is used. To use a specific release, set `RELEASE_TAG` (e.g., `export RELEASE_TAG=v1.0.0`).
+Pull the GCP archive:
 
-All disk images include **SLSA Build Level 2** provenance attestations. To verify:
-
-```bash
-atakit get-disk aws
-atakit download-build-provenance
-atakit verify-build-provenance aws_disk.vmdk
+```sh
+atakit image pull automata-linux:v0.2.1-debug gcp
 ```
 
-For complete verification instructions, see [docs/ATTESTATION_VERIFICATION.md](docs/ATTESTATION_VERIFICATION.md).
+Pull multiple platform archives:
 
-## Quickstart
-
-### 1. Deploying the CVM <!-- omit in toc -->
-To quickly deploy the CVM with the **default** workload, you can run the following command:
-
-```bash
-# Option 1. Deploy to GCP
-atakit deploy-gcp
-
-# Option 2. Deploy to AWS
-atakit deploy-aws
-
-# Option 3. Deploy to Azure
-atakit deploy-azure
+```sh
+atakit image pull automata-linux:v0.2.1-debug gcp,aws,azure,qemu
 ```
 
-> [!Note]
-> The script will automatically download the latest disk image from [GitHub Releases](https://github.com/automata-network/automata-linux/releases). <br/>
-> If you want to use a specific release version, set the `RELEASE_TAG` environment variable (see [Prerequisites](#prerequisites)). <br/>
-> If another developer has given you a custom disk, you can use it instead by:
-> - Placing the custom disk file in the root of this folder.
-> - Making sure the file is named exactly as follows, depending on which cloud provider you plan to deploy on:
->   - GCP: gcp_disk.tar.gz
->   - AWS: aws_disk.vmdk
->   - Azure: azure_disk.vhd
+List local images:
 
-### 2. Get logs from the CVM <!-- omit in toc -->
-
-At the end of the previous step, you should have the following output:
-```bash
-✅ Golden measurements saved to _artifacts/golden-measurements/gcp-cvm-test.json
-✨ Deployment complete! Your VM Name: cvm-test
+```sh
+atakit image ls
 ```
 
-Using the provided VM name, you can retrieve logs from the VM like this:
+## Use With Workload Examples
 
-```bash
-# atakit get-logs <cloud-provider> <vm-name>
-# <cloud-provider> = "aws" or "gcp" or "azure"
-atakit get-logs gcp cvm-test
+The public workload examples are available at
+[`melynx/cvm-workload-examples`](https://github.com/melynx/cvm-workload-examples):
+
+```text
+https://github.com/melynx/cvm-workload-examples
 ```
 
-### 3. Destroy the VM <!-- omit in toc -->
-Finally, when you're ready to delete the VM and remove all the components that are deployed with it, you can run the following command:
-```bash
-# atakit cleanup <cloud-provider> <vm-name>
-# <cloud-provider> = "aws" or "gcp" or "azure"
-atakit cleanup gcp cvm-test
+Configure both public repositories:
+
+```toml
+[image.repositories]
+automata = { repo = "automata-network/automata-linux" }
+
+[workload.repositories]
+examples = { type = "github", repo = "melynx/cvm-workload-examples" }
 ```
 
-## Deploying the CVM with your Workload
+Pull an example workload and deploy it with this base image:
 
-### 1. Add your workload to `workload/` <!-- omit in toc -->
+```sh
+atakit workload pull fedora-oci:v0.0.13 --verify
 
-In this folder, you will see 3 things - a file called `docker-compose.yml`, and 2 folders called `config/` and `secrets/`.
-
-- `docker-compose.yml` : This is a standard docker compose file that can be used to specify your workload. Most standard docker compose files will work fine and you do not need to do anything special. However, as podman-compose will be used to run this file, do take note of the following caveats:
-  - Container images that are hosted on docker's official registry must be prefixed with `docker.io/`.
-  - Podman does not support `depends_on.condition = service_completed_successfully`.
-- `config/` : Use this folder to store any files that will be mounted and used by the container. All the files in this folder will be measured by the cvm-agent into the TPM PCR before the container runs.
-- `secrets/`: Use this folder to store any files that will be mounted and used by the container, but should not be measured. Examples include cert private keys, or database credentials.
-
-> [!Caution]
-> Remember to build your container images for X86_64, especially if you're using an ARM64 machine!
-
-> [!Note]
-> If you wish to load container images that are not published to any container registry, simply put the `.tar` files for the container images into the `workload/` directory itself. This will be automatically detected and loaded at runtime.
-
-### 2. Edit the Security Policy <!-- omit in toc -->
-The CVM agent runs inside the CVM and is responsible for VM management, workload measurement, and related tasks. The tasks that it is allowed to perform depends on a security policy, which can be configured by the user.
-
-By default, the CVM will use the default security policy found in [workload/config/cvm_agent/cvm_agent_policy.json](workload/config/cvm_agent/cvm_agent_policy.json). There are 3 settings that you **must** configure:
-
-- `firewall.allowed_ports`: By default, all incoming traffic on all ports are blocked by nftables, except for CVM agent ports 7999 and 8000. If your workload requires incoming traffic on other ports (eg. you need a p2p port on 30000), please follow the given example and add the ports you require.
-- `workload_config.services.allow_update`: This list specifies which services in your docker-compose.yml are allowed to be updated remotely via the cvm-agent API `/update-workload`. **You must list the names of your services in your docker-compose.yml if you wish to allow remote updates. Otherwise, set it to an empty list `[]` to disallow remote updates.**
-- `workload_config.services.skip_measurement`: This list specifies which services the CVM agent will avoid measuring. This includes skipping its image signature checking, if it is enabled.Set it to an empty list `[]` to measure all services.
-
-The other settings not mentioned can be left as its default values. If you wish to modify the other settings, a detailed description of each policy option can be found in [this document](docs/cvm-agent-policy.md).
-
-### 3. Deploy the CVM <!-- omit in toc -->
-In this example, we assume that you're deploying a workload that requires opening a peer‑to‑peer port on 30000 and attaching an additional 20 GB persistent data disk. If your workload does not need either of these resources, you can omit both `--additional_ports "30000"` and `--attach-disk mydisk --disk-size 20`.
-
-The --additional_ports option configures the cloud provider’s firewall to allow inbound traffic on port 30000; it does not modify the nftables firewall inside the CVM, which is managed by the security policy you defined earlier.
-
-The `--attach-disk mydisk` flag instructs cvm‑cli to attach (or create, if it does not already exist) a persistent data disk named `mydisk` to the CVM. When used with `--disk-size 20`, the CLI creates a 20 GB disk if mydisk is not already present. This disk is independent of the VM’s boot volume, so data written to it is preserved across reboots, redeployments, and VM replacements.
-
-> [!NOTE]
->  After cvm is launched, the cvm will automatically detect the unmounted disk and setup the filesystem if the disk is not initialized and mount the disk at `/data/datadisk-1`.
-
-```bash
-# Option 1. Deploy to GCP
-atakit deploy-gcp --add-workload --workload-dir /path/to/your/workload --additional_ports "30000"  --attach-disk mydisk --disk-size 20
-
-# Option 2. Deploy to AWS
-atakit deploy-aws --add-workload --workload-dir /path/to/your/workload --additional_ports "30000"  --attach-disk mydisk --disk-size 20
-
-# Option 3. Deploy to Azure
-atakit deploy-azure --add-workload --workload-dir /path/to/your/workload --additional_ports "30000"  --attach-disk mydisk --disk-size 20
+atakit cloud deploy fedora-oci:v0.0.13 \
+  --target <configured-target> \
+  --image automata-linux:v0.2.1-debug \
+  --name fedora-oci-demo \
+  --yes
 ```
 
-> [!NOTE]
-> The `--workload-dir` option specifies the path to your workload directory. Use an absolute path or a path relative to your current directory. If not specified, it defaults to `./workload` in the current directory.
+See the workload examples repository for complete deployment guides and
+per-example usage.
 
-At the end of the deployment, you should be able to see the name of the deployed CVM in the shell, and the location where the golden measurement of this CVM is stored:
+## Supported Platforms
 
-```bash
-✅ Golden measurements saved to _artifacts/golden-measurements/gcp-cvm-test.json
-✨ Deployment complete! Your VM Name: cvm-test
-```
+The release includes archives for:
 
-> [!Note]
-> Please see the [detailed walkthrough](#detailed-walkthrough) if you wish to do the following:
-> - Customise other settings, like the vm name, or where the vm is deployed.
-> - Check on best practices regarding the golden measurement, or how to use it in remote attestation.
-> - If you only want to build a disk with your workload and distribute it to others.
-> - If you wish to enable kernel livepatching.
+- `gcp`
+- `aws`
+- `azure`
+- `qemu`
 
-### 4. Managing the CVM <!-- omit in toc -->
-We've scripted some convenience commands that you can run to manage your CVM.
+The cloud target and confidential-computing type are selected by your atakit
+cloud configuration.
 
-#### Get Logs <!-- omit in toc -->
-Use this command to get all logs from all running containers in the CVM.
+## Cleanup
 
-```bash
-# atakit get-logs <vm-name>
-atakit get-logs cvm-test
-```
-
-#### Update the workload <!-- omit in toc -->
-In the scenario where you have updated the your app version and made a new container image for it, you can update your workload in the `workload/` folder, and upload this folder onto the existing CVM using this command:
-
-```bash
-# atakit update-workload <cloud-provider> <vm-name>
-# <cloud-provider> = "aws" or "gcp" or "azure"
-atakit update-workload gcp cvm-test
-```
-
-When the script is finished, the golden measurements will be automatically regenerated for you.
-
-> [!Note]
-> If you are having troubles updating the workload, you might have forgotten to set the `workload_config.services.allow_update`. Please see the above section on [editing the security policy](#2-edit-the-security-policy).
-
-#### Deleting the VM: <!-- omit in toc -->
-Use this command to delete the VM once you no longer need it.
-
-```bash
-# atakit cleanup <cloud-provider> <vm-name>
-# <cloud-provider> = "aws" or "gcp" or "azure"
-atakit cleanup gcp cvm-test
-```
-
-#### Cleaning Up Local Artifacts <!-- omit in toc -->
-Use this command to remove all locally downloaded disk images, build provenance, and other artifacts.
-
-```bash
-atakit cleanup-local
-```
-
-#### (Advanced) Kernel Livepatching <!-- omit in toc -->
-Use this command to deploy a livepatch onto the CVM. Please checkout our [kernel livepatch guide](./docs/livepatching.md) for more details.
-
-```bash
-# atakit livepatch <cloud-provider> <vm-name> <path-to-livepatch>
-# <cloud-provider> = "aws" or "gcp" or "azure"
-atakit livepatch gcp cvm-test /path/to/livepatch.ko
-```
-
-## Live Demo
-Here is a short demo video showing how to deploy workload using our cvm-image on AZURE in action.
-
-[![Watch the demo](https://img.youtube.com/vi/KaLyJbeHUzk/0.jpg)](https://www.youtube.com/watch?v=KaLyJbeHUzk)
-
-Instructions to recreate the demo setup in your own environment are available here:
-```bash
-git clone https://github.com/automata-network/automata-linux.git
-
-cd automata-linux
-
-cat workload/docker-compose.yml
-
-cat workload/config/cvm_agent/cvm_agent_policy.json
-
-atakit deploy-azure --add-workload --additional_ports "30000"
-
-atakit get-logs azure cvm-test
-
-atakit update-workload azure cvm-test
-
-atakit cleanup azure cvm-test
-
-```
-
-## Detailed Walkthrough
-A detailed walkthrough of what can be customized and any other features available can be found in [this doc](docs/detailed-cvm-walkthrough.md).
-
-## Architecture
-Details of our CVM trust chain and attestation architecture can be found in [this doc](docs/architecture.md).
-
-## Troubleshooting
-Running into trouble deploying the CVM? We have some common Q&A in [this doc](docs/troubleshooting.md).
+Destroying a workload deployment removes the VM and workload resources. The
+uploaded provider image is reusable and is not removed unless image cleanup is
+explicitly requested.
