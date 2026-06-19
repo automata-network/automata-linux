@@ -15,12 +15,18 @@ Automata Linux is a minimal Confidential VM base image for running atakit
 workloads. It provides the guest-side portal, container runtime, attestation
 support, and a verified read-only root filesystem used by atakit deployments.
 
-Current release: `automata-linux:v0.2.1-debug`
+Current release: `automata-linux:v0.2.2-debug`
 
 Release page:
 
 ```text
-https://github.com/automata-network/automata-linux/releases/tag/v0.2.1-debug
+https://github.com/automata-network/automata-linux/releases/tag/v0.2.2-debug
+```
+
+Hoodi base image ID:
+
+```text
+0xf2291716b993b24a8a44b616a65c7088e0da54930c57f0fd08fa2920b944f609
 ```
 
 ## What It Provides
@@ -39,13 +45,13 @@ to the base image.
 
 ## Release Assets
 
-The `v0.2.1-debug` release contains:
+The `v0.2.2-debug` release contains:
 
-- `automata-linux-v0.2.1-debug-all.atabi`
-- `automata-linux-v0.2.1-debug-gcp.atabi`
-- `automata-linux-v0.2.1-debug-aws.atabi`
-- `automata-linux-v0.2.1-debug-azure.atabi`
-- `automata-linux-v0.2.1-debug-qemu.atabi`
+- `automata-linux-v0.2.2-debug-all.atabi`
+- `automata-linux-v0.2.2-debug-gcp.atabi`
+- `automata-linux-v0.2.2-debug-aws.atabi`
+- `automata-linux-v0.2.2-debug-azure.atabi`
+- `automata-linux-v0.2.2-debug-qemu.atabi`
 
 ## Install atakit
 
@@ -79,13 +85,13 @@ automata = { repo = "automata-network/automata-linux" }
 Pull the GCP archive:
 
 ```sh
-atakit image pull automata-linux:v0.2.1-debug gcp
+atakit image pull automata-linux:v0.2.2-debug gcp
 ```
 
 Pull multiple platform archives:
 
 ```sh
-atakit image pull automata-linux:v0.2.1-debug gcp,aws,azure,qemu
+atakit image pull automata-linux:v0.2.2-debug gcp,aws,azure,qemu
 ```
 
 List local images:
@@ -120,7 +126,7 @@ atakit workload pull fedora-oci:v0.0.13 --verify
 
 atakit cloud deploy fedora-oci:v0.0.13 \
   --target <configured-target> \
-  --image automata-linux:v0.2.1-debug \
+  --image automata-linux:v0.2.2-debug \
   --name fedora-oci-demo \
   --yes
 ```
@@ -139,6 +145,15 @@ The release includes archives for:
 
 The cloud target and confidential-computing type are selected by your atakit
 cloud configuration.
+
+Published Hoodi measurement profiles:
+
+| Platform | Variants |
+|----------|----------|
+| `gcp-tdx` | `c3-standard-4`, `c3-standard-8`, `c3-standard-22`, `c3-standard-44` |
+| `gcp-sev-snp` | `n2d-standard-2`, `n2d-standard-4`, `n2d-standard-8`, `n2d-standard-16` |
+| `azure-tdx` | `Standard_DC2es_v6`, `Standard_DC4es_v6`, `Standard_DC8es_v6`, `Standard_DC16es_v6` |
+| `azure-sev-snp` | `Standard_DC2as_v5`, `Standard_DC4as_v5`, `Standard_DC8as_v5`, `Standard_DC16as_v5` |
 
 ## Cleanup
 
