@@ -1,3 +1,0 @@
-[submodule "tools/python-uefivars"]
-	path = tools/python-uefivars
-	url = https://github.com/awslabs/python-uefivars

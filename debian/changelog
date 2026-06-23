@@ -1,9 +1,0 @@
-atakit (0.1.0-1) unstable; urgency=medium
-
-  * Initial release
-  * Support for AWS, GCP, and Azure deployments
-  * SLSA attestation verification
-  * Git-like installation - works from any directory
-  * User data stored in ~/.atakit/
-
- -- Yaoxin Jin <yaoxin.j@ata.network>  Tue, 07 Jan 2026 18:00:00 +0000

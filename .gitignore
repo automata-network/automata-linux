@@ -1,16 +1,8 @@
-azure_disk.vhd
-aws_disk.vmdk
-gcp_disk.tar.gz
+*.atabi
+*.tar.gz
+*.vhd
+*.vhd.xz
+*.vmdk
 
-aws-uefi-blob.bin
-livepatch.crt
-
-_artifacts/*
-*.pem
-*.json
-*.key
-*.pub
-
-# Package artifacts (downloaded by CI, not committed)
-*.deb
-macos-arm64.tar.gz
+_artifacts/
+dist/
