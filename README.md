@@ -8,18 +8,18 @@ It provides minimal Confidential VM guest images with the portal, container
 runtime, attestation support, and verified root filesystem required by atakit
 deployments.
 
-Current release: `automata-linux:v0.2.2-debug`
+Current release: `automata-linux:v0.2.3-debug`
 
 Release page:
 
 ```text
-https://github.com/automata-network/automata-linux/releases/tag/v0.2.2-debug
+https://github.com/automata-network/automata-linux/releases/tag/v0.2.3-debug
 ```
 
 Hoodi base image ID:
 
 ```text
-0xf2291716b993b24a8a44b616a65c7088e0da54930c57f0fd08fa2920b944f609
+0x4653d145a2d680c4cac60a3b23c6ddcd5f7150c8bb43155a36c0b53beaf9125e
 ```
 
 ## What This Repository Contains
@@ -36,13 +36,16 @@ to the base image.
 
 ## Release Assets
 
-The `v0.2.2-debug` release contains:
+The `v0.2.3-debug` release contains:
 
-- `automata-linux-v0.2.2-debug-all.atabi`
-- `automata-linux-v0.2.2-debug-gcp.atabi`
-- `automata-linux-v0.2.2-debug-aws.atabi`
-- `automata-linux-v0.2.2-debug-azure.atabi`
-- `automata-linux-v0.2.2-debug-qemu.atabi`
+- `automata-linux-v0.2.3-debug-all.atabi`
+- `automata-linux-v0.2.3-debug-gcp.atabi`
+- `automata-linux-v0.2.3-debug-aws.atabi`
+- `automata-linux-v0.2.3-debug-azure.atabi`
+- `automata-linux-v0.2.3-debug-qemu.atabi`
+
+This release includes the rootlessport upload splice fix. The kernel release
+string inside the guest remains `7.0.6-automata`.
 
 Supported platforms:
 
@@ -83,13 +86,13 @@ automata = { repo = "automata-network/automata-linux" }
 Pull the GCP archive:
 
 ```sh
-atakit image pull automata-linux:v0.2.2-debug gcp
+atakit image pull automata-linux:v0.2.3-debug gcp
 ```
 
 Pull multiple platform archives:
 
 ```sh
-atakit image pull automata-linux:v0.2.2-debug gcp,aws,azure,qemu
+atakit image pull automata-linux:v0.2.3-debug gcp,aws,azure,qemu
 ```
 
 List local images:
@@ -118,7 +121,7 @@ atakit workload pull fedora-oci:v0.0.13 --verify
 
 atakit cloud deploy fedora-oci:v0.0.13 \
   --target <configured-target> \
-  --image automata-linux:v0.2.2-debug \
+  --image automata-linux:v0.2.3-debug \
   --name fedora-oci-demo \
   --yes
 ```
