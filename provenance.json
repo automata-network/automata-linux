@@ -1,0 +1,33 @@
+{
+  "schema": "automata-linux-release-provenance-v1",
+  "release": "v0.3.1-debug",
+  "base_image_id": "0xdc22f0710de7d5da51dca3a3e1ad39d63f0bf00289b4f0562b041dc204baf5df",
+  "source_commits": {
+    "atakit-suite": "8d8850d9de459d9fbbb8a7f57b1d9fe1ec3dfa9f",
+    "atakit-ng": "38b6ac8875f71b85fc38eaec083d94e0f0889d36",
+    "atakit-portal": "a94895b43f51f79d8c3a19b5d2be9140df89cadf",
+    "atakit-imgbuild": "401b9476e14e0a130944987f616ca4c19b94fdd4",
+    "atakit-prover": "a1694c28f43de7295738be17a6cbfb33a63d03f8",
+    "dev-baseimage-private": "7b160bdae4385c8e2a939444dc3f8ae36d4ee0d5"
+  },
+  "binary_sha256": {
+    "atakit": "245efc554421f180c22448cf683d29585b1a2ff3ccd3737c109a2b6cb6148f6c",
+    "atakit-portal": "abe9e329bab6dfe829cdeadec93e1d496d02a7f0d73fcf75c72db9fcbbf28e06",
+    "atakit-proverd-sp1": "6b815de73f5105e885d0703743e7b6e31d30d46f9758c238f5d76b4a58c2dbcd",
+    "atakit-imgbuild": "3b87cb964477026e55669000b52968ba77efee68570e37ec707f108a5256b511",
+    "atakit-verifierd-test-workload": "49245790ef78044e6ad486c573ca3b9c9b1cc5b12da67f4605969d75907e38fa"
+  },
+  "archive_sha256": {
+    "automata-linux-v0.3.1-debug-all.atabi": "78c9fa540342b1bdcf09042cd63ae8a24aa891f682ab76bb0634d72c7211e481",
+    "automata-linux-v0.3.1-debug-aws.atabi": "a741b49475a7bad68ded6a64b0d1179c35766875f1894432dcdd816efbb9d942",
+    "automata-linux-v0.3.1-debug-azure.atabi": "14971268b9671ef24d1e6d25739c15c084202f6509b2debc328c377f414ea111",
+    "automata-linux-v0.3.1-debug-gcp.atabi": "22e4c4e13311f8300579e52e1a7e61301f80a254ae98d7491945d813177b646f",
+    "automata-linux-v0.3.1-debug-qemu.atabi": "67fc831220753c326eca8c19db6c1d988f07488e641c33a3ee79e75d570b208b"
+  },
+  "portal_build_profile": "production",
+  "measurement_pack_revision": 3,
+  "test_network": "controlled hoodi-fork; no public Hoodi writes",
+  "cloud_disk_reboot_rows": {"passed": 6, "azure_sev_snp": "rejected before init; accepted known deployment limitation"},
+  "qemu": "archive included; no QEMU end-to-end pass claimed by this cloud rehearsal",
+  "notes": "Tested binaries and image bytes were retained after signing commits of the tested source changes. The verifier daemon is a test-workload dependency, not an extra base-image component. Public-network registration is separate from GitHub asset publication."
+}

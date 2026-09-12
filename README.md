@@ -1,148 +1,80 @@
 # Automata Linux
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![GitHub Release](https://img.shields.io/github/v/release/automata-network/automata-linux)](https://github.com/automata-network/automata-linux/releases)
-
 Automata Linux is the public base-image release channel for atakit workloads.
-It provides minimal Confidential VM guest images with the portal, container
-runtime, attestation support, and verified root filesystem required by atakit
-deployments.
+It provides a minimal Confidential VM guest with Portal, a container runtime,
+attestation support, and a verified read-only root filesystem.
 
-Current release: `automata-linux:v0.2.4-debug`
+Current pre-release: [automata-linux:v0.3.1-debug](https://github.com/automata-network/automata-linux/releases/tag/v0.3.1-debug).
 
-Release page:
+The `debug` release name does not disable verification. The bundled Portal was
+built with the production profile, and measurement checks remain enforced.
 
-```text
-https://github.com/automata-network/automata-linux/releases/tag/v0.2.4-debug
-```
+## Highlights
 
-Hoodi base image ID:
+- Operator-selected initialization authentication using a provisioned public key.
+- Per-disk passphrase delivery on first boot and reboot through the same API.
+- Explicit permission for disk formatting and overwrite.
+- GCP boot policies allow a dynamic writable partition while checking the
+  remaining selected boot events.
+- AWS session-key preservation during TPM access and corrected verification
+  after key rotation.
+- Registration and lifecycle retries when another operation advances the
+  same owner's operation counter.
 
-```text
-0xc1beb88ace5e6ed3d617779e5c77fe89777387b578c92f9a60ae18edc217beb2
-```
+## Known Azure SEV-SNP limitation
 
-## What This Repository Contains
+Some Azure SEV-SNP deployments have different firmware and boot measurements
+from the published profile. They fail PCR 0 and PCR 2 verification before
+initialization. Both checks remain enforced. The rejected deployment in the
+release rehearsal did not complete its workload and reboot tests; this is an
+accepted deployment limitation, not a passing result for that boot variant.
 
-This repository is intentionally small. It hosts public release metadata and
-GitHub release assets for Automata Linux images. The release assets are pulled
-by the atakit CLI; the repository is not an atakit source tree and does not
-build or package the atakit CLI.
+## Release assets
 
-The base image does not expose SSH. Access a deployment through the workload's
-declared ports, atakit status commands, and cloud serial output when needed. If
-a workload exposes SSH, that SSH server belongs to the workload container, not
-to the base image.
+The release includes `automata-linux-v0.3.1-debug-{all,gcp,aws,azure,qemu}.atabi`,
+a signed measurement pack (`.json`, `.sig`, and `.pubkey`), `SHA256SUMS`, its
+signature, and source/artifact provenance. Verify the checksums and signatures
+against a publisher or signing key you trust independently.
 
-## Release Assets
+The base-image identity is
+`0xdc22f0710de7d5da51dca3a3e1ad39d63f0bf00289b4f0562b041dc204baf5df`.
 
-The `v0.2.4-debug` release contains:
+The rehearsal used a controlled Hoodi fork. GitHub asset publication does not
+register this identity on a public network or update public-network policy.
+Use the signed measurement pack for offline verification, or ensure your
+selected chain has the required image and workload records.
 
-- `automata-linux-v0.2.4-debug-all.atabi`
-- `automata-linux-v0.2.4-debug-gcp.atabi`
-- `automata-linux-v0.2.4-debug-aws.atabi`
-- `automata-linux-v0.2.4-debug-azure.atabi`
-- `automata-linux-v0.2.4-debug-qemu.atabi`
+## Use with atakit
 
-This release includes the rootlessport upload splice fix. The kernel release
-string inside the guest is `7.0.6-automata-splicefix`.
+Use a compatible CLI supporting ATAWL format 8 and the per-boot disk-unlock API.
+The release was tested with CLI version 0.6.0; provenance records its exact source.
 
-Supported platforms:
-
-- `gcp`
-- `aws`
-- `azure`
-- `qemu`
-
-## Install atakit
-
-Install the public atakit CLI from
-[`automata-network/atakit`](https://github.com/automata-network/atakit):
-
-```sh
-git clone https://github.com/automata-network/atakit.git
-cd atakit
-cargo install --path crates/atakit-cli
-```
-
-Confirm it is available:
-
-```sh
-atakit --help
-```
-
-## Configure The Image Repository
-
-Add the public Automata Linux image repository to
-`~/.config/atakit/config.toml`:
+Configure the image repository:
 
 ```toml
 [image.repositories]
 automata = { repo = "automata-network/automata-linux" }
 ```
 
-## Pull The Base Image
-
-Pull the GCP archive:
-
 ```sh
-atakit image pull automata-linux:v0.2.4-debug gcp
-```
-
-Pull multiple platform archives:
-
-```sh
-atakit image pull automata-linux:v0.2.4-debug gcp,aws,azure,qemu
-```
-
-List local images:
-
-```sh
+atakit image pull automata-linux:v0.3.1-debug gcp
 atakit image ls
 ```
 
-## Use With Workload Examples
+Choose a workload whose measured policy permits this publisher-qualified image.
+Cloud account, machine type, attestation authority, and chain settings must
+match your deployment. The measured cloud variants in this release are:
 
-The public workload examples are available at
-[`melynx/cvm-workload-examples`](https://github.com/melynx/cvm-workload-examples):
+| Platform | Machine type |
+|---|---|
+| GCP TDX | c3-standard-4 |
+| GCP SEV-SNP | n2d-standard-4 |
+| Azure TDX | Standard_DC2es_v6 |
+| Azure SEV-SNP | Standard_DC2as_v5 |
+| AWS SEV-SNP | m6a.large |
 
-```toml
-[image.repositories]
-automata = { repo = "automata-network/automata-linux" }
+The base image does not expose host SSH. Use Portal status and cloud serial
+output for host diagnosis. A workload may expose its own SSH service.
 
-[workload.repositories]
-examples = { type = "github", repo = "melynx/cvm-workload-examples" }
-```
-
-Pull an example workload and deploy it with this base image:
-
-```sh
-atakit workload pull fedora-oci:v0.0.13 --verify
-
-atakit cloud deploy fedora-oci:v0.0.13 \
-  --target <configured-target> \
-  --image automata-linux:v0.2.4-debug \
-  --name fedora-oci-demo \
-  --yes
-```
-
-See the workload examples repository for complete deployment guides and
-per-example usage.
-
-## Published Measurement Profiles
-
-The cloud target and confidential-computing type are selected by your atakit
-cloud configuration.
-
-| Platform | Variants |
-|----------|----------|
-| `gcp-tdx` | `c3-standard-4`, `c3-standard-8`, `c3-standard-22`, `c3-standard-44` |
-| `gcp-sev-snp` | `n2d-standard-2`, `n2d-standard-4`, `n2d-standard-8`, `n2d-standard-16` |
-| `azure-tdx` | `Standard_DC2es_v6`, `Standard_DC4es_v6`, `Standard_DC8es_v6`, `Standard_DC16es_v6` |
-| `azure-sev-snp` | `Standard_DC2as_v5`, `Standard_DC4as_v5`, `Standard_DC8as_v5`, `Standard_DC16as_v5` |
-
-## Cleanup
-
-Destroying a workload deployment removes the VM and workload resources. The
-uploaded provider image is reusable and is not removed unless image cleanup is
-explicitly requested.
+Use `atakit cloud destroy` for deployment cleanup. Reusable provider images
+are preserved unless image deletion is explicitly requested.
