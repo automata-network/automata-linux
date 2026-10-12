@@ -4,50 +4,52 @@ Automata Linux is the public base-image release channel for atakit workloads.
 It provides a minimal Confidential VM guest with Portal, a container runtime,
 attestation support, and a verified read-only root filesystem.
 
-Current pre-release: [automata-linux:v0.3.1-debug](https://github.com/automata-network/automata-linux/releases/tag/v0.3.1-debug).
+Current prerelease: [automata-linux:v0.3.4-debug](https://github.com/automata-network/automata-linux/releases/tag/v0.3.4-debug).
+Use atakit CLI **0.7.3** with this release.
 
-The `debug` release name does not disable verification. The bundled Portal was
-built with the production profile, and measurement checks remain enforced.
+This is a debug image. Its test results do not establish sealed-platform
+compliance. See [release notes](RELEASE_NOTES.md) for behavior and test coverage.
 
 ## Highlights
 
-- Operator-selected initialization authentication using a provisioned public key.
-- Per-disk passphrase delivery on first boot and reboot through the same API.
-- Explicit permission for disk formatting and overwrite.
-- GCP boot policies allow a dynamic writable partition while checking the
-  remaining selected boot events.
-- AWS session-key preservation during TPM access and corrected verification
-  after key rotation.
-- Registration and lifecycle retries when another operation advances the
-  same owner's operation counter.
-
-## Known Azure SEV-SNP limitation
-
-Some Azure SEV-SNP deployments have different firmware and boot measurements
-from the published profile. They fail PCR 0 and PCR 2 verification before
-initialization. Both checks remain enforced. The rejected deployment in the
-release rehearsal did not complete its workload and reboot tests; this is an
-accepted deployment limitation, not a passing result for that boot variant.
+- Workload manifest format 14 defines explicit `read`, `write`, and `execute`
+  access for workload, dependency, and baby-container storage mounts.
+- Baby `parent-access` limits access through overlapping parent mounts and
+  defaults to no parent access.
+- Disk-based Python virtual environments, native extensions, and saved data
+  passed tests across VM reboots.
+- Portal accepts compiled workload formats 11–14. Earlier formats keep their
+  existing storage fields and behavior.
+- Both observed Azure SEV-SNP firmware variants have fresh boot measurements.
+  Unknown measurement variants still fail verification.
 
 ## Release assets
 
-The release includes `automata-linux-v0.3.1-debug-{all,gcp,aws,azure,qemu}.atabi`,
-a signed measurement pack (`.json`, `.sig`, and `.pubkey`), `SHA256SUMS`, its
-signature, and source/artifact provenance. Verify the checksums and signatures
-against a publisher or signing key you trust independently.
+The release includes four image archives:
+
+- `automata-linux-v0.3.4-debug-aws-azure-gcp.atabi`
+- `automata-linux-v0.3.4-debug-aws.atabi`
+- `automata-linux-v0.3.4-debug-azure.atabi`
+- `automata-linux-v0.3.4-debug-gcp.atabi`
+
+Each archive has a corresponding signed measurement pack (`.json`, `.sig`,
+and `.pubkey`). The release also includes `SHA256SUMS`, `RELEASE-NOTES.md`,
+and `measurement-provenance.json`. Verify the archive checksums and measurement
+pack signatures using a publisher key you trust independently.
 
 The base-image identity is
-`0xdc22f0710de7d5da51dca3a3e1ad39d63f0bf00289b4f0562b041dc204baf5df`.
+`0x0968613bd4f33a5f5eb32e857f6c99299d03ee83d73b47f2f2434c8b01fd6bad`.
 
-The rehearsal used a controlled Hoodi fork. GitHub asset publication does not
-register this identity on a public network or update public-network policy.
-Use the signed measurement pack for offline verification, or ensure your
-selected chain has the required image and workload records.
+The release's image policies were published on public Hoodi: five platform
+profiles and thirteen measurement variants. Workload policy must also permit
+this image when using registry-based verification.
+
+[provenance.json](provenance.json) is an exact copy of the published
+`measurement-provenance.json` asset. It records source commits, artifact hashes,
+and which measurement rules came from fresh boots or prior validated evidence.
+The files in this branch describe the release; image binaries are release assets.
 
 ## Use with atakit
-
-Use a compatible CLI supporting ATAWL format 8 and the per-boot disk-unlock API.
-The release was tested with CLI version 0.6.0; provenance records its exact source.
 
 Configure the image repository:
 
@@ -57,24 +59,36 @@ automata = { repo = "automata-network/automata-linux" }
 ```
 
 ```sh
-atakit image pull automata-linux:v0.3.1-debug gcp
+atakit image pull automata-linux:v0.3.4-debug gcp
 atakit image ls
 ```
 
-Choose a workload whose measured policy permits this publisher-qualified image.
+Choose a workload whose policy permits this publisher-qualified image.
 Cloud account, machine type, attestation authority, and chain settings must
-match your deployment. The measured cloud variants in this release are:
+match your deployment.
 
-| Platform | Machine type |
-|---|---|
-| GCP TDX | c3-standard-4 |
-| GCP SEV-SNP | n2d-standard-4 |
-| Azure TDX | Standard_DC2es_v6 |
-| Azure SEV-SNP | Standard_DC2as_v5 |
-| AWS SEV-SNP | m6a.large |
+## Measurement and test coverage
 
-The base image does not expose host SSH. Use Portal status and cloud serial
-output for host diagnosis. A workload may expose its own SSH service.
+| Platform | Fresh v0.3.4-debug boot measurements | Additional published variants using prior evidence |
+|---|---|---|
+| GCP TDX | `c3-standard-4` | `c3-standard-8`, `c3-standard-22`, `c3-standard-44`, `c3-standard-88`, `c3-standard-176` |
+| GCP SEV-SNP | `n2d-standard-4` | None |
+| Azure TDX | `Standard_DC2es_v6` | None |
+| Azure SEV-SNP | Both observed `Standard_DC2as_v5` firmware variants | None |
+| AWS SEV-SNP | `m6a.large` | `m6a.xlarge`, `m6a.2xlarge` |
 
-Use `atakit cloud destroy` for deployment cleanup. Reusable provider images
-are preserved unless image deletion is explicitly requested.
+The additional GCP sizes use previously verified equal measurement rules.
+The additional AWS sizes retain their separately measured PCR 0 firmware rules.
+All image-dependent rules come from fresh v0.3.4-debug measurements. The
+additional sizes were not booted in this release campaign.
+
+Functional storage and reboot tests passed on all five platforms. GCP TDX and
+SEV-SNP also passed required registration and independent session verification
+on `hoodi-fork`. AWS and Azure used registration off with attested TLS
+verification. The Azure SEV-SNP functional test used the `f303` firmware variant;
+both firmware variants received fresh boot-measurement coverage.
+
+Use Portal status and cloud serial output for host diagnosis. A workload may
+expose its own SSH service. Use `atakit cloud destroy` for deployment cleanup.
+Reusable provider images are preserved unless image deletion is explicitly
+requested.

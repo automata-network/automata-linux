@@ -1,33 +1,197 @@
 {
-  "schema": "automata-linux-release-provenance-v1",
-  "release": "v0.3.1-debug",
-  "base_image_id": "0xdc22f0710de7d5da51dca3a3e1ad39d63f0bf00289b4f0562b041dc204baf5df",
-  "source_commits": {
-    "atakit-suite": "8d8850d9de459d9fbbb8a7f57b1d9fe1ec3dfa9f",
-    "atakit-ng": "38b6ac8875f71b85fc38eaec083d94e0f0889d36",
-    "atakit-portal": "a94895b43f51f79d8c3a19b5d2be9140df89cadf",
-    "atakit-imgbuild": "401b9476e14e0a130944987f616ca4c19b94fdd4",
-    "atakit-prover": "a1694c28f43de7295738be17a6cbfb33a63d03f8",
-    "dev-baseimage-private": "7b160bdae4385c8e2a939444dc3f8ae36d4ee0d5"
+  "image": "automata-linux:v0.3.4-debug",
+  "image_id": "0x0968613bd4f33a5f5eb32e857f6c99299d03ee83d73b47f2f2434c8b01fd6bad",
+  "portal_sha256": "411f5ffe57e5455c9705632af4309d1294e80e242c581eb11f9fc8ca9db4e918",
+  "source_merges": {
+    "cli": "261c186440f49c10e0d32fc5e326ad5fc7b19865",
+    "portal": "2ce0120cca9d3334e04b9b6e55732a3228c102e5",
+    "imgbuild": "b9d4b4c9f63361688ae5af04b22717bf7f00c3bc",
+    "image": "08939c8b9f8ad4d77bd52236e81b11cbde994f9f"
   },
-  "binary_sha256": {
-    "atakit": "245efc554421f180c22448cf683d29585b1a2ff3ccd3737c109a2b6cb6148f6c",
-    "atakit-portal": "abe9e329bab6dfe829cdeadec93e1d496d02a7f0d73fcf75c72db9fcbbf28e06",
-    "atakit-proverd-sp1": "6b815de73f5105e885d0703743e7b6e31d30d46f9758c238f5d76b4a58c2dbcd",
-    "atakit-imgbuild": "3b87cb964477026e55669000b52968ba77efee68570e37ec707f108a5256b511",
-    "atakit-verifierd-test-workload": "49245790ef78044e6ad486c573ca3b9c9b1cc5b12da67f4605969d75907e38fa"
+  "cloud_acceptance": {
+    "gcp-tdx": {
+      "passed": true,
+      "instance": "release034-gcp-tdx-1002",
+      "image": "automata-linux:v0.3.4-debug",
+      "workload_registration": "required",
+      "tests": [
+        "dependency exec/noexec/readonly",
+        "parent shared read-only/noexec",
+        "workload exec/noexec/readonly",
+        "baby exec/noexec/readonly",
+        "numpy native import",
+        "scripts and binaries",
+        "nosuid/nodev",
+        "VM reboot persistence"
+      ]
+    },
+    "gcp-snp": {
+      "passed": true,
+      "instance": "release034-gcp-snp-1002",
+      "image": "automata-linux:v0.3.4-debug",
+      "workload_registration": "required",
+      "tests": [
+        "dependency exec/noexec/readonly",
+        "parent shared read-only/noexec",
+        "workload exec/noexec/readonly",
+        "baby exec/noexec/readonly",
+        "numpy native import",
+        "scripts and binaries",
+        "nosuid/nodev",
+        "VM reboot persistence"
+      ]
+    },
+    "aws": {
+      "passed": true,
+      "instance": "release034-aws-1002",
+      "image": "automata-linux:v0.3.4-debug",
+      "workload_registration": "off",
+      "tests": [
+        "dependency exec/noexec/readonly",
+        "parent shared read-only/noexec",
+        "workload exec/noexec/readonly",
+        "baby exec/noexec/readonly",
+        "numpy native import",
+        "scripts and binaries",
+        "nosuid/nodev",
+        "VM reboot persistence"
+      ]
+    },
+    "azure-tdx": {
+      "passed": true,
+      "instance": "release034-azure-tdx-1002",
+      "image": "automata-linux:v0.3.4-debug",
+      "workload_registration": "off",
+      "tests": [
+        "dependency exec/noexec/readonly",
+        "parent shared read-only/noexec",
+        "workload exec/noexec/readonly",
+        "baby exec/noexec/readonly",
+        "numpy native import",
+        "scripts and binaries",
+        "nosuid/nodev",
+        "VM reboot persistence"
+      ]
+    },
+    "azure-snp3": {
+      "passed": true,
+      "instance": "release034-azure-snp3-1002",
+      "image": "automata-linux:v0.3.4-debug",
+      "workload_registration": "off",
+      "tests": [
+        "dependency exec/noexec/readonly",
+        "parent shared read-only/noexec",
+        "workload exec/noexec/readonly",
+        "baby exec/noexec/readonly",
+        "numpy native import",
+        "scripts and binaries",
+        "nosuid/nodev",
+        "VM reboot persistence"
+      ]
+    }
   },
-  "archive_sha256": {
-    "automata-linux-v0.3.1-debug-all.atabi": "78c9fa540342b1bdcf09042cd63ae8a24aa891f682ab76bb0634d72c7211e481",
-    "automata-linux-v0.3.1-debug-aws.atabi": "a741b49475a7bad68ded6a64b0d1179c35766875f1894432dcdd816efbb9d942",
-    "automata-linux-v0.3.1-debug-azure.atabi": "14971268b9671ef24d1e6d25739c15c084202f6509b2debc328c377f414ea111",
-    "automata-linux-v0.3.1-debug-gcp.atabi": "22e4c4e13311f8300579e52e1a7e61301f80a254ae98d7491945d813177b646f",
-    "automata-linux-v0.3.1-debug-qemu.atabi": "67fc831220753c326eca8c19db6c1d988f07488e641c33a3ee79e75d570b208b"
+  "derivations": [
+    {
+      "platform": "gcp-tdx",
+      "fresh_boots": [
+        "c3-standard-4"
+      ],
+      "derived_variants": [
+        "c3-standard-176",
+        "c3-standard-22",
+        "c3-standard-44",
+        "c3-standard-8",
+        "c3-standard-88"
+      ],
+      "basis": "Prior verified cross-size equality; current measured variant rules are unchanged.",
+      "not_claimed": "Fresh v0.3.4 boots of the derived machine sizes"
+    },
+    {
+      "platform": "aws-sev-snp",
+      "fresh_boots": [
+        "m6a.large"
+      ],
+      "derived_variants": [
+        "m6a.2xlarge",
+        "m6a.xlarge"
+      ],
+      "basis": "Prior exact per-machine PCR0 firmware rules; current m6a.large PCR0 is unchanged. PCR0 remains variant-specific; common image rules use only fresh v0.3.4 measurements.",
+      "not_claimed": "Fresh v0.3.4 boots of the derived machine sizes"
+    }
+  ],
+  "azure_firmware_samples": {
+    "0x84275b2f4312cd4fc6cbe6b152ad3c3683e513d9f1e23c34fca160c8cca7a6a7": [
+      "release034-azure-snp-sample-1002-measure-initial",
+      "release034-azure-snp2-sample-1002-measure-initial",
+      "release034-azure-snp2-sample-1002-measure-reboot",
+      "release034-azure-snp3-1002-measure-initial",
+      "release034-azure-snp3-1002-measure-preinit-reboot"
+    ],
+    "0x372bf3434345039622a009784b504a488efd26a4d2d551d12e39d3ac7de232db": [
+      "release034-azure-snp-1002-measure-initial",
+      "release034-azure-snp-1002-measure-preinit-reboot",
+      "release034-azure-snp4-sample-1002-measure-initial"
+    ]
   },
-  "portal_build_profile": "production",
-  "measurement_pack_revision": 3,
-  "test_network": "controlled hoodi-fork; no public Hoodi writes",
-  "cloud_disk_reboot_rows": {"passed": 6, "azure_sev_snp": "rejected before init; accepted known deployment limitation"},
-  "qemu": "archive included; no QEMU end-to-end pass claimed by this cloud rehearsal",
-  "notes": "Tested binaries and image bytes were retained after signing commits of the tested source changes. The verifier daemon is a test-workload dependency, not an extra base-image component. Public-network registration is separate from GitHub asset publication."
+  "archives": {
+    "automata-linux-v0.3.4-debug-aws-azure-gcp.atabi": {
+      "sha256": "1a55fdae19bf28a8943c1c4aeeea9b8ee497212eaef4c34975f71bc89563e32c",
+      "size": 632597503,
+      "files": {
+        "manifest.toml": "4d5af2061db94d3254e7a94f78549f5dccc5a406fb6cd58a43f634dbc6283c83",
+        "baseimage.toml": "163fca9e7d643e6a6930a3e58c0c6bff5fe1f0985a9f29f83b8700261764e1ea",
+        "disk_images/aws_disk.vmdk": "cacebba5ec79da6e9a8ef980da3de7e217a08a304e905967c4732a172574bb82",
+        "disk_images/azure_disk.vhd.zst": "17545764a8580062e37535d2c22ea8b9c8d6bdb6eedebe0c1d0ada96aad1be2b",
+        "disk_images/gcp_disk.tar.gz": "fef4d756871010e374a2aef9c905b7d45ab6ed1b7b24b599a754e6f429584ff4",
+        "secure_boot_certs/KEK.crt": "e2123d35fea21712bd90f1beacf0eb12cda16b3ce77016572de1a98c2a463a2c",
+        "secure_boot_certs/PK.crt": "72657b49c2328fcfd7dddefc8e3853aa30723fe69298680e38263284611c97f6",
+        "secure_boot_certs/aws-uefi-blob.bin": "4d94f7e7a58fa45b222cf61b2eebb2fcd3ef4089a33384f080d02fe0d72dc05c",
+        "secure_boot_certs/db.crt": "e202c6830039aaa55f6957e003d58328381c15d210af9c82db95e4a38946436e",
+        "secure_boot_certs/kernel.crt": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2"
+      }
+    },
+    "automata-linux-v0.3.4-debug-aws.atabi": {
+      "sha256": "002e008e1aedd7cc9ce0073c72ecfb3f75330b805eb18a4d64f89b9ed97f1565",
+      "size": 217309467,
+      "files": {
+        "manifest.toml": "45e46a54c0b07467aa5db60892bf750f827e32f33550b9eb1d9453dc6291744d",
+        "baseimage.toml": "163fca9e7d643e6a6930a3e58c0c6bff5fe1f0985a9f29f83b8700261764e1ea",
+        "disk_images/aws_disk.vmdk": "cacebba5ec79da6e9a8ef980da3de7e217a08a304e905967c4732a172574bb82",
+        "secure_boot_certs/KEK.crt": "e2123d35fea21712bd90f1beacf0eb12cda16b3ce77016572de1a98c2a463a2c",
+        "secure_boot_certs/PK.crt": "72657b49c2328fcfd7dddefc8e3853aa30723fe69298680e38263284611c97f6",
+        "secure_boot_certs/aws-uefi-blob.bin": "4d94f7e7a58fa45b222cf61b2eebb2fcd3ef4089a33384f080d02fe0d72dc05c",
+        "secure_boot_certs/db.crt": "e202c6830039aaa55f6957e003d58328381c15d210af9c82db95e4a38946436e",
+        "secure_boot_certs/kernel.crt": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2"
+      }
+    },
+    "automata-linux-v0.3.4-debug-azure.atabi": {
+      "sha256": "6b975136eb3af1ce52d90784db39251c2e0ef0ac5520b8274446a68989c80783",
+      "size": 203973051,
+      "files": {
+        "manifest.toml": "b753fe0ef103dca84269bb331efcb8e35b251face101d0c3ccdc3f7fa1a824a0",
+        "baseimage.toml": "163fca9e7d643e6a6930a3e58c0c6bff5fe1f0985a9f29f83b8700261764e1ea",
+        "disk_images/azure_disk.vhd.zst": "17545764a8580062e37535d2c22ea8b9c8d6bdb6eedebe0c1d0ada96aad1be2b",
+        "secure_boot_certs/KEK.crt": "e2123d35fea21712bd90f1beacf0eb12cda16b3ce77016572de1a98c2a463a2c",
+        "secure_boot_certs/PK.crt": "72657b49c2328fcfd7dddefc8e3853aa30723fe69298680e38263284611c97f6",
+        "secure_boot_certs/aws-uefi-blob.bin": "4d94f7e7a58fa45b222cf61b2eebb2fcd3ef4089a33384f080d02fe0d72dc05c",
+        "secure_boot_certs/db.crt": "e202c6830039aaa55f6957e003d58328381c15d210af9c82db95e4a38946436e",
+        "secure_boot_certs/kernel.crt": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2"
+      }
+    },
+    "automata-linux-v0.3.4-debug-gcp.atabi": {
+      "sha256": "dc6cd6100728d8c37f07f2559194a0b2d12de5d2f122b5eb792ffffcd377bf9a",
+      "size": 211411042,
+      "files": {
+        "manifest.toml": "48026102c86095cbff8054a7f7b8daf4171edfa352521a93e7a6180db161781f",
+        "baseimage.toml": "163fca9e7d643e6a6930a3e58c0c6bff5fe1f0985a9f29f83b8700261764e1ea",
+        "disk_images/gcp_disk.tar.gz": "fef4d756871010e374a2aef9c905b7d45ab6ed1b7b24b599a754e6f429584ff4",
+        "secure_boot_certs/KEK.crt": "e2123d35fea21712bd90f1beacf0eb12cda16b3ce77016572de1a98c2a463a2c",
+        "secure_boot_certs/PK.crt": "72657b49c2328fcfd7dddefc8e3853aa30723fe69298680e38263284611c97f6",
+        "secure_boot_certs/aws-uefi-blob.bin": "4d94f7e7a58fa45b222cf61b2eebb2fcd3ef4089a33384f080d02fe0d72dc05c",
+        "secure_boot_certs/db.crt": "e202c6830039aaa55f6957e003d58328381c15d210af9c82db95e4a38946436e",
+        "secure_boot_certs/kernel.crt": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2"
+      }
+    }
+  },
+  "sealed_platform_compliance": "not established by debug image testing"
 }
