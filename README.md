@@ -1,55 +1,54 @@
 # Automata Linux
 
-Automata Linux is the public base-image release channel for atakit workloads.
-It provides a minimal Confidential VM guest with Portal, a container runtime,
-attestation support, and a verified read-only root filesystem.
+Automata Linux is the public base-image release channel for Atakit workloads.
+Current release: [automata-linux:v0.3.5](https://github.com/automata-network/automata-linux/releases/tag/v0.3.5).
 
-Current pre-release: [automata-linux:v0.3.1-debug](https://github.com/automata-network/automata-linux/releases/tag/v0.3.1-debug).
+v0.3.5 is a **non-debug** image with a verified read-only root filesystem,
+Portal, confidential-VM attestation support, and container runtimes. It uses
+kernel `7.2.12-automata-splicefix`, disables its configured serial console,
+and sets Atakit system logging to `off`. It provides no host SSH service.
+Workload-authorized services may expose their own interfaces and export logs.
 
-The `debug` release name does not disable verification. The bundled Portal was
-built with the production profile, and measurement checks remain enforced.
+Use **atakit CLI v0.7.4 or later with format 15 support**. v0.3.5 requires
+workload manifest format **15** and rejects older manifests. The CLI release
+is private; repository access is required to download its binaries.
 
-## Highlights
+## Identity and supported platforms
 
-- Operator-selected initialization authentication using a provisioned public key.
-- Per-disk passphrase delivery on first boot and reboot through the same API.
-- Explicit permission for disk formatting and overwrite.
-- GCP boot policies allow a dynamic writable partition while checking the
-  remaining selected boot events.
-- AWS session-key preservation during TPM access and corrected verification
-  after key rotation.
-- Registration and lifecycle retries when another operation advances the
-  same owner's operation counter.
+- Publisher fingerprint: `0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7d3ecb259d2`.
+- Base-image ID: `0x84653d0c72d636af1b339ecc24011088690b6398d32c113a639d13137d9cc7b8`.
+- Registered on public Hoodi, chain ID `560048`.
 
-## Known Azure SEV-SNP limitation
+| Platform | Supported machines |
+| --- | --- |
+| AWS SEV-SNP | `m6a.large`, `m6a.xlarge`, `m6a.2xlarge` |
+| Azure SEV-SNP | `Standard_DC2as_v5`, two firmware variants |
+| Azure TDX | `Standard_DC2es_v6` |
+| GCP SEV-SNP | `n2d-standard-4` |
+| GCP TDX | `c3-standard-4`, `c3-standard-8`, `c3-standard-22`, `c3-standard-44`, `c3-standard-88`, `c3-standard-176` |
 
-Some Azure SEV-SNP deployments have different firmware and boot measurements
-from the published profile. They fail PCR 0 and PCR 2 verification before
-initialization. Both checks remain enforced. The rejected deployment in the
-release rehearsal did not complete its workload and reboot tests; this is an
-accepted deployment limitation, not a passing result for that boot variant.
+Exact variant names and policies are in the signed measurement packs. QEMU is
+included for local emulation and provides no hardware attestation.
 
-## Release assets
+## Download and verify
 
-The release includes `automata-linux-v0.3.1-debug-{all,gcp,aws,azure,qemu}.atabi`,
-a signed measurement pack (`.json`, `.sig`, and `.pubkey`), `SHA256SUMS`, its
-signature, and source/artifact provenance. Verify the checksums and signatures
-against a publisher or signing key you trust independently.
+The release provides five archives (`all`, `aws`, `azure`, `gcp`, `qemu`), a
+signed measurement pack for each archive, release notes, provenance, and a
+checksum file: **23 files** in total. Each pack binds the archive hash to the
+publisher's signature and includes the same five hardware profiles.
 
-The base-image identity is
-`0xdc22f0710de7d5da51dca3a3e1ad39d63f0bf00289b4f0562b041dc204baf5df`.
+Download all release files into an empty directory. Set `trusted_publisher_key`
+to a publisher public key obtained through a source you trust independently.
+Do not establish trust from a `.pubkey` file downloaded beside the archive.
+Verify the signed `v0.3.5` Git tag using a Git signing identity you trust,
+then run the verifier from that tag's checkout (Python 3.11+ and OpenSSL):
 
-The rehearsal used a controlled Hoodi fork. GitHub asset publication does not
-register this identity on a public network or update public-network policy.
-Use the signed measurement pack for offline verification, or ensure your
-selected chain has the required image and workload records.
+```sh
+python3 scripts/verify-release.py /path/to/downloaded-assets \
+  --publisher-key "$trusted_publisher_key"
+```
 
-## Use with atakit
-
-Use a compatible CLI supporting ATAWL format 8 and the per-boot disk-unlock API.
-The release was tested with CLI version 0.6.0; provenance records its exact source.
-
-Configure the image repository:
+Configure a compatible CLI with this image repository:
 
 ```toml
 [image.repositories]
@@ -57,24 +56,20 @@ automata = { repo = "automata-network/automata-linux" }
 ```
 
 ```sh
-atakit image pull automata-linux:v0.3.1-debug gcp
+atakit image pull automata-linux:v0.3.5 gcp
 atakit image ls
 ```
 
-Choose a workload whose measured policy permits this publisher-qualified image.
-Cloud account, machine type, attestation authority, and chain settings must
-match your deployment. The measured cloud variants in this release are:
+Choose a signed workload whose measured policy permits this publisher-qualified
+base image. Successful startup alone is **not verified hardware evidence or
+authorization to release secrets**. A provisioner must independently verify
+fresh hardware evidence and signed policies against trusted measurements.
 
-| Platform | Machine type |
-|---|---|
-| GCP TDX | c3-standard-4 |
-| GCP SEV-SNP | n2d-standard-4 |
-| Azure TDX | Standard_DC2es_v6 |
-| Azure SEV-SNP | Standard_DC2as_v5 |
-| AWS SEV-SNP | m6a.large |
+See [release notes](RELEASE_NOTES.md) for tests and limitations,
+[provenance](provenance.json) for original build revisions and hashes, and
+[the release checklist](RELEASE-CHECKLIST.md) for publication requirements.
+The public release tag identifies documentation; the provenance records the
+private image build sources separately. The October 27 correction replaces
+the original tag's v0.3.1-debug documentation and is disclosed in the release.
 
-The base image does not expose host SSH. Use Portal status and cloud serial
-output for host diagnosis. A workload may expose its own SSH service.
-
-Use `atakit cloud destroy` for deployment cleanup. Reusable provider images
-are preserved unless image deletion is explicitly requested.
+Use `atakit cloud destroy` for deployment cleanup.
