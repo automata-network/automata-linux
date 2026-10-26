@@ -1,33 +1,420 @@
 {
   "schema": "automata-linux-release-provenance-v1",
-  "release": "v0.3.1-debug",
-  "base_image_id": "0xdc22f0710de7d5da51dca3a3e1ad39d63f0bf00289b4f0562b041dc204baf5df",
+  "release": "v0.3.5",
+  "image_build": "non-debug",
+  "prepared_at": "2026-10-27",
+  "image_rebuilt_for_metadata_repair": false,
+  "base_image_id": "0x84653d0c72d636af1b339ecc24011088690b6398d32c113a639d13137d9cc7b8",
+  "publisher_fingerprint": "0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7d3ecb259d2",
+  "publisher_public_key": "0x04685f12ea338abcb3e42a407dcdc9f498300e5b93a7f7f6b9b7a13699ec07193438eccd5f978267445942f5398b81886b533adc082615de29807d73dc728a7af8",
   "source_commits": {
-    "atakit-suite": "8d8850d9de459d9fbbb8a7f57b1d9fe1ec3dfa9f",
-    "atakit-ng": "38b6ac8875f71b85fc38eaec083d94e0f0889d36",
-    "atakit-portal": "a94895b43f51f79d8c3a19b5d2be9140df89cadf",
-    "atakit-imgbuild": "401b9476e14e0a130944987f616ca4c19b94fdd4",
-    "atakit-prover": "a1694c28f43de7295738be17a6cbfb33a63d03f8",
-    "dev-baseimage-private": "7b160bdae4385c8e2a939444dc3f8ae36d4ee0d5"
+    "atakit-suite": "202c297b652ce0607cd4fd032eb07597577fa67f",
+    "atakit-ng": "75bba3a43d3d6121804de61dea2cbf7fb64b4ed3",
+    "atakit-portal": "e813fae6cf9be4557442689a12b9616be63a0daa",
+    "atakit-imgbuild": "927505ce804afe1670bfdde8a83aa0ab96882241",
+    "dev-baseimage-private": "74f8286999ff1691bc9b34c013f57bf1c3f9c39c",
+    "atakit-prover": "24da360b05e049a685a676095f62bf0512f4e6c5"
   },
+  "source_commit_scope": "The original image build used these recorded source revisions. The public v0.3.5 tag records release documentation; it is not the private image build source.",
   "binary_sha256": {
-    "atakit": "245efc554421f180c22448cf683d29585b1a2ff3ccd3737c109a2b6cb6148f6c",
-    "atakit-portal": "abe9e329bab6dfe829cdeadec93e1d496d02a7f0d73fcf75c72db9fcbbf28e06",
-    "atakit-proverd-sp1": "6b815de73f5105e885d0703743e7b6e31d30d46f9758c238f5d76b4a58c2dbcd",
-    "atakit-imgbuild": "3b87cb964477026e55669000b52968ba77efee68570e37ec707f108a5256b511",
-    "atakit-verifierd-test-workload": "49245790ef78044e6ad486c573ca3b9c9b1cc5b12da67f4605969d75907e38fa"
+    "atakit-portal": "e5abd8f35a8feb344f9de6f8a021c0c7a724e161d1388ab0a18415bf6c35bead",
+    "atakit-proverd-sp1": "9533810a111790f69e54e0204122fc8f6467e1a55c9c5cce83f8113252222f11",
+    "kernel.img": "328c44cda31503dba7625466298936035f7f1026b4887482af5c17a36a4c008c",
+    "kernel.crt": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2"
+  },
+  "kernel_version": "7.2.12-automata-splicefix",
+  "portal_build_profile": "production",
+  "atakit_system_logging": "off",
+  "workload_manifest_format": 15,
+  "minimum_cli_version": "0.7.4",
+  "compatible_cli_release": {
+    "version": "0.7.4",
+    "source_commit": "3ef3e49c2b3a39010ab28a0e4f2b04de0d444fe1",
+    "distribution": "private GitHub release; requires repository access"
   },
   "archive_sha256": {
-    "automata-linux-v0.3.1-debug-all.atabi": "78c9fa540342b1bdcf09042cd63ae8a24aa891f682ab76bb0634d72c7211e481",
-    "automata-linux-v0.3.1-debug-aws.atabi": "a741b49475a7bad68ded6a64b0d1179c35766875f1894432dcdd816efbb9d942",
-    "automata-linux-v0.3.1-debug-azure.atabi": "14971268b9671ef24d1e6d25739c15c084202f6509b2debc328c377f414ea111",
-    "automata-linux-v0.3.1-debug-gcp.atabi": "22e4c4e13311f8300579e52e1a7e61301f80a254ae98d7491945d813177b646f",
-    "automata-linux-v0.3.1-debug-qemu.atabi": "67fc831220753c326eca8c19db6c1d988f07488e641c33a3ee79e75d570b208b"
+    "automata-linux-v0.3.5-all.atabi": "3099c07ea9916c6d45599e0f6b0062b4582330a4179a05b8c63a0ca8ec12ed97",
+    "automata-linux-v0.3.5-aws.atabi": "695b8587701ce20522173b35e666c4ee953291691cedfc71f6a728bfa82fe749",
+    "automata-linux-v0.3.5-azure.atabi": "6ccac60226120a5cf5a5de0364fb1a636639ba98a49b9ff7424561e545d89054",
+    "automata-linux-v0.3.5-gcp.atabi": "98986b47ec19b5008175c6f71b430dd3b59b6267aa640bd84b5557e0332ccea3",
+    "automata-linux-v0.3.5-qemu.atabi": "f148f24edb30ae5cc14d383c54a485575d5a8c8a810c3dc5dff8eb4a97757381"
   },
-  "portal_build_profile": "production",
-  "measurement_pack_revision": 3,
-  "test_network": "controlled hoodi-fork; no public Hoodi writes",
-  "cloud_disk_reboot_rows": {"passed": 6, "azure_sev_snp": "rejected before init; accepted known deployment limitation"},
-  "qemu": "archive included; no QEMU end-to-end pass claimed by this cloud rehearsal",
-  "notes": "Tested binaries and image bytes were retained after signing commits of the tested source changes. The verifier daemon is a test-workload dependency, not an extra base-image component. Public-network registration is separate from GitHub asset publication."
+  "archive_contents": {
+    "automata-linux-v0.3.5-all.atabi": {
+      "manifest": {
+        "meta": {
+          "format": 2,
+          "name": "automata-linux",
+          "version": "v0.3.5",
+          "platforms": [
+            "gcp",
+            "aws",
+            "azure",
+            "qemu"
+          ]
+        }
+      },
+      "entries": {
+        "manifest.toml": {
+          "sha256": "7436f916cf3a08529dff5fd3bb0b4fa595fcbea5866267b733d330e4ccbbf6a0",
+          "size": 124
+        },
+        "baseimage.toml": {
+          "sha256": "98b9c009e8c347697c8537af8150d3c1e31a120eb5fb72d2c4aeb6893b8971bc",
+          "size": 2916
+        },
+        "disk_images/aws_disk.vmdk": {
+          "sha256": "d6fb8b950d75ba600451980d10da2d2f9da7954ca1af088ca307d9427fc26b00",
+          "size": 220153856
+        },
+        "disk_images/azure_disk.vhd": {
+          "sha256": "4798de7c445848885a256b5ca1a52cc7ed16f245915e19e080f5c8b62a1b6a43",
+          "size": 1073742336
+        },
+        "disk_images/gcp_disk.tar.gz": {
+          "sha256": "8e742415cdd3befbd9a1b770a254aa7a70511a1a24ed2a48f3329dfa710b3205",
+          "size": 213536543
+        },
+        "disk_images/qemu_disk.qcow2": {
+          "sha256": "17cd46a146343c470d08ef939fadb9784c723a8140095c1a5e5f268901f67460",
+          "size": 555286528
+        },
+        "secure_boot_certs/KEK.crt": {
+          "sha256": "7406e9548813a7001749a3e28a1efd5b96f154b48ee1d2aa6eb33584d543b788",
+          "size": 778
+        },
+        "secure_boot_certs/PK.crt": {
+          "sha256": "9deffe74e831e76cfb496cf9fe9483fb67f8ecf81ed08893c3cab50f5c37969e",
+          "size": 778
+        },
+        "secure_boot_certs/aws-uefi-blob.bin": {
+          "sha256": "846ca194bab544ff4f7385eda54d138ea1946f1224d5928258cf229639853ce6",
+          "size": 4124
+        },
+        "secure_boot_certs/db.crt": {
+          "sha256": "faffbd098e3cf9b5ba5f74d1e2517d97b0cb5ccbf22e7956dbbe7b0c39ca46ba",
+          "size": 778
+        },
+        "secure_boot_certs/kernel.crt": {
+          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
+          "size": 1323
+        }
+      }
+    },
+    "automata-linux-v0.3.5-aws.atabi": {
+      "manifest": {
+        "meta": {
+          "format": 2,
+          "name": "automata-linux",
+          "version": "v0.3.5",
+          "platforms": [
+            "aws"
+          ]
+        }
+      },
+      "entries": {
+        "manifest.toml": {
+          "sha256": "d7d715cf562f83540f16ce47604bdba01d3eecec2abb8ac8a132cfdf72b11a63",
+          "size": 81
+        },
+        "baseimage.toml": {
+          "sha256": "98b9c009e8c347697c8537af8150d3c1e31a120eb5fb72d2c4aeb6893b8971bc",
+          "size": 2916
+        },
+        "disk_images/aws_disk.vmdk": {
+          "sha256": "d6fb8b950d75ba600451980d10da2d2f9da7954ca1af088ca307d9427fc26b00",
+          "size": 220153856
+        },
+        "secure_boot_certs/KEK.crt": {
+          "sha256": "7406e9548813a7001749a3e28a1efd5b96f154b48ee1d2aa6eb33584d543b788",
+          "size": 778
+        },
+        "secure_boot_certs/PK.crt": {
+          "sha256": "9deffe74e831e76cfb496cf9fe9483fb67f8ecf81ed08893c3cab50f5c37969e",
+          "size": 778
+        },
+        "secure_boot_certs/aws-uefi-blob.bin": {
+          "sha256": "846ca194bab544ff4f7385eda54d138ea1946f1224d5928258cf229639853ce6",
+          "size": 4124
+        },
+        "secure_boot_certs/db.crt": {
+          "sha256": "faffbd098e3cf9b5ba5f74d1e2517d97b0cb5ccbf22e7956dbbe7b0c39ca46ba",
+          "size": 778
+        },
+        "secure_boot_certs/kernel.crt": {
+          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
+          "size": 1323
+        }
+      }
+    },
+    "automata-linux-v0.3.5-azure.atabi": {
+      "manifest": {
+        "meta": {
+          "format": 2,
+          "name": "automata-linux",
+          "version": "v0.3.5",
+          "platforms": [
+            "azure"
+          ]
+        }
+      },
+      "entries": {
+        "manifest.toml": {
+          "sha256": "860227bd3b3fdbb376b8a775a7a6874a480adaf06b421e8b9800f43ceb7576d5",
+          "size": 83
+        },
+        "baseimage.toml": {
+          "sha256": "98b9c009e8c347697c8537af8150d3c1e31a120eb5fb72d2c4aeb6893b8971bc",
+          "size": 2916
+        },
+        "disk_images/azure_disk.vhd": {
+          "sha256": "4798de7c445848885a256b5ca1a52cc7ed16f245915e19e080f5c8b62a1b6a43",
+          "size": 1073742336
+        },
+        "secure_boot_certs/KEK.crt": {
+          "sha256": "7406e9548813a7001749a3e28a1efd5b96f154b48ee1d2aa6eb33584d543b788",
+          "size": 778
+        },
+        "secure_boot_certs/PK.crt": {
+          "sha256": "9deffe74e831e76cfb496cf9fe9483fb67f8ecf81ed08893c3cab50f5c37969e",
+          "size": 778
+        },
+        "secure_boot_certs/aws-uefi-blob.bin": {
+          "sha256": "846ca194bab544ff4f7385eda54d138ea1946f1224d5928258cf229639853ce6",
+          "size": 4124
+        },
+        "secure_boot_certs/db.crt": {
+          "sha256": "faffbd098e3cf9b5ba5f74d1e2517d97b0cb5ccbf22e7956dbbe7b0c39ca46ba",
+          "size": 778
+        },
+        "secure_boot_certs/kernel.crt": {
+          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
+          "size": 1323
+        }
+      }
+    },
+    "automata-linux-v0.3.5-gcp.atabi": {
+      "manifest": {
+        "meta": {
+          "format": 2,
+          "name": "automata-linux",
+          "version": "v0.3.5",
+          "platforms": [
+            "gcp"
+          ]
+        }
+      },
+      "entries": {
+        "manifest.toml": {
+          "sha256": "8e3754c0b89f182aaddc5d540933410e3bb1c0c0aab9862972e6981dd1eb303c",
+          "size": 81
+        },
+        "baseimage.toml": {
+          "sha256": "98b9c009e8c347697c8537af8150d3c1e31a120eb5fb72d2c4aeb6893b8971bc",
+          "size": 2916
+        },
+        "disk_images/gcp_disk.tar.gz": {
+          "sha256": "8e742415cdd3befbd9a1b770a254aa7a70511a1a24ed2a48f3329dfa710b3205",
+          "size": 213536543
+        },
+        "secure_boot_certs/KEK.crt": {
+          "sha256": "7406e9548813a7001749a3e28a1efd5b96f154b48ee1d2aa6eb33584d543b788",
+          "size": 778
+        },
+        "secure_boot_certs/PK.crt": {
+          "sha256": "9deffe74e831e76cfb496cf9fe9483fb67f8ecf81ed08893c3cab50f5c37969e",
+          "size": 778
+        },
+        "secure_boot_certs/aws-uefi-blob.bin": {
+          "sha256": "846ca194bab544ff4f7385eda54d138ea1946f1224d5928258cf229639853ce6",
+          "size": 4124
+        },
+        "secure_boot_certs/db.crt": {
+          "sha256": "faffbd098e3cf9b5ba5f74d1e2517d97b0cb5ccbf22e7956dbbe7b0c39ca46ba",
+          "size": 778
+        },
+        "secure_boot_certs/kernel.crt": {
+          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
+          "size": 1323
+        }
+      }
+    },
+    "automata-linux-v0.3.5-qemu.atabi": {
+      "manifest": {
+        "meta": {
+          "format": 2,
+          "name": "automata-linux",
+          "version": "v0.3.5",
+          "platforms": [
+            "qemu"
+          ]
+        }
+      },
+      "entries": {
+        "manifest.toml": {
+          "sha256": "7912a54447a994ed930b04cd285e2656603b39e8a32220e0e9e89456dc583c24",
+          "size": 82
+        },
+        "baseimage.toml": {
+          "sha256": "98b9c009e8c347697c8537af8150d3c1e31a120eb5fb72d2c4aeb6893b8971bc",
+          "size": 2916
+        },
+        "disk_images/qemu_disk.qcow2": {
+          "sha256": "17cd46a146343c470d08ef939fadb9784c723a8140095c1a5e5f268901f67460",
+          "size": 555286528
+        },
+        "secure_boot_certs/KEK.crt": {
+          "sha256": "7406e9548813a7001749a3e28a1efd5b96f154b48ee1d2aa6eb33584d543b788",
+          "size": 778
+        },
+        "secure_boot_certs/PK.crt": {
+          "sha256": "9deffe74e831e76cfb496cf9fe9483fb67f8ecf81ed08893c3cab50f5c37969e",
+          "size": 778
+        },
+        "secure_boot_certs/aws-uefi-blob.bin": {
+          "sha256": "846ca194bab544ff4f7385eda54d138ea1946f1224d5928258cf229639853ce6",
+          "size": 4124
+        },
+        "secure_boot_certs/db.crt": {
+          "sha256": "faffbd098e3cf9b5ba5f74d1e2517d97b0cb5ccbf22e7956dbbe7b0c39ca46ba",
+          "size": 778
+        },
+        "secure_boot_certs/kernel.crt": {
+          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
+          "size": 1323
+        }
+      }
+    }
+  },
+  "measurement_pack_schema": "atakit.base_image_measurement_pack.v4",
+  "measurement_pack_revision": 1,
+  "measurement_profiles": {
+    "aws-sev-snp": [
+      "m6a.2xlarge",
+      "m6a.large",
+      "m6a.xlarge"
+    ],
+    "azure-sev-snp": [
+      "Standard_DC2as_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993",
+      "Standard_DC2as_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b"
+    ],
+    "azure-tdx": [
+      "Standard_DC2es_v6"
+    ],
+    "gcp-sev-snp": [
+      "n2d-standard-4"
+    ],
+    "gcp-tdx": [
+      "c3-standard-176",
+      "c3-standard-22",
+      "c3-standard-4",
+      "c3-standard-44",
+      "c3-standard-8",
+      "c3-standard-88"
+    ]
+  },
+  "saved_profile_sha256": {
+    "aws-sev-snp": "4398b03eacaa86b4602e69501a6d94e79c7818c1c99097921661a3faa99671a2",
+    "azure-sev-snp": "6d1a258d57c94acac35e44f21f487ddf8665542476a1d3d4c542194620971818",
+    "azure-tdx": "5689a44bc366f38dd9f60fc1668b177bfae734f5305ecbc7e532b0d6c0feb9bf",
+    "gcp-sev-snp": "8e76903847863f6e4f1eac98a0bc26f78049b9199f991d049ef30f248f93e5df",
+    "gcp-tdx": "531a702d3df37b4ebba35e0b19f826e328a41b5e7d3cc7c9a083ce05b9ce8ebf"
+  },
+  "measurement_pack_scope": "Every archive-bound pack contains the same five hardware profiles for this base image. The qemu archive hash is signed, but no QEMU hardware-attestation profile or hardware assurance is claimed.",
+  "measurement_pack_sha256": {
+    "automata-linux-v0.3.5-all.measurement-pack.json": "6efc1bba77895f73df8207333a53dc0efe114c3b2995ae05f5a6b271ad5bb181",
+    "automata-linux-v0.3.5-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.5-all.measurement-pack.sig": "cc0c8a85578aded43bd852361cffad5fcf87f6a8addb37ae3672a0dd7fe35742",
+    "automata-linux-v0.3.5-aws.measurement-pack.json": "e0855bb5934bf380a06150819871865c8bef5bad83ad69fe75a6c3d70afb495a",
+    "automata-linux-v0.3.5-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.5-aws.measurement-pack.sig": "1a134fa7ba61eec1be02190c3dacff9181eb1e01ca5b1ab47ce4a3715b883df7",
+    "automata-linux-v0.3.5-azure.measurement-pack.json": "213d1c03722e6dcecadcaf6a0130d64a8a693f0451ffe9d1e10f572d7aa449cc",
+    "automata-linux-v0.3.5-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.5-azure.measurement-pack.sig": "8444bd27272c533d1fd919c600af8ab03baa389bd0f8bddbcc19eaf323a2c104",
+    "automata-linux-v0.3.5-gcp.measurement-pack.json": "80a25877440e37a992225d98514f37143461fb4313035c42d8039e20f06c34b8",
+    "automata-linux-v0.3.5-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.5-gcp.measurement-pack.sig": "d46bcab03bf869e3fb4708f805eb0a338676c4b7b77b405868a6cb63a358f9e2",
+    "automata-linux-v0.3.5-qemu.measurement-pack.json": "2376db014b12b84bd21d55a26e9f2961ba8c96a83179117e6d52a24f12ad8778",
+    "automata-linux-v0.3.5-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.5-qemu.measurement-pack.sig": "229a7b3bf1276c65486e6b43bd7968a96aa2494b81d7ad99b9f4333bb7e19170"
+  },
+  "public_registry": {
+    "network": "Hoodi",
+    "chain_id": 560048,
+    "base_image_registry": "0x6b837e4Cc2A7BDaA1d938CEE7fa0b82458dA0b14",
+    "image_registration_transaction": "0x114f602a270221b674d155266786a7be27bec6b759ad67079b0eef11775c6670",
+    "image_registration_block": 3891499,
+    "comparison_block": 3892367,
+    "profiles": 5,
+    "variants": 13,
+    "pcr_rules_compared": 83,
+    "attributes_compared": 36,
+    "all_values_match": true
+  },
+  "validation": {
+    "date": "2026-10-26",
+    "controlled_fork": "All thirteen hardware variants passed signed-policy startup and independent first-boot/reboot hardware/session checks. Representative variants used fresh samples; copied variant rules were accepted only after current-image canaries.",
+    "public_hoodi": [
+      {
+        "platform": "gcp-tdx",
+        "machine": "c3-standard-8",
+        "checks_per_boot": 57,
+        "first_boot": true,
+        "reboot": true
+      },
+      {
+        "platform": "azure-sev-snp",
+        "machine": "Standard_DC2as_v5",
+        "cpuid": "0x191101",
+        "checks_per_boot": 61,
+        "report_version": 5,
+        "tcb": "0x581c000c",
+        "launch_mitigation_vector": "0x7",
+        "current_mitigation_vector": "0x7",
+        "first_boot": true,
+        "reboot": true
+      }
+    ],
+    "baby_containers": "Exact-image GCP TDX tests passed baby SSH/SFTP, package installation, Go run/build, Python environment, signed log access, read-only logging sidecar, parent network allow/block, stop/start and reboot persistence. GCP SEV-SNP also passed logging and reboot checks.",
+    "metadata_repair": "All five packs accepted by released CLI v0.7.4; all archive disk member hashes matched the accepted build metadata."
+  },
+  "known_limitations": [
+    "The private ROCm prover previously crashed with AMD GPU page faults. Later canaries passed after host reboot, and dead-worker detection was deployed; the underlying GPU fault remains unresolved.",
+    "Azure firmware can vary by placement. This release accepts the two published firmware variants; future firmware requires publisher-approved measurements.",
+    "QEMU is local emulation and supplies no hardware attestation. No QEMU runtime pass is claimed by this cloud campaign.",
+    "Default /tmp is non-executable. Baby-container Go workflows need TMPDIR in their private writable root.",
+    "Successful workload startup is not verified hardware evidence or authorization to release secrets. An independent provisioner must verify fresh hardware evidence and publisher-signed policies using trusted measurements."
+  ],
+  "tag_correction": {
+    "date": "2026-10-27",
+    "previous_commit": "e3d79496c5fd0022d055e3227a126927efff0b27",
+    "reason": "The original v0.3.5 tag pointed to v0.3.1-debug release documentation. The corrected signed v0.3.5 tag identifies this release documentation; its exact new target is recorded in the release correction notice and signed tag.",
+    "archive_bytes_changed": false
+  },
+  "build_time_note": "Build metadata uses SOURCE_DATE_EPOCH=0; those normalized timestamps do not describe actual build time. No independent reproducibility claim is made by this repair.",
+  "release_assets": [
+    "RELEASE-NOTES.md",
+    "SHA256SUMS",
+    "automata-linux-v0.3.5-all.atabi",
+    "automata-linux-v0.3.5-all.measurement-pack.json",
+    "automata-linux-v0.3.5-all.measurement-pack.pubkey",
+    "automata-linux-v0.3.5-all.measurement-pack.sig",
+    "automata-linux-v0.3.5-aws.atabi",
+    "automata-linux-v0.3.5-aws.measurement-pack.json",
+    "automata-linux-v0.3.5-aws.measurement-pack.pubkey",
+    "automata-linux-v0.3.5-aws.measurement-pack.sig",
+    "automata-linux-v0.3.5-azure.atabi",
+    "automata-linux-v0.3.5-azure.measurement-pack.json",
+    "automata-linux-v0.3.5-azure.measurement-pack.pubkey",
+    "automata-linux-v0.3.5-azure.measurement-pack.sig",
+    "automata-linux-v0.3.5-gcp.atabi",
+    "automata-linux-v0.3.5-gcp.measurement-pack.json",
+    "automata-linux-v0.3.5-gcp.measurement-pack.pubkey",
+    "automata-linux-v0.3.5-gcp.measurement-pack.sig",
+    "automata-linux-v0.3.5-qemu.atabi",
+    "automata-linux-v0.3.5-qemu.measurement-pack.json",
+    "automata-linux-v0.3.5-qemu.measurement-pack.pubkey",
+    "automata-linux-v0.3.5-qemu.measurement-pack.sig",
+    "release-provenance.json"
+  ]
 }
