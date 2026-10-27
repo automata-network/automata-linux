@@ -1,75 +1,52 @@
 # Automata Linux
 
-Automata Linux is the public base-image release channel for Atakit workloads.
-Current release: [automata-linux:v0.3.5](https://github.com/automata-network/automata-linux/releases/tag/v0.3.5).
+The latest stable image is [v0.3.5](https://github.com/automata-network/automata-linux/releases/tag/v0.3.5).
+This tag documents the [v0.3.5-debug development image](https://github.com/automata-network/automata-linux/releases/tag/v0.3.5-debug).
 
-v0.3.5 is a **non-debug** image with a verified read-only root filesystem,
-Portal, confidential-VM attestation support, and container runtimes. It uses
-kernel `7.2.12-automata-splicefix`, disables its configured serial console,
-and sets Atakit system logging to `off`. It provides no host SSH service.
-Workload-authorized services may expose their own interfaces and export logs.
+The debug image has serial diagnostics and a root shell. Anyone with console
+access can inspect workload data and secrets. Use the non-debug image for
+production secrets. Hardware debug mode remains disabled; the serial shell is
+an image feature. Portal's `production` build-profile label describes the
+binary build and does not make the debug image a non-debug image.
 
-Use **atakit CLI v0.7.4 or later with format 15 support**. v0.3.5 requires
-workload manifest format **15** and rejects older manifests. The CLI release
-is private; repository access is required to download its binaries.
-
-## Identity and supported platforms
-
-- Publisher fingerprint: `0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7d3ecb259d2`.
-- Base-image ID: `0x84653d0c72d636af1b339ecc24011088690b6398d32c113a639d13137d9cc7b8`.
-- Registered on public Hoodi, chain ID `560048`.
-
-| Platform | Supported machines |
-| --- | --- |
-| AWS SEV-SNP | `m6a.large`, `m6a.xlarge`, `m6a.2xlarge` |
-| Azure SEV-SNP | `Standard_DC2as_v5`, two firmware variants |
-| Azure TDX | `Standard_DC2es_v6` |
-| GCP SEV-SNP | `n2d-standard-4` |
-| GCP TDX | `c3-standard-4`, `c3-standard-8`, `c3-standard-22`, `c3-standard-44`, `c3-standard-88`, `c3-standard-176` |
-
-Exact variant names and policies are in the signed measurement packs. QEMU is
-included for local emulation and provides no hardware attestation.
-
-## Download and verify
-
-The release provides five archives (`all`, `aws`, `azure`, `gcp`, `qemu`), a
-signed measurement pack for each archive, release notes, provenance, and a
-checksum file: **23 files** in total. Each pack binds the archive hash to the
-publisher's signature and includes the same five hardware profiles.
-
-Download all release files into an empty directory. Set `trusted_publisher_key`
-to a publisher public key obtained through a source you trust independently.
-Do not establish trust from a `.pubkey` file downloaded beside the archive.
-Verify the signed `v0.3.5` Git tag using a Git signing identity you trust,
-then run the verifier from that tag's checkout (Python 3.11+ and OpenSSL):
+Use workload manifest format 15 and Atakit CLI 0.7.4 or a compatible later
+version. The CLI release is private and requires repository access.
 
 ```sh
-python3 scripts/verify-release.py /path/to/downloaded-assets \
-  --publisher-key "$trusted_publisher_key"
+atakit image pull automata-linux:v0.3.5-debug
 ```
 
-Configure a compatible CLI with this image repository:
+The release provides combined and per-provider .atabi archives for AWS, Azure,
+GCP and QEMU. Each archive has an archive-bound signed measurement pack. QEMU
+does not provide hardware attestation. See [release notes](RELEASE_NOTES.md)
+for measured machines, tested behavior and limits.
 
-```toml
-[image.repositories]
-automata = { repo = "automata-network/automata-linux" }
-```
+## Verify downloaded files
+
+Download all 23 release files into an otherwise empty directory. Verify the
+signed Git tag and its documentation through a trusted Git signing identity.
+Then run:
 
 ```sh
-atakit image pull automata-linux:v0.3.5 gcp
-atakit image ls
+sha256sum --check SHA256SUMS
+python3 /path/to/checked-out-tag/scripts/verify-release.py /path/to/downloads \
+  --publisher-key <independently-trusted-publisher-public-key> \
+  --scratch-dir /path/to/private-scratch
 ```
 
-Choose a signed workload whose measured policy permits this publisher-qualified
-base image. Successful startup alone is **not verified hardware evidence or
-authorization to release secrets**. A provisioner must independently verify
-fresh hardware evidence and signed policies against trusted measurements.
+The publisher fingerprint is `0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7d3ecb259d2`.
+The image ID is `0x446fb3f67743277dd21a92f5d6ff6dedb7668ed198a0fc384178c9c39e70cf6f`.
+Obtain the publisher key through an independent trusted channel. A key supplied
+beside an archive does not establish trust by itself. The verifier checks file
+inventory, checksums, signatures, archive bindings and signed documentation.
+It does not attest a running VM.
 
-See [release notes](RELEASE_NOTES.md) for tests and limitations,
-[provenance](provenance.json) for original build revisions and hashes, and
-[the release checklist](RELEASE-CHECKLIST.md) for publication requirements.
-The public release tag identifies documentation; the provenance records the
-private image build sources separately. The October 27 correction replaces
-the original tag's v0.3.1-debug documentation and is disclosed in the release.
+Successful workload startup does not authorize secret provisioning. Before
+releasing secrets, independently verify fresh hardware evidence and the
+publisher-signed workload and base-image policies against a trusted measurement
+source. The debug image deliberately gives its operator a serial root shell.
 
-Use `atakit cloud destroy` for deployment cleanup.
+[provenance.json](provenance.json) records image build revisions, binary and
+archive hashes, measurements and test scope. The public tag records release
+documentation, not the private image source. Build timestamps normalized to
+Unix epoch do not represent the actual build time.
