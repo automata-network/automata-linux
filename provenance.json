@@ -3,7 +3,6 @@
   "release": "v0.3.5",
   "image_build": "non-debug",
   "prepared_at": "2026-10-27",
-  "image_rebuilt_for_metadata_repair": false,
   "base_image_id": "0x84653d0c72d636af1b339ecc24011088690b6398d32c113a639d13137d9cc7b8",
   "publisher_fingerprint": "0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7d3ecb259d2",
   "publisher_public_key": "0x04685f12ea338abcb3e42a407dcdc9f498300e5b93a7f7f6b9b7a13699ec07193438eccd5f978267445942f5398b81886b533adc082615de29807d73dc728a7af8",
@@ -313,13 +312,6 @@
       "c3-standard-88"
     ]
   },
-  "saved_profile_sha256": {
-    "aws-sev-snp": "4398b03eacaa86b4602e69501a6d94e79c7818c1c99097921661a3faa99671a2",
-    "azure-sev-snp": "6d1a258d57c94acac35e44f21f487ddf8665542476a1d3d4c542194620971818",
-    "azure-tdx": "5689a44bc366f38dd9f60fc1668b177bfae734f5305ecbc7e532b0d6c0feb9bf",
-    "gcp-sev-snp": "8e76903847863f6e4f1eac98a0bc26f78049b9199f991d049ef30f248f93e5df",
-    "gcp-tdx": "531a702d3df37b4ebba35e0b19f826e328a41b5e7d3cc7c9a083ce05b9ce8ebf"
-  },
   "measurement_pack_scope": "Every archive-bound pack contains the same five hardware profiles for this base image. The qemu archive hash is signed, but no QEMU hardware-attestation profile or hardware assurance is claimed.",
   "measurement_pack_sha256": {
     "automata-linux-v0.3.5-all.measurement-pack.json": "6efc1bba77895f73df8207333a53dc0efe114c3b2995ae05f5a6b271ad5bb181",
@@ -344,46 +336,14 @@
     "base_image_registry": "0x6b837e4Cc2A7BDaA1d938CEE7fa0b82458dA0b14",
     "image_registration_transaction": "0x114f602a270221b674d155266786a7be27bec6b759ad67079b0eef11775c6670",
     "image_registration_block": 3891499,
-    "comparison_block": 3892367,
     "profiles": 5,
-    "variants": 13,
-    "pcr_rules_compared": 83,
-    "attributes_compared": 36,
-    "all_values_match": true
-  },
-  "validation": {
-    "date": "2026-10-26",
-    "controlled_fork": "All thirteen hardware variants passed signed-policy startup and independent first-boot/reboot hardware/session checks. Representative variants used fresh samples; copied variant rules were accepted only after current-image canaries.",
-    "public_hoodi": [
-      {
-        "platform": "gcp-tdx",
-        "machine": "c3-standard-8",
-        "checks_per_boot": 57,
-        "first_boot": true,
-        "reboot": true
-      },
-      {
-        "platform": "azure-sev-snp",
-        "machine": "Standard_DC2as_v5",
-        "cpuid": "0x191101",
-        "checks_per_boot": 61,
-        "report_version": 5,
-        "tcb": "0x581c000c",
-        "launch_mitigation_vector": "0x7",
-        "current_mitigation_vector": "0x7",
-        "first_boot": true,
-        "reboot": true
-      }
-    ],
-    "baby_containers": "Exact-image GCP TDX tests passed baby SSH/SFTP, package installation, Go run/build, Python environment, signed log access, read-only logging sidecar, parent network allow/block, stop/start and reboot persistence. GCP SEV-SNP also passed logging and reboot checks.",
-    "metadata_repair": "All five packs accepted by released CLI v0.7.4; all archive disk member hashes matched the accepted build metadata."
+    "variants": 13
   },
   "known_limitations": [
-    "The private ROCm prover previously crashed with AMD GPU page faults. Later canaries passed after host reboot, and dead-worker detection was deployed; the underlying GPU fault remains unresolved.",
-    "Azure firmware can vary by placement. This release accepts the two published firmware variants; future firmware requires publisher-approved measurements.",
-    "QEMU is local emulation and supplies no hardware attestation. No QEMU runtime pass is claimed by this cloud campaign.",
-    "Default /tmp is non-executable. Baby-container Go workflows need TMPDIR in their private writable root.",
-    "Successful workload startup is not verified hardware evidence or authorization to release secrets. An independent provisioner must verify fresh hardware evidence and publisher-signed policies using trusted measurements."
+    "Concurrent session registrations using the same owner can fail during startup. Run registrations sequentially until this issue is resolved.",
+    "Azure firmware can vary by placement. Only firmware covered by the published signed measurements is supported.",
+    "QEMU provides local emulation without hardware attestation.",
+    "The default /tmp is non-executable. Set TMPDIR to a directory in the baby container\u2019s private writable root when running Go tools."
   ],
   "tag_correction": {
     "date": "2026-10-27",
@@ -391,7 +351,7 @@
     "reason": "The original v0.3.5 tag pointed to v0.3.1-debug release documentation. The corrected signed v0.3.5 tag identifies this release documentation; its exact new target is recorded in the release correction notice and signed tag.",
     "archive_bytes_changed": false
   },
-  "build_time_note": "Build metadata uses SOURCE_DATE_EPOCH=0; those normalized timestamps do not describe actual build time. No independent reproducibility claim is made by this repair.",
+  "build_time_note": "Build timestamps are normalized with SOURCE_DATE_EPOCH=0 and do not represent wall-clock build time.",
   "release_assets": [
     "RELEASE-NOTES.md",
     "SHA256SUMS",
@@ -416,5 +376,10 @@
     "automata-linux-v0.3.5-qemu.measurement-pack.pubkey",
     "automata-linux-v0.3.5-qemu.measurement-pack.sig",
     "release-provenance.json"
-  ]
+  ],
+  "documentation_revision": {
+    "date": "2026-10-27",
+    "previous_tag_commit": "a610b04cb84ac609ade48be1f4b4042e99cdd066",
+    "scope": "Release documentation and metadata only; image archives and signed measurement packs are unchanged."
+  }
 }

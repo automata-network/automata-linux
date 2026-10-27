@@ -65,11 +65,7 @@ base image. Successful startup alone is **not verified hardware evidence or
 authorization to release secrets**. A provisioner must independently verify
 fresh hardware evidence and signed policies against trusted measurements.
 
-See [release notes](RELEASE_NOTES.md) for tests and limitations,
-[provenance](provenance.json) for original build revisions and hashes, and
-[the release checklist](RELEASE-CHECKLIST.md) for publication requirements.
+See [release notes](RELEASE_NOTES.md) for features and limitations,
+[provenance](provenance.json) for original build revisions and hashes.
 The public release tag identifies documentation; the provenance records the
-private image build sources separately. The October 27 correction replaces
-the original tag's v0.3.1-debug documentation and is disclosed in the release.
-
-Use `atakit cloud destroy` for deployment cleanup.
+private image build sources separately.

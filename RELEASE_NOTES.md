@@ -44,28 +44,11 @@ for local emulation; signing its hash does not provide hardware attestation.
   publisher-signed image/workload policies against trusted measurements. Trust
   the measurement publisher independently of the machine requesting secrets.
 
-## Validation and limits
+## Known limitations
 
-All thirteen hardware variants passed current-image first-boot and reboot
-canaries against the controlled Hoodi fork, including independent hardware and
-session verification. Fresh representative measurements were combined with
-previously measured variant rules; every copied variant passed a current-image
-canary. This was not three new measurement samples for every machine size.
-
-On public Hoodi, GCP TDX `c3-standard-8` passed 57 independent checks per boot.
-Azure SEV-SNP `Standard_DC2as_v5`, CPUID `0x191101`, passed 61 per boot with
-report version 5, TCB `0x581c000c`, and launch/current mitigation vectors `0x7`.
-Both public canaries registered distinct sessions after reboot.
-
-Exact-image GCP tests also covered baby SSH/SFTP, package installation, Go
-run/build, Python environments, signed parent/sidecar log access including
-stdout and stderr, parent network allow/block, stop/start, and reboot
-persistence. QEMU runtime validation is not claimed by this cloud campaign.
-
-The private ROCm prover previously crashed with AMD GPU page faults. Subsequent
-canaries passed after a host reboot, and dead-worker detection was deployed.
-The underlying GPU fault remains unresolved. Future Azure firmware may differ
-from the two published variants and require new publisher-approved policy.
+- Concurrent session registrations using the same owner can fail during startup. Run registrations sequentially until this issue is resolved.
+- Azure firmware can vary by placement. Only firmware covered by the published signed measurements is supported.
+- QEMU provides local emulation without hardware attestation.
 
 ## Download and verify
 
@@ -102,17 +85,3 @@ To pull the GCP image using a compatible CLI:
 ```sh
 atakit image pull automata-linux:v0.3.5 gcp
 ```
-
-## Release correction — 2026-10-27
-
-The initial 2026-10-26 publication contained the five image archives only.
-This correction adds the signed measurement files, provenance, checksum file,
-and standalone notes. The image archives retain their original bytes and hashes.
-The base-image ID above corrects a typo in the original release description.
-
-The original `v0.3.5` tag pointed to
-`e3d79496c5fd0022d055e3227a126927efff0b27`, whose README and provenance described
-v0.3.1-debug. The corrected signed tag identifies the v0.3.5 release-documentation
-commit. Its exact target is recorded in the GitHub release correction notice.
-That documentation commit is separate from the original image build sources,
-which are listed in the provenance file. Earlier release tags are unchanged.
