@@ -17,7 +17,7 @@ baby roots, and the updated certificate bundle.
 Image ID: `0x446fb3f67743277dd21a92f5d6ff6dedb7668ed198a0fc384178c9c39e70cf6f`.
 Publisher fingerprint: `0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7d3ecb259d2`.
 
-## Verified platforms
+## Supported hardware profiles
 
 | Profile | Variants |
 | --- | --- |
@@ -27,16 +27,10 @@ Publisher fingerprint: `0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7
 | gcp-sev-snp | `n2d-standard-4` |
 | gcp-tdx | `c3-standard-176`, `c3-standard-22`, `c3-standard-4`, `c3-standard-44`, `c3-standard-8`, `c3-standard-88` |
 
-All 13 machine/firmware rows have three fresh measurement samples: first boot,
-same-VM reboot and a separate VM. Strict profile generation passed. Every row
-also passed independent first-boot and reboot hardware/session verification on
-the controlled fork. Public Hoodi checks are recorded in release-provenance.json.
-
-The exact image passed baby SSH/SFTP, package installation, Go and Python
-execution, parent network blocking/restoration, signed parent and sidecar log
-access, stdout/stderr capture, and persistence after stop/start and VM reboot.
-Serial-shell commands ran as UID 0, as intended. A workload restricted to the
-non-debug image rejected this debug image. All campaign VMs were removed.
+Exact firmware variants, PCR policies, and security attributes are included
+in the signed measurement packs. Baby containers support package installation,
+program execution, persistent private storage, and parent-controlled network
+access. The signed workload policy controls parent and sidecar access to logs.
 
 ## Release files and verification
 
@@ -54,8 +48,9 @@ Successful startup alone is not verification or permission to release secrets.
 A provisioner must verify fresh hardware evidence and publisher-signed policies
 using an independently trusted measurement source. The default /tmp is
 non-executable; Go tools in a baby container need a writable private TMPDIR.
-Concurrent registrations under one owner can hit a registration-counter race
-and stop startup. The affected test was repeated with registrations serialized;
-this image does not fix that retry gap.
-The private prover's known GPU page-fault issue remains unresolved; this image
-release does not claim to fix it.
+
+## Known limitations
+
+- Concurrent session registrations using the same owner can fail during startup. Run registrations sequentially until this issue is resolved.
+- Azure firmware can vary by placement. Only firmware covered by the published signed measurements is supported.
+- QEMU provides local emulation without hardware attestation.

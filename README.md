@@ -19,7 +19,7 @@ atakit image pull automata-linux:v0.3.5-debug
 The release provides combined and per-provider .atabi archives for AWS, Azure,
 GCP and QEMU. Each archive has an archive-bound signed measurement pack. QEMU
 does not provide hardware attestation. See [release notes](RELEASE_NOTES.md)
-for measured machines, tested behavior and limits.
+for supported machines, features and limitations.
 
 ## Verify downloaded files
 
@@ -47,6 +47,6 @@ publisher-signed workload and base-image policies against a trusted measurement
 source. The debug image deliberately gives its operator a serial root shell.
 
 [provenance.json](provenance.json) records image build revisions, binary and
-archive hashes, measurements and test scope. The public tag records release
+archive hashes and measurement policies. The public tag records release
 documentation, not the private image source. Build timestamps normalized to
 Unix epoch do not represent the actual build time.
