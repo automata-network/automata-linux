@@ -283,10 +283,12 @@
     }
   },
   "measurement_pack_schema": "atakit.base_image_measurement_pack.v4",
-  "measurement_pack_revision": 1,
+  "measurement_pack_revision": 2,
   "measurement_profiles": {
     "aws-sev-snp": [
       "m6a.2xlarge",
+      "m6a.4xlarge",
+      "m6a.8xlarge",
       "m6a.large",
       "m6a.xlarge"
     ],
@@ -310,28 +312,28 @@
     ]
   },
   "measurement_pack_sha256": {
-    "automata-linux-v0.3.5-debug-all.measurement-pack.json": "c53519a1f408d7a98fe033118cc62dcfa8e1819321cfde69e466ab1b6844926a",
+    "automata-linux-v0.3.5-debug-all.measurement-pack.json": "685b3d0ad20d8ce20573a4e401cdf148f761fec3525ada3189ed7b688b178833",
     "automata-linux-v0.3.5-debug-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-all.measurement-pack.sig": "73eb5638fa03af90b6681bf5215d3bf8115e5deb4fc7d3004cb34401059a17fa",
-    "automata-linux-v0.3.5-debug-aws.measurement-pack.json": "0173ec10914d208858b08a0c78476a92b15f8dd4f872bc4e63176dadff758fc0",
+    "automata-linux-v0.3.5-debug-all.measurement-pack.sig": "5d6b8cc7602300f9a4a71316ae49a60bf135eb81037b7257a64f0393181f7175",
+    "automata-linux-v0.3.5-debug-aws.measurement-pack.json": "be0bd88e192eea879e123b9e5cfcec429622058f926bb2573dfec63827cc7447",
     "automata-linux-v0.3.5-debug-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-aws.measurement-pack.sig": "a7d5f153e54845ad295a1e0ef4a9417bd4a51ca9dbc38e4fc7f95aff665742bb",
-    "automata-linux-v0.3.5-debug-azure.measurement-pack.json": "d454d05a1965e5d72b791187622f0475f7c9de48e39949a4630c31ebbcd14f50",
+    "automata-linux-v0.3.5-debug-aws.measurement-pack.sig": "a12a897a286a20e293383d86c9de5f400b8be0bf9b5c568add213653426b81f0",
+    "automata-linux-v0.3.5-debug-azure.measurement-pack.json": "740c745629558ab3dd9c5f260002d3a5b785222c51d55ddacf17fe4430f53894",
     "automata-linux-v0.3.5-debug-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-azure.measurement-pack.sig": "827310dbaa4b08826fd7b7289add3cef9342052d9eed0ea2fa3f1f66b441bdcb",
-    "automata-linux-v0.3.5-debug-gcp.measurement-pack.json": "790c002394f28432b2f15794b688b0c04b5d172d4938ef3567ac95bad62e1b4f",
+    "automata-linux-v0.3.5-debug-azure.measurement-pack.sig": "5dbec54cf1ecf73c6b0c837d3422316036ef6ff2f6f85c2821de4ac2e13d4f5f",
+    "automata-linux-v0.3.5-debug-gcp.measurement-pack.json": "7fdda637c971ac271ad5339a4dedd947e9c5b3baaad5ae0f94e953679174d8dc",
     "automata-linux-v0.3.5-debug-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-gcp.measurement-pack.sig": "9437a06da5a6325e6362cfa3d06eced9612bf8d9cd9c98803aabd87b1b862c57",
-    "automata-linux-v0.3.5-debug-qemu.measurement-pack.json": "5773823e697141bce688dd0c8734573dc668548181673c96cf452b6580dbf6a2",
+    "automata-linux-v0.3.5-debug-gcp.measurement-pack.sig": "f660fe6de080d8b81f4b7ebfa43c4b4ef9098d0201906431ed2b137f8bbfacd1",
+    "automata-linux-v0.3.5-debug-qemu.measurement-pack.json": "82e5e4c72e5e4502e9d0e6866cd47cdffb12542f027fbfce5b2d72fe5ae04633",
     "automata-linux-v0.3.5-debug-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-qemu.measurement-pack.sig": "b85ce09dd1bbf114ec784142d2c297d6303650dd05882f8c338f3014b62e3c4d"
+    "automata-linux-v0.3.5-debug-qemu.measurement-pack.sig": "5419a7c1f8116af01bc443cff9b17bbfb8a1af1cc5fc8504505cab8d3319e1c7"
   },
   "measurement_pack_scope": "Each archive-bound pack contains all five signed hardware profiles. The QEMU archive digest is signed, but no QEMU hardware-attestation profile is claimed.",
   "public_registry": {
     "chain_id": 560048,
     "registry": "0x6b837e4Cc2A7BDaA1d938CEE7fa0b82458dA0b14",
     "profile_count": 5,
-    "variant_count": 13
+    "variant_count": 15
   },
   "known_limitations": [
     "Serial access provides a root shell and can expose workload data and secrets. Use the non-debug image for production secrets.",
@@ -365,10 +367,5 @@
     "automata-linux-v0.3.5-debug-qemu.measurement-pack.pubkey",
     "automata-linux-v0.3.5-debug-qemu.measurement-pack.sig",
     "release-provenance.json"
-  ],
-  "documentation_revision": {
-    "date": "2026-10-27",
-    "previous_tag_commit": "62467daee3c329a56af2084c21b7dd1a7f74e486",
-    "scope": "Release documentation and metadata only; image archives and signed measurement packs are unchanged."
-  }
+  ]
 }
