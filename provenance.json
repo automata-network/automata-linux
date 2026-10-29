@@ -283,9 +283,16 @@
     }
   },
   "measurement_pack_schema": "atakit.base_image_measurement_pack.v4",
-  "measurement_pack_revision": 2,
+  "measurement_pack_revision": 3,
   "measurement_profiles": {
     "aws-sev-snp": [
+      "c6a.12xlarge",
+      "c6a.16xlarge",
+      "c6a.2xlarge",
+      "c6a.4xlarge",
+      "c6a.8xlarge",
+      "c6a.large",
+      "c6a.xlarge",
       "m6a.2xlarge",
       "m6a.4xlarge",
       "m6a.8xlarge",
@@ -312,21 +319,21 @@
     ]
   },
   "measurement_pack_sha256": {
-    "automata-linux-v0.3.5-debug-all.measurement-pack.json": "685b3d0ad20d8ce20573a4e401cdf148f761fec3525ada3189ed7b688b178833",
+    "automata-linux-v0.3.5-debug-all.measurement-pack.json": "9857225a69f63705aa34c4aad2a9f0b69ae35e3142664d964e0050707b1310f8",
     "automata-linux-v0.3.5-debug-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-all.measurement-pack.sig": "5d6b8cc7602300f9a4a71316ae49a60bf135eb81037b7257a64f0393181f7175",
-    "automata-linux-v0.3.5-debug-aws.measurement-pack.json": "be0bd88e192eea879e123b9e5cfcec429622058f926bb2573dfec63827cc7447",
+    "automata-linux-v0.3.5-debug-all.measurement-pack.sig": "ef76d89b828f0de85b22675a2169d15d56267f604280a87e8f980dad513a55e3",
+    "automata-linux-v0.3.5-debug-aws.measurement-pack.json": "79ec32b143d0e91c5e3e4fda25a2df9859bcf39c00955c1ea3ee937512196e0b",
     "automata-linux-v0.3.5-debug-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-aws.measurement-pack.sig": "a12a897a286a20e293383d86c9de5f400b8be0bf9b5c568add213653426b81f0",
-    "automata-linux-v0.3.5-debug-azure.measurement-pack.json": "740c745629558ab3dd9c5f260002d3a5b785222c51d55ddacf17fe4430f53894",
+    "automata-linux-v0.3.5-debug-aws.measurement-pack.sig": "703797404f058d18a6afea856027e2b04ae15a000a902af32c30f591f91f8cb9",
+    "automata-linux-v0.3.5-debug-azure.measurement-pack.json": "1285b13b3d4758303e84fad41a7410e80f4b7743f7610d5234df72b528e912c6",
     "automata-linux-v0.3.5-debug-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-azure.measurement-pack.sig": "5dbec54cf1ecf73c6b0c837d3422316036ef6ff2f6f85c2821de4ac2e13d4f5f",
-    "automata-linux-v0.3.5-debug-gcp.measurement-pack.json": "7fdda637c971ac271ad5339a4dedd947e9c5b3baaad5ae0f94e953679174d8dc",
+    "automata-linux-v0.3.5-debug-azure.measurement-pack.sig": "0998b011befbf0bccca058dc8f6c72b0779dc4e1ea53ade1617711cf333cdeb6",
+    "automata-linux-v0.3.5-debug-gcp.measurement-pack.json": "053f8a23891db9394292481aa8a4fbe4ddd12748733c60a89af328aa5c96860b",
     "automata-linux-v0.3.5-debug-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-gcp.measurement-pack.sig": "f660fe6de080d8b81f4b7ebfa43c4b4ef9098d0201906431ed2b137f8bbfacd1",
-    "automata-linux-v0.3.5-debug-qemu.measurement-pack.json": "82e5e4c72e5e4502e9d0e6866cd47cdffb12542f027fbfce5b2d72fe5ae04633",
+    "automata-linux-v0.3.5-debug-gcp.measurement-pack.sig": "2f2293b378b13ea674b3c2c7e05f7300218117177e90bc18f98c328e211b8596",
+    "automata-linux-v0.3.5-debug-qemu.measurement-pack.json": "0d09ce31ce1cb02cf4491082eb19916500eff0aa052b974f96b8fa1f6ede4ecc",
     "automata-linux-v0.3.5-debug-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-qemu.measurement-pack.sig": "5419a7c1f8116af01bc443cff9b17bbfb8a1af1cc5fc8504505cab8d3319e1c7"
+    "automata-linux-v0.3.5-debug-qemu.measurement-pack.sig": "5c1c036bcbe0267cf3a165bb62ca84aed3d5fb45b0a72354072bd86bf9414bc8"
   },
   "measurement_pack_scope": "Each archive-bound pack contains all five signed hardware profiles. The QEMU archive digest is signed, but no QEMU hardware-attestation profile is claimed.",
   "public_registry": {
