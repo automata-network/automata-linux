@@ -286,10 +286,12 @@
     }
   },
   "measurement_pack_schema": "atakit.base_image_measurement_pack.v4",
-  "measurement_pack_revision": 1,
+  "measurement_pack_revision": 2,
   "measurement_profiles": {
     "aws-sev-snp": [
       "m6a.2xlarge",
+      "m6a.4xlarge",
+      "m6a.8xlarge",
       "m6a.large",
       "m6a.xlarge"
     ],
@@ -314,21 +316,21 @@
   },
   "measurement_pack_scope": "Every archive-bound pack contains the same five hardware profiles for this base image. The qemu archive hash is signed, but no QEMU hardware-attestation profile or hardware assurance is claimed.",
   "measurement_pack_sha256": {
-    "automata-linux-v0.3.5-all.measurement-pack.json": "6efc1bba77895f73df8207333a53dc0efe114c3b2995ae05f5a6b271ad5bb181",
+    "automata-linux-v0.3.5-all.measurement-pack.json": "a22921fa1371fb302a6f9f2c91cbb80cef96234981e8f4271cf75838326d07c3",
     "automata-linux-v0.3.5-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-all.measurement-pack.sig": "cc0c8a85578aded43bd852361cffad5fcf87f6a8addb37ae3672a0dd7fe35742",
-    "automata-linux-v0.3.5-aws.measurement-pack.json": "e0855bb5934bf380a06150819871865c8bef5bad83ad69fe75a6c3d70afb495a",
+    "automata-linux-v0.3.5-all.measurement-pack.sig": "8c86fe4815c75600cc8354d8e07a5ff73f7e134b6918dd0944649e9d14309047",
+    "automata-linux-v0.3.5-aws.measurement-pack.json": "e0157000c3fe9c002517d8ceab2462e91549caa804e21d4fd3ff49247a6ea0d5",
     "automata-linux-v0.3.5-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-aws.measurement-pack.sig": "1a134fa7ba61eec1be02190c3dacff9181eb1e01ca5b1ab47ce4a3715b883df7",
-    "automata-linux-v0.3.5-azure.measurement-pack.json": "213d1c03722e6dcecadcaf6a0130d64a8a693f0451ffe9d1e10f572d7aa449cc",
+    "automata-linux-v0.3.5-aws.measurement-pack.sig": "22de729fb630212608d9776f2278faf8d217119d2f1c8f314a7fd0c65f42ff16",
+    "automata-linux-v0.3.5-azure.measurement-pack.json": "2f6980002efdfbad32f69854366e204a39cebe979fc085764069ce18f2fc0ddd",
     "automata-linux-v0.3.5-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-azure.measurement-pack.sig": "8444bd27272c533d1fd919c600af8ab03baa389bd0f8bddbcc19eaf323a2c104",
-    "automata-linux-v0.3.5-gcp.measurement-pack.json": "80a25877440e37a992225d98514f37143461fb4313035c42d8039e20f06c34b8",
+    "automata-linux-v0.3.5-azure.measurement-pack.sig": "42130d7c31b16d47290c973b6635ca3b2ae8f2128c7a3440f7495c0b569835d5",
+    "automata-linux-v0.3.5-gcp.measurement-pack.json": "2df6bbf0ba614f5b9b75ad2efa3571dabe9007301d99888bb597b1405511ac63",
     "automata-linux-v0.3.5-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-gcp.measurement-pack.sig": "d46bcab03bf869e3fb4708f805eb0a338676c4b7b77b405868a6cb63a358f9e2",
-    "automata-linux-v0.3.5-qemu.measurement-pack.json": "2376db014b12b84bd21d55a26e9f2961ba8c96a83179117e6d52a24f12ad8778",
+    "automata-linux-v0.3.5-gcp.measurement-pack.sig": "74695ec1205d50cf94d1888730d41e5ceb16635baf3b496fdc5bcef8a2bf6c79",
+    "automata-linux-v0.3.5-qemu.measurement-pack.json": "6548a337b4ae2bf1dc6b4c7456332614f78ebbeef94b8497bb133c2e0164ad45",
     "automata-linux-v0.3.5-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-qemu.measurement-pack.sig": "229a7b3bf1276c65486e6b43bd7968a96aa2494b81d7ad99b9f4333bb7e19170"
+    "automata-linux-v0.3.5-qemu.measurement-pack.sig": "b81c46a0d7f74b766fb120207a193b521a95d781a242fe55cefb7a8c930cc566"
   },
   "public_registry": {
     "network": "Hoodi",
@@ -337,7 +339,7 @@
     "image_registration_transaction": "0x114f602a270221b674d155266786a7be27bec6b759ad67079b0eef11775c6670",
     "image_registration_block": 3891499,
     "profiles": 5,
-    "variants": 13
+    "variants": 15
   },
   "known_limitations": [
     "Concurrent session registrations using the same owner can fail during startup. Run registrations sequentially until this issue is resolved.",
@@ -345,12 +347,6 @@
     "QEMU provides local emulation without hardware attestation.",
     "The default /tmp is non-executable. Set TMPDIR to a directory in the baby container\u2019s private writable root when running Go tools."
   ],
-  "tag_correction": {
-    "date": "2026-10-27",
-    "previous_commit": "e3d79496c5fd0022d055e3227a126927efff0b27",
-    "reason": "The original v0.3.5 tag pointed to v0.3.1-debug release documentation. The corrected signed v0.3.5 tag identifies this release documentation; its exact new target is recorded in the release correction notice and signed tag.",
-    "archive_bytes_changed": false
-  },
   "build_time_note": "Build timestamps are normalized with SOURCE_DATE_EPOCH=0 and do not represent wall-clock build time.",
   "release_assets": [
     "RELEASE-NOTES.md",
@@ -376,10 +372,5 @@
     "automata-linux-v0.3.5-qemu.measurement-pack.pubkey",
     "automata-linux-v0.3.5-qemu.measurement-pack.sig",
     "release-provenance.json"
-  ],
-  "documentation_revision": {
-    "date": "2026-10-27",
-    "previous_tag_commit": "a610b04cb84ac609ade48be1f4b4042e99cdd066",
-    "scope": "Release documentation and metadata only; image archives and signed measurement packs are unchanged."
-  }
+  ]
 }

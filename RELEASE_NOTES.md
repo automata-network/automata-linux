@@ -17,7 +17,7 @@ release remains private and requires repository access.
 
 | Profile | Supported variants |
 | --- | --- |
-| AWS SEV-SNP | `m6a.large`, `m6a.xlarge`, `m6a.2xlarge` |
+| AWS SEV-SNP | `m6a.large`, `m6a.xlarge`, `m6a.2xlarge`, `m6a.4xlarge`, `m6a.8xlarge` |
 | Azure SEV-SNP | `Standard_DC2as_v5`, with two separately signed firmware variants |
 | Azure TDX | `Standard_DC2es_v6` |
 | GCP SEV-SNP | `n2d-standard-4` |
@@ -25,7 +25,7 @@ release remains private and requires repository access.
 
 The exact variant names, PCR policies, and security attributes are in the signed
 measurement packs. Azure SEV-SNP uses CPUID-specific minimum TCB values for
-`0x190101` and `0x191101`. Each pack describes the same five profiles and thirteen
+`0x190101` and `0x191101`. Each pack describes the same five profiles and fifteen
 variants and binds them to its specific archive SHA-256. The QEMU archive is
 for local emulation; signing its hash does not provide hardware attestation.
 
