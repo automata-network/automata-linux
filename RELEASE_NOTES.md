@@ -17,7 +17,7 @@ release remains private and requires repository access.
 
 | Profile | Supported variants |
 | --- | --- |
-| AWS SEV-SNP | `m6a.large`, `m6a.xlarge`, `m6a.2xlarge`, `m6a.4xlarge`, `m6a.8xlarge` |
+| AWS SEV-SNP | `m6a.large`, `m6a.xlarge`, `m6a.2xlarge`, `m6a.4xlarge`, `m6a.8xlarge`, `c6a.large`, `c6a.xlarge`, `c6a.2xlarge`, `c6a.4xlarge`, `c6a.8xlarge`, `c6a.12xlarge`, `c6a.16xlarge` |
 | Azure SEV-SNP | `Standard_DC2as_v5`, with two separately signed firmware variants |
 | Azure TDX | `Standard_DC2es_v6` |
 | GCP SEV-SNP | `n2d-standard-4` |
