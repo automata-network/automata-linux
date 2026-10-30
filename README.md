@@ -13,6 +13,8 @@ Use **atakit CLI v0.7.4 or later with format 15 support**. v0.3.5 requires
 workload manifest format **15** and rejects older manifests. The CLI release
 is private; repository access is required to download its binaries.
 
+C4 deployment requires a CLI build with C4 target support; released CLI v0.7.4 does not accept C4 targets.
+
 ## Identity and supported platforms
 
 - Publisher fingerprint: `0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7d3ecb259d2`.
@@ -25,7 +27,7 @@ is private; repository access is required to download its binaries.
 | Azure SEV-SNP | `Standard_DC2as_v5`, two firmware variants |
 | Azure TDX | `Standard_DC2es_v6` |
 | GCP SEV-SNP | `n2d-standard-4` |
-| GCP TDX | `c3-standard-4`, `c3-standard-8`, `c3-standard-22`, `c3-standard-44`, `c3-standard-88`, `c3-standard-176` |
+| GCP TDX | `c3-standard-4`, `c3-standard-8`, `c3-standard-22`, `c3-standard-44`, `c3-standard-88`, `c3-standard-176`, `c4-standard-2`, `c4-standard-4`, `c4-standard-8`, `c4-standard-16`, `c4-standard-24`, `c4-standard-32`, `c4-standard-48`, `c4-standard-96`, `c4-standard-144`, `c4-standard-192` |
 
 Exact variant names and policies are in the signed measurement packs. QEMU is
 included for local emulation and provides no hardware attestation.

@@ -21,11 +21,11 @@ release remains private and requires repository access.
 | Azure SEV-SNP | `Standard_DC2as_v5`, with two separately signed firmware variants |
 | Azure TDX | `Standard_DC2es_v6` |
 | GCP SEV-SNP | `n2d-standard-4` |
-| GCP TDX | `c3-standard-4`, `c3-standard-8`, `c3-standard-22`, `c3-standard-44`, `c3-standard-88`, `c3-standard-176` |
+| GCP TDX | `c3-standard-4`, `c3-standard-8`, `c3-standard-22`, `c3-standard-44`, `c3-standard-88`, `c3-standard-176`, `c4-standard-2`, `c4-standard-4`, `c4-standard-8`, `c4-standard-16`, `c4-standard-24`, `c4-standard-32`, `c4-standard-48`, `c4-standard-96`, `c4-standard-144`, `c4-standard-192` |
 
 The exact variant names, PCR policies, and security attributes are in the signed
 measurement packs. Azure SEV-SNP uses CPUID-specific minimum TCB values for
-`0x190101` and `0x191101`. Each pack describes the same five profiles and fifteen
+`0x190101` and `0x191101`. Each pack describes the same five profiles and thirty-two
 variants and binds them to its specific archive SHA-256. The QEMU archive is
 for local emulation; signing its hash does not provide hardware attestation.
 
@@ -46,6 +46,7 @@ for local emulation; signing its hash does not provide hardware attestation.
 
 ## Known limitations
 
+- C4 deployment requires a CLI build with C4 target support; released CLI v0.7.4 does not accept C4 targets.
 - Concurrent session registrations using the same owner can fail during startup. Run registrations sequentially until this issue is resolved.
 - Azure firmware can vary by placement. Only firmware covered by the published signed measurements is supported.
 - QEMU provides local emulation without hardware attestation.
