@@ -21,6 +21,8 @@ GCP and QEMU. Each archive has an archive-bound signed measurement pack. QEMU
 does not provide hardware attestation. See [release notes](RELEASE_NOTES.md)
 for supported machines, features and limitations.
 
+C4 deployment requires a CLI build with C4 target support; released CLI v0.7.4 does not accept C4 targets.
+
 ## Verify downloaded files
 
 Download all 23 release files into an otherwise empty directory. Verify the
