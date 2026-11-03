@@ -1,6 +1,6 @@
-# Automata Linux v0.3.6
+# Automata Linux v0.3.6-debug
 
-Non-debug confidential VM base image. Atakit system logging is off, and the image provides no serial shell or host SSH service.
+Debug confidential VM base image. This image permits root access through its serial console. Use the non-debug image when that access is outside your threat model.
 
 Requires workload manifest **format 16** and **Atakit CLI v0.7.6**. Workloads
 using formats 14 or 15 cannot start on this image. The CLI release remains private.

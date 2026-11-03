@@ -1,12 +1,12 @@
-# Automata Linux v0.3.6
+# Automata Linux v0.3.6-debug
 
-This is the non-debug image. Atakit system logging is off. It provides no serial shell or host SSH service.
+This is the debug image. It provides serial diagnostics and a root shell. Anyone with console access can inspect workload data and secrets. Hardware debug mode remains disabled.
 
 Use workload manifest **format 16** and **Atakit CLI v0.7.6**. The CLI is
 private and requires repository access. This image rejects formats 14 and 15.
 
 ```sh
-atakit image pull automata-linux:v0.3.6
+atakit image pull automata-linux:v0.3.6-debug
 ```
 
 Combined and per-provider `.atabi` archives cover AWS, Azure, GCP and QEMU.
