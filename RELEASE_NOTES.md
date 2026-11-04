@@ -1,57 +1,54 @@
-# Automata Linux v0.3.5-debug
+# Automata Linux v0.3.6-debug
 
-This debug release uses the same kernel, Portal and prover as v0.3.5. It enables
-serial boot output, Portal diagnostics and a root shell. An operator with serial
-access can inspect workload data and secrets. Use the non-debug v0.3.5 image for
-production secrets.
+Debug confidential VM base image. This image permits root access through its serial console. Use the non-debug image when that access is outside your threat model.
 
-The kernel is 7.2.12-automata-splicefix. Workloads must use manifest format 15;
-format 14 is rejected before startup. Use Atakit CLI 0.7.4 or a compatible later
-version. The CLI release remains private.
+Requires workload manifest **format 16** and **Atakit CLI v0.7.6**. Workloads
+using formats 14 or 15 cannot start on this image. The CLI release remains private.
 
-The image includes publisher-signed workload and base-image policy checks,
-Azure SEV-SNP minimum TCB values selected by signed CPUID, baby-container
-stdout/stderr handling, explicit signed log-access policy, encrypted persistent
-baby roots, and the updated certificate bundle.
+## Changes
 
-Image ID: `0x446fb3f67743277dd21a92f5d6ff6dedb7668ed198a0fc384178c9c39e70cf6f`.
-Publisher fingerprint: `0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7d3ecb259d2`.
+- Adds signed CPU placement settings for the main workload, dependencies and
+  baby containers. Equivalent CPU lists produce the same manifest bytes.
+- Adds workload CPU idle and CPU frequency policies. Operators can tune only
+  settings that the workload publisher explicitly allows. Authenticated changes
+  apply on the next full workload startup, not immediately to running containers.
+- Adds optional `nofile` limits for the main workload, dependencies and baby
+  containers. An omitted limit uses the base-image default of 1,048,576; the
+  base-image ceiling is also 1,048,576. No broad SYS_RESOURCE privilege is added.
+- Uses the TDX V2 proof format and checks bundled prover capabilities during
+  image builds.
+- Writes explicit JSON defaults and normalizes equivalent manifest values.
 
-## Supported hardware profiles
+## Supported machines
 
-| Profile | Variants |
-| --- | --- |
-| aws-sev-snp | `m6a.large`, `m6a.xlarge`, `m6a.2xlarge`, `m6a.4xlarge`, `m6a.8xlarge`, `c6a.large`, `c6a.xlarge`, `c6a.2xlarge`, `c6a.4xlarge`, `c6a.8xlarge`, `c6a.12xlarge`, `c6a.16xlarge` |
-| azure-sev-snp | `Standard_DC2as_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993`, `Standard_DC2as_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b` |
-| azure-tdx | `Standard_DC2es_v6` |
-| gcp-sev-snp | `n2d-standard-4` |
-| gcp-tdx | `c3-standard-176`, `c3-standard-22`, `c3-standard-4`, `c3-standard-44`, `c3-standard-8`, `c3-standard-88`, `c4-standard-2`, `c4-standard-4`, `c4-standard-8`, `c4-standard-16`, `c4-standard-24`, `c4-standard-32`, `c4-standard-48`, `c4-standard-96`, `c4-standard-144`, `c4-standard-192` |
+| Platform | Confidential VM type | Machine types |
+| --- | --- | --- |
+| AWS | AMD SEV-SNP | `m6a.large`, `m6a.xlarge`, `m6a.2xlarge`, `m6a.4xlarge`, `m6a.8xlarge` |
+| AWS | AMD SEV-SNP | `c6a.large`, `c6a.xlarge`, `c6a.2xlarge`, `c6a.4xlarge`, `c6a.8xlarge`, `c6a.12xlarge`, `c6a.16xlarge` |
+| Azure | Intel TDX | `Standard_DC2es_v6` |
+| Azure | AMD SEV-SNP | `Standard_DC2as_v5`, with the two firmware groups listed in the signed measurement pack |
+| GCP | AMD SEV-SNP | `n2d-standard-4` |
+| GCP | Intel TDX | `c3-standard-{4,8,22,44,88,176}` |
+| GCP | Intel TDX | `c4-standard-{2,4,8,16,24,32,48,96,144,192}` |
 
-Exact firmware variants, PCR policies, and security attributes are included
-in the signed measurement packs. Baby containers support package installation,
-program execution, persistent private storage, and parent-controlled network
-access. The signed workload policy controls parent and sidecar access to logs.
+The signed measurement pack contains 32 variants across five profiles. A matching
+machine name alone is insufficient: hardware evidence, PCR measurements and
+security attributes must also satisfy the signed policy. Availability depends on
+the provider region, quota and capacity. QEMU archives support local development
+and do not establish hardware-backed confidentiality.
 
-## Release files and verification
+## CPU control limits
 
-The release has five .atabi archives, one signed measurement-pack triple per
-archive, these notes, release-provenance.json and SHA256SUMS: 23 files in total.
-Each pack signs its archive hash and the full five-profile measurement set.
-The QEMU archive has no hardware-attestation claim.
+CPU placement selects guest CPUs. CPU idle and frequency controls depend on
+interfaces exposed by the cloud platform. Unsupported optional settings are
+skipped; required settings reject startup. GCP c4-standard-8 TDX exposes idle
+controls but no CPU-frequency policy interface. Guest idle settings do not
+establish physical-host C-state residency. The operator idle preset permits
+`menu` and `teo`; it does not permit `ladder` or `haltpoll`.
 
-Verify the files with scripts/verify-release.py from this signed tag and an
-independently trusted publisher public key. See README.md for the command.
-The public tag identifies release documentation. Private image source and
-component revisions are listed separately in release-provenance.json.
+## Secret provisioning
 
-Successful startup alone is not verification or permission to release secrets.
-A provisioner must verify fresh hardware evidence and publisher-signed policies
-using an independently trusted measurement source. The default /tmp is
-non-executable; Go tools in a baby container need a writable private TMPDIR.
-
-## Known limitations
-
-- C4 deployment requires a CLI build with C4 target support; released CLI v0.7.4 does not accept C4 targets.
-- Concurrent session registrations using the same owner can fail during startup. Run registrations sequentially until this issue is resolved.
-- Azure firmware can vary by placement. Only firmware covered by the published signed measurements is supported.
-- QEMU provides local emulation without hardware attestation.
+Successful workload startup does not authorize secret release. Independently
+verify fresh hardware evidence and the publisher-signed image and workload
+policies against measurements obtained from a trusted publisher before providing
+secrets. A public key supplied by the requesting VM does not establish trust.

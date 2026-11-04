@@ -1,47 +1,49 @@
 {
   "schema": "automata-linux-release-provenance-v1",
-  "release": "v0.3.5-debug",
-  "image_build": "debug",
-  "prepared_at": "2026-10-27T02:13:33.376497+00:00",
-  "base_image_id": "0x446fb3f67743277dd21a92f5d6ff6dedb7668ed198a0fc384178c9c39e70cf6f",
   "publisher_fingerprint": "0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7d3ecb259d2",
   "publisher_public_key": "0x04685f12ea338abcb3e42a407dcdc9f498300e5b93a7f7f6b9b7a13699ec07193438eccd5f978267445942f5398b81886b533adc082615de29807d73dc728a7af8",
-  "source_commits": {
-    "dev-baseimage-private": "b778186c95bffa86828908f9c47bf5dd9b53b245",
-    "atakit-portal": "e813fae6cf9be4557442689a12b9616be63a0daa",
-    "atakit-prover": "24da360b05e049a685a676095f62bf0512f4e6c5",
-    "atakit-imgbuild": "927505ce804afe1670bfdde8a83aa0ab96882241",
-    "atakit-ng-builder-dependencies": "75bba3a43d3d6121804de61dea2cbf7fb64b4ed3"
-  },
   "source_commit_scope": "These revisions identify the image inputs and build tools. The public signed tag identifies release documentation; the image source repository is private.",
+  "build_time_note": "Build timestamps are normalized with SOURCE_DATE_EPOCH=0 and do not represent wall-clock build time.",
+  "measurement_pack_scope": "Each archive-bound pack contains all five signed hardware profiles. The QEMU archive digest is signed, but no QEMU hardware-attestation profile is claimed.",
+  "measurement_pack_schema": "atakit.base_image_measurement_pack.v4",
+  "release": "v0.3.6-debug",
+  "image_build": "debug",
+  "prepared_at": "2026-11-04",
+  "source_commits": {
+    "atakit-suite": "af2baafb89d3d4bb1d4159407d47e6bc8525f241",
+    "atakit-ng": "ffcac876aeca1b2fcbe8d2708d1aa5056ebf14a7",
+    "atakit-portal": "63c11b6886347863bd60df22b7e430ffc53f6492",
+    "atakit-imgbuild": "4e9b3df04bbb42a9f927c4edfed5b116a9c4998a",
+    "atakit-prover": "530009437be76bf8776ada99244c0bb877bc00f8",
+    "dev-baseimage-private": "61684c92f5cd749c836fa3f919d84b692623df78"
+  },
   "binary_sha256": {
-    "atakit-portal": "e5abd8f35a8feb344f9de6f8a021c0c7a724e161d1388ab0a18415bf6c35bead",
-    "atakit-proverd-sp1": "9533810a111790f69e54e0204122fc8f6467e1a55c9c5cce83f8113252222f11",
+    "atakit-portal": "3d4256692f03af3114ec1cc381269931f3333c08c4a0e2abd262a88db58a02e7",
+    "atakit-proverd-sp1": "0b4b706020e1cc523e0bfab565108fda2afbc95136b5bff48a15e66fe1b371d8",
     "kernel.img": "328c44cda31503dba7625466298936035f7f1026b4887482af5c17a36a4c008c",
     "kernel.crt": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2"
   },
-  "kernel_version": "7.2.12-automata-splicefix",
   "portal_build_profile": "production",
   "atakit_system_logging": "info",
   "serial_root_shell": true,
   "hardware_debug_enabled": false,
-  "workload_manifest_format": 15,
-  "minimum_cli_version": "0.7.4",
-  "cli_distribution": "Private v0.7.4 release; repository access is required.",
+  "workload_manifest_format": 16,
+  "minimum_cli_version": "0.7.6",
+  "cli_distribution": "Private v0.7.6 release; repository access is required.",
   "archive_sha256": {
-    "automata-linux-v0.3.5-debug-all.atabi": "babe8f7b18382dc86ea4fde262294c9ff6dadf56d9db35bf21fe64edd7c8be7f",
-    "automata-linux-v0.3.5-debug-aws.atabi": "86d8f13134fc986da55d1f656bc53bdd0c4e83c481d15e9a3e8f213f3b3d5dbd",
-    "automata-linux-v0.3.5-debug-azure.atabi": "308c716387483921e194f95339c370ec9a180fcf0410b47d26f6f0bbf8151cd6",
-    "automata-linux-v0.3.5-debug-gcp.atabi": "5a895d4d9fd7ff5ae68ea26b04776f2b5176bfe4fa2dae78b4ee2232f70c1e0c",
-    "automata-linux-v0.3.5-debug-qemu.atabi": "c11e794f3923f399aaf9bc702e8341f2314ca85f17c558eb8c038d9ec93823a0"
+    "automata-linux-v0.3.6-debug-all.atabi": "9495b7925e521f1b662b6177b62509ca4256ff9c48ea6e4a8333d16d762e0338",
+    "automata-linux-v0.3.6-debug-gcp.atabi": "8553ecc0194513e0f8ccb99a76379fc3441b712b9e54a2c456a3abb28a253674",
+    "automata-linux-v0.3.6-debug-aws.atabi": "29a1458ecde9cb1de0ce1829c08d25e580bc023d54554bf4d09b5dfdc6a5943c",
+    "automata-linux-v0.3.6-debug-azure.atabi": "5f67107d9fc1192800e37d46b4fd043027daf7c1bfa68d760eb2978795bcfdb5",
+    "automata-linux-v0.3.6-debug-qemu.atabi": "2e1fee9f342ecb4e1092e8ee88a26648cfffd4c37cacbd301b3392100f9266a8"
   },
   "archive_contents": {
-    "automata-linux-v0.3.5-debug-all.atabi": {
+    "automata-linux-v0.3.6-debug-all.atabi": {
       "manifest": {
         "meta": {
           "format": 2,
           "name": "automata-linux",
-          "version": "v0.3.5-debug",
+          "version": "v0.3.6-debug",
           "platforms": [
             "gcp",
             "aws",
@@ -52,43 +54,43 @@
       },
       "entries": {
         "manifest.toml": {
-          "sha256": "9ba23c405d56026a5f8b9e1fd5f0b1399417f76fdc6b9a44bb9b2b042f1b6438",
+          "sha256": "9f48f37b6d2657574849ea75919e5a69b8c6d767ccf3e4cd0a7765fc9b17fb66",
           "size": 130
         },
         "baseimage.toml": {
-          "sha256": "18f8f8393415309abc62ba14e4ac0f22c7ed54008abf60474afd4775ea547f8c",
-          "size": 2923
+          "sha256": "68cb7ee98a1393a6cb5171d764742740480cef79bc58c8bb3be729b73fedf3c0",
+          "size": 2969
         },
         "disk_images/aws_disk.vmdk": {
-          "sha256": "5fce617a97609746d90765f87c21ca2f323f5550cc24f93180fed4f08b21243a",
-          "size": 220154880
+          "sha256": "5260912119c462d56bb85e583c0ee2504488f8890b49475880519b3782c05655",
+          "size": 220590080
         },
-        "disk_images/azure_disk.vhd": {
-          "sha256": "25286f066c9131817dc08eabeca65e9f3b0bcaad3d3b514397d43c0be5ff1b18",
-          "size": 1073742336
+        "disk_images/azure_disk.vhd.zst": {
+          "sha256": "bc0a61e6efc498632c7c9052c03118b740d3dda3a54931ac6035642c1759b8bf",
+          "size": 205445986
         },
         "disk_images/gcp_disk.tar.gz": {
-          "sha256": "233e02ec4fe9dd92aa455706d31b2a06ade068db883166d6811ad2b26a7d651a",
-          "size": 213536312
+          "sha256": "f2838b5e0f0125eb433ce17829b7db55f6af88201b7925c7a1a4ae3c245b1eb0",
+          "size": 214001459
         },
         "disk_images/qemu_disk.qcow2": {
-          "sha256": "17537ee201fcf5f1b609461ba408c278af70b6bde562a20e8a7f4d1447cb12db",
-          "size": 555286528
+          "sha256": "fdfaae15b6be9bd37c781cbe47a993ba1346ad7f267b7dbc74a1d881ef874504",
+          "size": 556728320
         },
         "secure_boot_certs/KEK.crt": {
-          "sha256": "2b1e6a6c1e9b28af8f3317a464ef8ea636339d435d33d89d9f51559d533d44b1",
+          "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
           "size": 778
         },
         "secure_boot_certs/PK.crt": {
-          "sha256": "f29920dc94b7e981c72d9119833976d8d0bcc6509a3fcc86f58f125e9f91c359",
+          "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
           "size": 778
         },
         "secure_boot_certs/aws-uefi-blob.bin": {
-          "sha256": "081aa4c7fde1f334d68630deba0142722b83a0a9587dda3aac35d04489b4bc5f",
+          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
           "size": 4128
         },
         "secure_boot_certs/db.crt": {
-          "sha256": "c4f727bd5ece0c7ae735c2bc4917455b95acff74ecec80aaf21a9bf6fbe9371d",
+          "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
           "size": 778
         },
         "secure_boot_certs/kernel.crt": {
@@ -97,12 +99,12 @@
         }
       }
     },
-    "automata-linux-v0.3.5-debug-aws.atabi": {
+    "automata-linux-v0.3.6-debug-aws.atabi": {
       "manifest": {
         "meta": {
           "format": 2,
           "name": "automata-linux",
-          "version": "v0.3.5-debug",
+          "version": "v0.3.6-debug",
           "platforms": [
             "aws"
           ]
@@ -110,31 +112,31 @@
       },
       "entries": {
         "manifest.toml": {
-          "sha256": "843696f6b478b61bb64513f664a3b5d45c6b92c9baa163f4a4e9149574d489b8",
+          "sha256": "1439b41aa39837565f2bfb8d35d7560a912bcdd3b51b4e1fc44a63c59d0116ac",
           "size": 87
         },
         "baseimage.toml": {
-          "sha256": "18f8f8393415309abc62ba14e4ac0f22c7ed54008abf60474afd4775ea547f8c",
-          "size": 2923
+          "sha256": "68cb7ee98a1393a6cb5171d764742740480cef79bc58c8bb3be729b73fedf3c0",
+          "size": 2969
         },
         "disk_images/aws_disk.vmdk": {
-          "sha256": "5fce617a97609746d90765f87c21ca2f323f5550cc24f93180fed4f08b21243a",
-          "size": 220154880
+          "sha256": "5260912119c462d56bb85e583c0ee2504488f8890b49475880519b3782c05655",
+          "size": 220590080
         },
         "secure_boot_certs/KEK.crt": {
-          "sha256": "2b1e6a6c1e9b28af8f3317a464ef8ea636339d435d33d89d9f51559d533d44b1",
+          "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
           "size": 778
         },
         "secure_boot_certs/PK.crt": {
-          "sha256": "f29920dc94b7e981c72d9119833976d8d0bcc6509a3fcc86f58f125e9f91c359",
+          "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
           "size": 778
         },
         "secure_boot_certs/aws-uefi-blob.bin": {
-          "sha256": "081aa4c7fde1f334d68630deba0142722b83a0a9587dda3aac35d04489b4bc5f",
+          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
           "size": 4128
         },
         "secure_boot_certs/db.crt": {
-          "sha256": "c4f727bd5ece0c7ae735c2bc4917455b95acff74ecec80aaf21a9bf6fbe9371d",
+          "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
           "size": 778
         },
         "secure_boot_certs/kernel.crt": {
@@ -143,12 +145,12 @@
         }
       }
     },
-    "automata-linux-v0.3.5-debug-azure.atabi": {
+    "automata-linux-v0.3.6-debug-azure.atabi": {
       "manifest": {
         "meta": {
           "format": 2,
           "name": "automata-linux",
-          "version": "v0.3.5-debug",
+          "version": "v0.3.6-debug",
           "platforms": [
             "azure"
           ]
@@ -156,31 +158,31 @@
       },
       "entries": {
         "manifest.toml": {
-          "sha256": "44549d85baabbee0a2a6b7c1533745816a30e5bc2bafcf17ecb5b0390ca52198",
+          "sha256": "0107f2adeac08897bdc17ec7b667a9a14dc7f05774cd32e0de6b7e5d51eff6e9",
           "size": 89
         },
         "baseimage.toml": {
-          "sha256": "18f8f8393415309abc62ba14e4ac0f22c7ed54008abf60474afd4775ea547f8c",
-          "size": 2923
+          "sha256": "68cb7ee98a1393a6cb5171d764742740480cef79bc58c8bb3be729b73fedf3c0",
+          "size": 2969
         },
-        "disk_images/azure_disk.vhd": {
-          "sha256": "25286f066c9131817dc08eabeca65e9f3b0bcaad3d3b514397d43c0be5ff1b18",
-          "size": 1073742336
+        "disk_images/azure_disk.vhd.zst": {
+          "sha256": "bc0a61e6efc498632c7c9052c03118b740d3dda3a54931ac6035642c1759b8bf",
+          "size": 205445986
         },
         "secure_boot_certs/KEK.crt": {
-          "sha256": "2b1e6a6c1e9b28af8f3317a464ef8ea636339d435d33d89d9f51559d533d44b1",
+          "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
           "size": 778
         },
         "secure_boot_certs/PK.crt": {
-          "sha256": "f29920dc94b7e981c72d9119833976d8d0bcc6509a3fcc86f58f125e9f91c359",
+          "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
           "size": 778
         },
         "secure_boot_certs/aws-uefi-blob.bin": {
-          "sha256": "081aa4c7fde1f334d68630deba0142722b83a0a9587dda3aac35d04489b4bc5f",
+          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
           "size": 4128
         },
         "secure_boot_certs/db.crt": {
-          "sha256": "c4f727bd5ece0c7ae735c2bc4917455b95acff74ecec80aaf21a9bf6fbe9371d",
+          "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
           "size": 778
         },
         "secure_boot_certs/kernel.crt": {
@@ -189,12 +191,12 @@
         }
       }
     },
-    "automata-linux-v0.3.5-debug-gcp.atabi": {
+    "automata-linux-v0.3.6-debug-gcp.atabi": {
       "manifest": {
         "meta": {
           "format": 2,
           "name": "automata-linux",
-          "version": "v0.3.5-debug",
+          "version": "v0.3.6-debug",
           "platforms": [
             "gcp"
           ]
@@ -202,31 +204,31 @@
       },
       "entries": {
         "manifest.toml": {
-          "sha256": "8ae2bd09169877355e29096df40ac88a3af7e10d372b802cebd373d150ffb68b",
+          "sha256": "6f069dae413be85ab520c56538715e396a2063faabb9931bacb7a2a11a0726dc",
           "size": 87
         },
         "baseimage.toml": {
-          "sha256": "18f8f8393415309abc62ba14e4ac0f22c7ed54008abf60474afd4775ea547f8c",
-          "size": 2923
+          "sha256": "68cb7ee98a1393a6cb5171d764742740480cef79bc58c8bb3be729b73fedf3c0",
+          "size": 2969
         },
         "disk_images/gcp_disk.tar.gz": {
-          "sha256": "233e02ec4fe9dd92aa455706d31b2a06ade068db883166d6811ad2b26a7d651a",
-          "size": 213536312
+          "sha256": "f2838b5e0f0125eb433ce17829b7db55f6af88201b7925c7a1a4ae3c245b1eb0",
+          "size": 214001459
         },
         "secure_boot_certs/KEK.crt": {
-          "sha256": "2b1e6a6c1e9b28af8f3317a464ef8ea636339d435d33d89d9f51559d533d44b1",
+          "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
           "size": 778
         },
         "secure_boot_certs/PK.crt": {
-          "sha256": "f29920dc94b7e981c72d9119833976d8d0bcc6509a3fcc86f58f125e9f91c359",
+          "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
           "size": 778
         },
         "secure_boot_certs/aws-uefi-blob.bin": {
-          "sha256": "081aa4c7fde1f334d68630deba0142722b83a0a9587dda3aac35d04489b4bc5f",
+          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
           "size": 4128
         },
         "secure_boot_certs/db.crt": {
-          "sha256": "c4f727bd5ece0c7ae735c2bc4917455b95acff74ecec80aaf21a9bf6fbe9371d",
+          "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
           "size": 778
         },
         "secure_boot_certs/kernel.crt": {
@@ -235,12 +237,12 @@
         }
       }
     },
-    "automata-linux-v0.3.5-debug-qemu.atabi": {
+    "automata-linux-v0.3.6-debug-qemu.atabi": {
       "manifest": {
         "meta": {
           "format": 2,
           "name": "automata-linux",
-          "version": "v0.3.5-debug",
+          "version": "v0.3.6-debug",
           "platforms": [
             "qemu"
           ]
@@ -248,31 +250,31 @@
       },
       "entries": {
         "manifest.toml": {
-          "sha256": "ed9ca7af6531e882cc86fbab8ca524e013819d83dd1bacfbc484b804fc334202",
+          "sha256": "ed8f84d91386cc121b353de48d5fee1d25c025accfdde2d38c5910d2df011b41",
           "size": 88
         },
         "baseimage.toml": {
-          "sha256": "18f8f8393415309abc62ba14e4ac0f22c7ed54008abf60474afd4775ea547f8c",
-          "size": 2923
+          "sha256": "68cb7ee98a1393a6cb5171d764742740480cef79bc58c8bb3be729b73fedf3c0",
+          "size": 2969
         },
         "disk_images/qemu_disk.qcow2": {
-          "sha256": "17537ee201fcf5f1b609461ba408c278af70b6bde562a20e8a7f4d1447cb12db",
-          "size": 555286528
+          "sha256": "fdfaae15b6be9bd37c781cbe47a993ba1346ad7f267b7dbc74a1d881ef874504",
+          "size": 556728320
         },
         "secure_boot_certs/KEK.crt": {
-          "sha256": "2b1e6a6c1e9b28af8f3317a464ef8ea636339d435d33d89d9f51559d533d44b1",
+          "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
           "size": 778
         },
         "secure_boot_certs/PK.crt": {
-          "sha256": "f29920dc94b7e981c72d9119833976d8d0bcc6509a3fcc86f58f125e9f91c359",
+          "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
           "size": 778
         },
         "secure_boot_certs/aws-uefi-blob.bin": {
-          "sha256": "081aa4c7fde1f334d68630deba0142722b83a0a9587dda3aac35d04489b4bc5f",
+          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
           "size": 4128
         },
         "secure_boot_certs/db.crt": {
-          "sha256": "c4f727bd5ece0c7ae735c2bc4917455b95acff74ecec80aaf21a9bf6fbe9371d",
+          "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
           "size": 778
         },
         "secure_boot_certs/kernel.crt": {
@@ -282,8 +284,33 @@
       }
     }
   },
-  "measurement_pack_schema": "atakit.base_image_measurement_pack.v4",
-  "measurement_pack_revision": 4,
+  "measurement_pack_revision": 1,
+  "release_assets": [
+    "RELEASE-NOTES.md",
+    "SHA256SUMS",
+    "automata-linux-v0.3.6-debug-all.atabi",
+    "automata-linux-v0.3.6-debug-all.measurement-pack.json",
+    "automata-linux-v0.3.6-debug-all.measurement-pack.pubkey",
+    "automata-linux-v0.3.6-debug-all.measurement-pack.sig",
+    "automata-linux-v0.3.6-debug-aws.atabi",
+    "automata-linux-v0.3.6-debug-aws.measurement-pack.json",
+    "automata-linux-v0.3.6-debug-aws.measurement-pack.pubkey",
+    "automata-linux-v0.3.6-debug-aws.measurement-pack.sig",
+    "automata-linux-v0.3.6-debug-azure.atabi",
+    "automata-linux-v0.3.6-debug-azure.measurement-pack.json",
+    "automata-linux-v0.3.6-debug-azure.measurement-pack.pubkey",
+    "automata-linux-v0.3.6-debug-azure.measurement-pack.sig",
+    "automata-linux-v0.3.6-debug-gcp.atabi",
+    "automata-linux-v0.3.6-debug-gcp.measurement-pack.json",
+    "automata-linux-v0.3.6-debug-gcp.measurement-pack.pubkey",
+    "automata-linux-v0.3.6-debug-gcp.measurement-pack.sig",
+    "automata-linux-v0.3.6-debug-qemu.atabi",
+    "automata-linux-v0.3.6-debug-qemu.measurement-pack.json",
+    "automata-linux-v0.3.6-debug-qemu.measurement-pack.pubkey",
+    "automata-linux-v0.3.6-debug-qemu.measurement-pack.sig",
+    "release-provenance.json"
+  ],
+  "base_image_id": "0xb71fca20d2edff8e4167652f35527f1dcb7b4a0250ec6733ea2f4dea204dddf7",
   "measurement_profiles": {
     "aws-sev-snp": [
       "c6a.12xlarge",
@@ -329,61 +356,244 @@
     ]
   },
   "measurement_pack_sha256": {
-    "automata-linux-v0.3.5-debug-all.measurement-pack.json": "8ad2fc08bde2cf70bcf4bbe7f17ebec687d3e685c33b5b5861129a4f4de415d9",
-    "automata-linux-v0.3.5-debug-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-all.measurement-pack.sig": "c2518ab6ab7b5c5a1e1910674e77228c5a966bda5d7f6d1f0f226aff3320dab0",
-    "automata-linux-v0.3.5-debug-aws.measurement-pack.json": "2638e6f8ffa142c7e60eb46ffe7c4580b8d9b379c37e93e7b151db6e198cdcbc",
-    "automata-linux-v0.3.5-debug-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-aws.measurement-pack.sig": "95b1296aed1860bf93d6d65cc07072badf63bafe8f3505f9e62fe911a18dfe05",
-    "automata-linux-v0.3.5-debug-azure.measurement-pack.json": "b40b849393479a4e18970b171dccd976e88b4daded952d1d944d746237b750e5",
-    "automata-linux-v0.3.5-debug-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-azure.measurement-pack.sig": "d21f3088da8d5b149d2d94ea70f7d0886546766ab9d580d463704da84219a01f",
-    "automata-linux-v0.3.5-debug-gcp.measurement-pack.json": "bea188808e435d12673d33eaa440e2fe06d54b89e9e131fc18f3e4deeae41083",
-    "automata-linux-v0.3.5-debug-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-gcp.measurement-pack.sig": "d5aa80a43c859e21db7c0a4448eb131e87a9984251c57f424c8656cd06fdfa88",
-    "automata-linux-v0.3.5-debug-qemu.measurement-pack.json": "9b9dde8813e64565c2e4faabcaef024f2d3eb952288a3381b83c766353c736de",
-    "automata-linux-v0.3.5-debug-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.5-debug-qemu.measurement-pack.sig": "863a2b091d2eba08b63610e92bed08f0aef64d69eca9574fa7096f79f7c9002a"
+    "automata-linux-v0.3.6-debug-all.measurement-pack.json": "feb71910f00ce93e007295a139a3e9aee507d03a1ef717fea935e61b30f245bc",
+    "automata-linux-v0.3.6-debug-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.6-debug-all.measurement-pack.sig": "e15eb33a822d4e21c2aaafd43b82c94c05b0226e20090ff46c665106ed842917",
+    "automata-linux-v0.3.6-debug-aws.measurement-pack.json": "92b7f456aaeb1fc13ee48c81e3f1d7b5db0ffb6d17b851bc13628bbc192e3d07",
+    "automata-linux-v0.3.6-debug-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.6-debug-aws.measurement-pack.sig": "b7e87f7e2b9c884c194f33b7793739ac5b0676442aa1a3206e84f381e39b2a8d",
+    "automata-linux-v0.3.6-debug-azure.measurement-pack.json": "44a7d4d01c9827cda4e6824e6ea9fa058b5e4f25141349594480ae3aa9c8f05a",
+    "automata-linux-v0.3.6-debug-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.6-debug-azure.measurement-pack.sig": "7d6de1359de48b3eadd736a3fb8d7f59f49c3f741b69ec9fe3a90652475a1322",
+    "automata-linux-v0.3.6-debug-gcp.measurement-pack.json": "52c7399c6446831613357b38959ec6b162f56c3b5c44f455046a88443e8f4ce6",
+    "automata-linux-v0.3.6-debug-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.6-debug-gcp.measurement-pack.sig": "de5078480034a437d757a8d938283a83bcbf92ea5d7cdb3200dd6d1b322ad836",
+    "automata-linux-v0.3.6-debug-qemu.measurement-pack.json": "a183b03bd31b93649e283467e3c4f3662f0430b7fe087126ad20cf8001f06e3c",
+    "automata-linux-v0.3.6-debug-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.6-debug-qemu.measurement-pack.sig": "606e5dccde6c369ea5ceaa9d8797d2fbe8e9cce3ecc4c30151b846c979c083f1"
   },
-  "measurement_pack_scope": "Each archive-bound pack contains all five signed hardware profiles. The QEMU archive digest is signed, but no QEMU hardware-attestation profile is claimed.",
-  "public_registry": {
-    "chain_id": 560048,
-    "registry": "0x6b837e4Cc2A7BDaA1d938CEE7fa0b82458dA0b14",
-    "profile_count": 5,
-    "variant_count": 32
-  },
-  "known_limitations": [
-    "Serial access provides a root shell and can expose workload data and secrets. Use the non-debug image for production secrets.",
-    "Concurrent session registrations using the same owner can fail during startup. Run registrations sequentially until this issue is resolved.",
-    "Azure firmware can vary by placement. Only firmware covered by the published signed measurements is supported.",
-    "QEMU provides local emulation without hardware attestation.",
-    "The default /tmp is non-executable. Set TMPDIR to a directory in the baby container\u2019s private writable root when running Go tools.",
-    "C4 deployment requires a CLI build with C4 target support; released CLI v0.7.4 does not accept C4 targets."
-  ],
-  "build_time_note": "Build timestamps are normalized with SOURCE_DATE_EPOCH=0 and do not represent wall-clock build time.",
-  "release_assets": [
-    "RELEASE-NOTES.md",
-    "SHA256SUMS",
-    "automata-linux-v0.3.5-debug-all.atabi",
-    "automata-linux-v0.3.5-debug-all.measurement-pack.json",
-    "automata-linux-v0.3.5-debug-all.measurement-pack.pubkey",
-    "automata-linux-v0.3.5-debug-all.measurement-pack.sig",
-    "automata-linux-v0.3.5-debug-aws.atabi",
-    "automata-linux-v0.3.5-debug-aws.measurement-pack.json",
-    "automata-linux-v0.3.5-debug-aws.measurement-pack.pubkey",
-    "automata-linux-v0.3.5-debug-aws.measurement-pack.sig",
-    "automata-linux-v0.3.5-debug-azure.atabi",
-    "automata-linux-v0.3.5-debug-azure.measurement-pack.json",
-    "automata-linux-v0.3.5-debug-azure.measurement-pack.pubkey",
-    "automata-linux-v0.3.5-debug-azure.measurement-pack.sig",
-    "automata-linux-v0.3.5-debug-gcp.atabi",
-    "automata-linux-v0.3.5-debug-gcp.measurement-pack.json",
-    "automata-linux-v0.3.5-debug-gcp.measurement-pack.pubkey",
-    "automata-linux-v0.3.5-debug-gcp.measurement-pack.sig",
-    "automata-linux-v0.3.5-debug-qemu.atabi",
-    "automata-linux-v0.3.5-debug-qemu.measurement-pack.json",
-    "automata-linux-v0.3.5-debug-qemu.measurement-pack.pubkey",
-    "automata-linux-v0.3.5-debug-qemu.measurement-pack.sig",
-    "release-provenance.json"
-  ]
+  "measurement_policy": {
+    "aws-sev-snp": {
+      "pcr_bank_selection": "sha384",
+      "invariant_pcrs256": [],
+      "invariant_pcrs384": [
+        {
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001394341b7182cd227c5c6b07ef8000cdfd86136c4292b8e576573ad7ed9ae41019f5818b4b971c9effc60e1ad9f1289f000000000000000000000000000000000",
+          "pcr_index": 1
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000518923b0f955d08da077c96aaba522b9decede61c599cea6c41889cfbea4ae4d50529d96fe4d1afdafb65e7f95bf23c400000000000000000000000000000000",
+          "pcr_index": 2
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000518923b0f955d08da077c96aaba522b9decede61c599cea6c41889cfbea4ae4d50529d96fe4d1afdafb65e7f95bf23c400000000000000000000000000000000",
+          "pcr_index": 3
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000faecaf677b0f406f9635de1395258432d06566e81bc22de6f505057aa0a3e0041927421bd449e6b581fc50360d01afb700000000000000000000000000000000",
+          "pcr_index": 4
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000518923b0f955d08da077c96aaba522b9decede61c599cea6c41889cfbea4ae4d50529d96fe4d1afdafb65e7f95bf23c400000000000000000000000000000000",
+          "pcr_index": 6
+        },
+        {
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000096a88854a4c6fb989810a6abfe072d4749a837dcba628ae607abf2f982aa3aaaf06e634f589c4a4e95f25d815853a82700000000000000000000000000000000",
+          "pcr_index": 7
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000879654bd53558e409f69275d819d48a8723e7e32660cdcd95feaef338fb726f47b039b850a21b4c4417a1979037c259500000000000000000000000000000000",
+          "pcr_index": 9
+        },
+        {
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000069b8d6b84907fdeedfebb433e037fe8fcacb246ca082c4ce2ba15f7a11c125dcada66272eb9b11ae7f134466287862e100000000000000000000000000000000",
+          "pcr_index": 11
+        }
+      ],
+      "attributes": [
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.debug.enabled",
+          "value": false
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.migrate-ma.enabled",
+          "value": false
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.platform-info.policy",
+          "value": "0x0000000000000000000000000000000000000000000000000000000000000020"
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.tcb.minimum",
+          "value": "0x00000000de1d000400000000de1d000400000000de1d000400000000de1d0004"
+        },
+        {
+          "name": "example.environment",
+          "value": "aws-sev-snp-profile"
+        }
+      ]
+    },
+    "azure-sev-snp": {
+      "pcr_bank_selection": "sha256",
+      "invariant_pcrs256": [
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000c3874828a5bb956ac46cfe6a3eada783b8f5f27e1e79c23f37357a4739e18c7",
+          "pcr_index": 4
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000990a15f80d187d1b63d468418754290b4f07b4caf3bb36dc838ca1ce648b6c6a",
+          "pcr_index": 9
+        },
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000005bfb6c9319e5f245a1ec00665d82eda98e5ced32e9405274f3c939ce2f837b63",
+          "pcr_index": 11
+        }
+      ],
+      "invariant_pcrs384": [],
+      "attributes": [
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.debug.enabled",
+          "value": false
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.migrate-ma.enabled",
+          "value": false
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.platform-info.policy",
+          "value": "0x0000000000000000000000000000000000000000000000000000000000000020"
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.tcb.minimum.by-cpuid",
+          "value": true
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.tcb.minimum.cpuid.190101",
+          "value": "0x00000000db18000400000000db18000400000000db18000400000000db180004"
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.tcb.minimum.cpuid.191101",
+          "value": "0x00000000581c000c00000000581c000c00000000581c000c00000000581c000c"
+        },
+        {
+          "name": "example.environment",
+          "value": "azure-sev-snp-profile"
+        }
+      ]
+    },
+    "azure-tdx": {
+      "pcr_bank_selection": "sha256",
+      "invariant_pcrs256": [
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000c3874828a5bb956ac46cfe6a3eada783b8f5f27e1e79c23f37357a4739e18c7",
+          "pcr_index": 4
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000990a15f80d187d1b63d468418754290b4f07b4caf3bb36dc838ca1ce648b6c6a",
+          "pcr_index": 9
+        },
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000005bfb6c9319e5f245a1ec00665d82eda98e5ced32e9405274f3c939ce2f837b63",
+          "pcr_index": 11
+        }
+      ],
+      "invariant_pcrs384": [],
+      "attributes": [
+        {
+          "name": "atakit.attestation.v1.tee.intel-tdx.debug.enabled",
+          "value": false
+        },
+        {
+          "name": "atakit.attestation.v1.tee.intel-tdx.tcb.status.allowed",
+          "value": [
+            "ok",
+            "sw-hardening-needed"
+          ]
+        },
+        {
+          "name": "example.environment",
+          "value": "azure-tdx-profile"
+        }
+      ]
+    },
+    "gcp-sev-snp": {
+      "pcr_bank_selection": "sha256",
+      "invariant_pcrs256": [
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000c3874828a5bb956ac46cfe6a3eada783b8f5f27e1e79c23f37357a4739e18c7",
+          "pcr_index": 4
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000990a15f80d187d1b63d468418754290b4f07b4caf3bb36dc838ca1ce648b6c6a",
+          "pcr_index": 9
+        },
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000005bfb6c9319e5f245a1ec00665d82eda98e5ced32e9405274f3c939ce2f837b63",
+          "pcr_index": 11
+        }
+      ],
+      "invariant_pcrs384": [],
+      "attributes": [
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.debug.enabled",
+          "value": false
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.migrate-ma.enabled",
+          "value": false
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.platform-info.policy",
+          "value": "0x0000000000000000000000000000000000000000000000000000000000000020"
+        },
+        {
+          "name": "atakit.attestation.v1.tee.amd-sev-snp.tcb.minimum",
+          "value": "0x00000000de1d000400000000de1d000400000000de1d000400000000de1d0004"
+        },
+        {
+          "name": "example.environment",
+          "value": "gcp-sev-snp-profile"
+        }
+      ]
+    },
+    "gcp-tdx": {
+      "pcr_bank_selection": "sha256",
+      "invariant_pcrs256": [
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001f6c11cb0b884f4c336bbac0b3a0c48eb038fd0d0056533cb7ebc39e2208df0ab",
+          "pcr_index": 2
+        },
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000007a94ffe8a7729a566d3d3c577fcb4b6b1e671f31540375f80eae6382ab785e35",
+          "pcr_index": 4
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000990a15f80d187d1b63d468418754290b4f07b4caf3bb36dc838ca1ce648b6c6a",
+          "pcr_index": 9
+        },
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000005bfb6c9319e5f245a1ec00665d82eda98e5ced32e9405274f3c939ce2f837b63",
+          "pcr_index": 11
+        }
+      ],
+      "invariant_pcrs384": [],
+      "attributes": [
+        {
+          "name": "atakit.attestation.v1.tee.intel-tdx.debug.enabled",
+          "value": false
+        },
+        {
+          "name": "atakit.attestation.v1.tee.intel-tdx.tcb.status.allowed",
+          "value": [
+            "ok",
+            "sw-hardening-needed"
+          ]
+        },
+        {
+          "name": "example.environment",
+          "value": "gcp-tdx-profile"
+        }
+      ]
+    }
+  }
 }
