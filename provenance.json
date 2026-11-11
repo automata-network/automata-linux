@@ -8,7 +8,7 @@
   "measurement_pack_schema": "atakit.base_image_measurement_pack.v4",
   "release": "v0.3.7",
   "image_build": "non-debug",
-  "prepared_at": "2026-11-12T02:34:50+08:00",
+  "prepared_at": "2026-11-12T04:03:12+08:00",
   "source_commits": {
     "atakit-suite": "9df09b5c9331dc37ea905ed05109343a000edc5f",
     "dev-baseimage-private": "e7066cf9692e1f4a6a0778d2adf039c06d62e5ec",
@@ -359,17 +359,21 @@
     },
     "gcp-tdx": {
       "measured_variants": [
-        "c4-standard-8",
+        "c3-standard-22-lssd",
         "c3-standard-4-lssd",
-        "c3-standard-44-lssd"
+        "c3-standard-44-lssd",
+        "c3-standard-8-lssd",
+        "c4-standard-8"
       ],
       "derived_variants": {
         "c3-standard-176": "c4-standard-8",
+        "c3-standard-176-lssd": "c3-standard-44-lssd",
         "c3-standard-22": "c4-standard-8",
         "c3-standard-4": "c4-standard-8",
         "c3-standard-44": "c4-standard-8",
         "c3-standard-8": "c4-standard-8",
         "c3-standard-88": "c4-standard-8",
+        "c3-standard-88-lssd": "c3-standard-44-lssd",
         "c4-standard-144": "c4-standard-8",
         "c4-standard-16": "c4-standard-8",
         "c4-standard-192": "c4-standard-8",
@@ -409,13 +413,17 @@
     ],
     "gcp-tdx": [
       "c3-standard-176",
+      "c3-standard-176-lssd",
       "c3-standard-22",
+      "c3-standard-22-lssd",
       "c3-standard-4",
       "c3-standard-4-lssd",
       "c3-standard-44",
       "c3-standard-44-lssd",
       "c3-standard-8",
+      "c3-standard-8-lssd",
       "c3-standard-88",
+      "c3-standard-88-lssd",
       "c4-standard-144",
       "c4-standard-16",
       "c4-standard-192",
@@ -429,21 +437,21 @@
     ]
   },
   "measurement_pack_sha256": {
-    "automata-linux-v0.3.7-all.measurement-pack.json": "57fe04654d7d4cd50afb743450d122952b2366ac7a047ba667df15be01af67be",
+    "automata-linux-v0.3.7-all.measurement-pack.json": "ab6526cfc3aab95819cb236a4adb199bf059652a29a1a68be2552d429ce5fe30",
     "automata-linux-v0.3.7-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.7-all.measurement-pack.sig": "f59f5e3a7949489fbb6a9b850ae624026d5188556dc762c92126f22a56a13140",
-    "automata-linux-v0.3.7-aws.measurement-pack.json": "155cac4fb992bdece415af96be501782b0a463acdbe13761c29d7a475e7046ff",
+    "automata-linux-v0.3.7-all.measurement-pack.sig": "a30f7e0ec7b7fe6ba87ad3d23b0cbeb7a22c9a72450bea74dc8e54f39c7c9b5c",
+    "automata-linux-v0.3.7-aws.measurement-pack.json": "3021b6939ffe91718ae8a1ccae89ff90485c5329caca702359aad271fe30424b",
     "automata-linux-v0.3.7-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.7-aws.measurement-pack.sig": "abe6be324bde7cb8a55273ae6b3325789fdcea6f9d89d79e7f39ac87d3961f94",
-    "automata-linux-v0.3.7-azure.measurement-pack.json": "6208b2774cce80dc241d567f338d5564b54616de486e8e0db494c8a1abd10060",
+    "automata-linux-v0.3.7-aws.measurement-pack.sig": "4145410eb2d57a4859b3d6a1afd4124860ca0e792c318ce0cfc65c24d4452508",
+    "automata-linux-v0.3.7-azure.measurement-pack.json": "fb9e12347a7d32f36463cf545bc5e2553c66d74909a9287b6fe3217dddd408dd",
     "automata-linux-v0.3.7-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.7-azure.measurement-pack.sig": "2aab83da3cd4bd8dd3152a1576e43d84c2951ec651c64ea4bfb1858ae533234f",
-    "automata-linux-v0.3.7-gcp.measurement-pack.json": "11457b1a037f58fb1bab2dda2024e412cde912ab0d292b79268b80bb07aab5e7",
+    "automata-linux-v0.3.7-azure.measurement-pack.sig": "99fe81d5d5173648d31ce443a3d4ef7cac6f51fc86e2269fab0ead232b0bbc45",
+    "automata-linux-v0.3.7-gcp.measurement-pack.json": "724fe8ca15ff03be2b74d2aa8826e3994cb9035638f1be30d5d9c9da9aaed105",
     "automata-linux-v0.3.7-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.7-gcp.measurement-pack.sig": "2fc527035da331213926c5b541b2af012cdf14e258896fa23844c178222ed23e",
-    "automata-linux-v0.3.7-qemu.measurement-pack.json": "e6afe62f541070c5ac1e57124b40f3fd8d07ce6d2ce7caa4577697db015d1bd2",
+    "automata-linux-v0.3.7-gcp.measurement-pack.sig": "a4d657e29635f9e1e883e6743233a2ffdead74cf7a776a3a60e1ce0fe472b0e4",
+    "automata-linux-v0.3.7-qemu.measurement-pack.json": "59fd59cb42dec79837fff7fcc3c41ddcec18c34f187bec838e6283966b8ea571",
     "automata-linux-v0.3.7-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.7-qemu.measurement-pack.sig": "84d912ac97e89c2df391330872e25db9cba36da15534d57b83b63d79e0eebda1"
+    "automata-linux-v0.3.7-qemu.measurement-pack.sig": "ecf1df57d490a355ead7bf88520ffee45d08eef1d4b5247a66528ab38077e691"
   },
   "measurement_policy": {
     "aws-sev-snp": {

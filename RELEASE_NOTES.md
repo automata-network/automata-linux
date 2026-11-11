@@ -75,7 +75,7 @@ Normal and debug images have separate identities and measurement packs.
 
 ## Measurement coverage
 
-The signed profiles contain 34 machine variants across five hardware profiles. Some machine sizes share measurement rules with a measured representative; this does not claim a separate runtime test of every size.
+The signed profiles contain 38 machine variants across five hardware profiles. Some machine sizes share measurement rules with a measured representative; this does not claim a separate runtime test of every size.
 
 | Hardware profile | Included machine variants |
 | --- | --- |
@@ -83,6 +83,6 @@ The signed profiles contain 34 machine variants across five hardware profiles. S
 | azure-sev-snp | `Standard_DC2as_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993`, `Standard_DC2as_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b` |
 | azure-tdx | `Standard_DC2es_v6` |
 | gcp-sev-snp | `n2d-standard-4` |
-| gcp-tdx | `c3-standard-176`, `c3-standard-22`, `c3-standard-4`, `c3-standard-4-lssd`, `c3-standard-44`, `c3-standard-44-lssd`, `c3-standard-8`, `c3-standard-88`, `c4-standard-144`, `c4-standard-16`, `c4-standard-192`, `c4-standard-2`, `c4-standard-24`, `c4-standard-32`, `c4-standard-4`, `c4-standard-48`, `c4-standard-8`, `c4-standard-96` |
+| gcp-tdx | `c3-standard-176`, `c3-standard-176-lssd`, `c3-standard-22`, `c3-standard-22-lssd`, `c3-standard-4`, `c3-standard-4-lssd`, `c3-standard-44`, `c3-standard-44-lssd`, `c3-standard-8`, `c3-standard-8-lssd`, `c3-standard-88`, `c3-standard-88-lssd`, `c4-standard-144`, `c4-standard-16`, `c4-standard-192`, `c4-standard-2`, `c4-standard-24`, `c4-standard-32`, `c4-standard-4`, `c4-standard-48`, `c4-standard-8`, `c4-standard-96` |
 
-`provenance.json` identifies measured representatives and derived size variants. The Local SSD entries cover only `c3-standard-4-lssd` and `c3-standard-44-lssd`. QEMU has an archive but no hardware-attestation profile in this release.
+`provenance.json` identifies measured representatives and derived size variants. The Local SSD entries cover C3 standard sizes 4, 8, 22, 44, 88 and 176. Sizes 4, 8, 22 and 44 were measured; sizes 88 and 176 use the same rules by documented derivation. QEMU has an archive but no hardware-attestation profile in this release.
