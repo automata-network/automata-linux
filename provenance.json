@@ -6,21 +6,21 @@
   "build_time_note": "Build timestamps are normalized with SOURCE_DATE_EPOCH=0 and do not represent wall-clock build time.",
   "measurement_pack_scope": "Each archive-bound pack contains all five signed hardware profiles. The QEMU archive digest is signed, but no QEMU hardware-attestation profile is claimed.",
   "measurement_pack_schema": "atakit.base_image_measurement_pack.v4",
-  "release": "v0.3.6-debug",
+  "release": "v0.3.7-debug",
   "image_build": "debug",
-  "prepared_at": "2026-11-04",
+  "prepared_at": "2026-11-12T04:52:11+08:00",
   "source_commits": {
-    "atakit-suite": "af2baafb89d3d4bb1d4159407d47e6bc8525f241",
-    "atakit-ng": "ffcac876aeca1b2fcbe8d2708d1aa5056ebf14a7",
-    "atakit-portal": "63c11b6886347863bd60df22b7e430ffc53f6492",
-    "atakit-imgbuild": "4e9b3df04bbb42a9f927c4edfed5b116a9c4998a",
-    "atakit-prover": "530009437be76bf8776ada99244c0bb877bc00f8",
-    "dev-baseimage-private": "61684c92f5cd749c836fa3f919d84b692623df78"
+    "atakit-suite": "9df09b5c9331dc37ea905ed05109343a000edc5f",
+    "dev-baseimage-private": "e7066cf9692e1f4a6a0778d2adf039c06d62e5ec",
+    "atakit-ng": "6a3874380fc546042223281e2936c460d8119995",
+    "atakit-portal": "d325fdbacabf99a49ddb651dc396f43943686c93",
+    "atakit-imgbuild": "443c72de68d7acf4b5372c9b4800ce540589fe19",
+    "atakit-prover": "e1263b9cdc10922b41f841dc43b5e67756c82e5a"
   },
   "binary_sha256": {
-    "atakit-portal": "3d4256692f03af3114ec1cc381269931f3333c08c4a0e2abd262a88db58a02e7",
+    "atakit-portal": "ee65463974eddc9c8200493d8475c2abc322f673dcdf0124d24b442b2f3c1b0e",
     "atakit-proverd-sp1": "0b4b706020e1cc523e0bfab565108fda2afbc95136b5bff48a15e66fe1b371d8",
-    "kernel.img": "328c44cda31503dba7625466298936035f7f1026b4887482af5c17a36a4c008c",
+    "kernel.img": "dda3bb42c80ac475d6f1cf0088a46308aaec98391973d83ce94f2edc4f03d1c1",
     "kernel.crt": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2"
   },
   "portal_build_profile": "production",
@@ -28,22 +28,22 @@
   "serial_root_shell": true,
   "hardware_debug_enabled": false,
   "workload_manifest_format": 16,
-  "minimum_cli_version": "0.7.6",
-  "cli_distribution": "Private v0.7.6 release; repository access is required.",
+  "minimum_cli_version": "0.7.7",
+  "cli_distribution": "Private CLI 0.7.7; repository access is required.",
   "archive_sha256": {
-    "automata-linux-v0.3.6-debug-all.atabi": "9495b7925e521f1b662b6177b62509ca4256ff9c48ea6e4a8333d16d762e0338",
-    "automata-linux-v0.3.6-debug-gcp.atabi": "8553ecc0194513e0f8ccb99a76379fc3441b712b9e54a2c456a3abb28a253674",
-    "automata-linux-v0.3.6-debug-aws.atabi": "29a1458ecde9cb1de0ce1829c08d25e580bc023d54554bf4d09b5dfdc6a5943c",
-    "automata-linux-v0.3.6-debug-azure.atabi": "5f67107d9fc1192800e37d46b4fd043027daf7c1bfa68d760eb2978795bcfdb5",
-    "automata-linux-v0.3.6-debug-qemu.atabi": "2e1fee9f342ecb4e1092e8ee88a26648cfffd4c37cacbd301b3392100f9266a8"
+    "automata-linux-v0.3.7-debug-all.atabi": "2f5ef671b6238c76bcd303a5050f186d9c11555049049288bfaa70a56ab67e5c",
+    "automata-linux-v0.3.7-debug-aws.atabi": "aec96390637fe0602ae491140ed85aa048c1cba4d2c4fb3f222e9a8dd8e94886",
+    "automata-linux-v0.3.7-debug-azure.atabi": "eadc7fd58851851ad4c624743a43235cda56f3cd75711f6b24198b601300b352",
+    "automata-linux-v0.3.7-debug-gcp.atabi": "f9a325e1d1aa1b44b4904f7618ec8e9c498873eb4781f901d46ce5958692b02d",
+    "automata-linux-v0.3.7-debug-qemu.atabi": "1c11543df70fdfbce81d13e44fc14ab3168ffb720f5257006348696178639761"
   },
   "archive_contents": {
-    "automata-linux-v0.3.6-debug-all.atabi": {
+    "automata-linux-v0.3.7-debug-all.atabi": {
       "manifest": {
         "meta": {
           "format": 2,
           "name": "automata-linux",
-          "version": "v0.3.6-debug",
+          "version": "v0.3.7-debug",
           "platforms": [
             "gcp",
             "aws",
@@ -54,28 +54,28 @@
       },
       "entries": {
         "manifest.toml": {
-          "sha256": "9f48f37b6d2657574849ea75919e5a69b8c6d767ccf3e4cd0a7765fc9b17fb66",
+          "sha256": "b1a84a36ba820f2701591817daff67ea944f64d94d274ad882ced5743a13e596",
           "size": 130
         },
         "baseimage.toml": {
-          "sha256": "68cb7ee98a1393a6cb5171d764742740480cef79bc58c8bb3be729b73fedf3c0",
+          "sha256": "2aa31421df58e7727850f5524f2eb2d18aa7aa882e19b73d12ae45b53f56eed4",
           "size": 2969
         },
         "disk_images/aws_disk.vmdk": {
-          "sha256": "5260912119c462d56bb85e583c0ee2504488f8890b49475880519b3782c05655",
-          "size": 220590080
+          "sha256": "f77eafbe4670264879a52ccf2f01de66845d061ccb7367a8ea39621d87310709",
+          "size": 221518848
         },
-        "disk_images/azure_disk.vhd.zst": {
-          "sha256": "bc0a61e6efc498632c7c9052c03118b740d3dda3a54931ac6035642c1759b8bf",
-          "size": 205445986
+        "disk_images/azure_disk.vhd": {
+          "sha256": "e75f953bb935221bc3fa9e8c23df582c2f2ab503c85e420e681fb2d9dcb5da85",
+          "size": 1073742336
         },
         "disk_images/gcp_disk.tar.gz": {
-          "sha256": "f2838b5e0f0125eb433ce17829b7db55f6af88201b7925c7a1a4ae3c245b1eb0",
-          "size": 214001459
+          "sha256": "876f4adf76ad760d2667059f12bc1570b5e5951132ae10cd0574c743f904a6c8",
+          "size": 214909079
         },
         "disk_images/qemu_disk.qcow2": {
-          "sha256": "fdfaae15b6be9bd37c781cbe47a993ba1346ad7f267b7dbc74a1d881ef874504",
-          "size": 556728320
+          "sha256": "dfd92d3ecba7677556776d7ee90708d2332aa52753ec426d5f5ab7d5a7648c50",
+          "size": 558694400
         },
         "secure_boot_certs/KEK.crt": {
           "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
@@ -99,12 +99,12 @@
         }
       }
     },
-    "automata-linux-v0.3.6-debug-aws.atabi": {
+    "automata-linux-v0.3.7-debug-aws.atabi": {
       "manifest": {
         "meta": {
           "format": 2,
           "name": "automata-linux",
-          "version": "v0.3.6-debug",
+          "version": "v0.3.7-debug",
           "platforms": [
             "aws"
           ]
@@ -112,16 +112,16 @@
       },
       "entries": {
         "manifest.toml": {
-          "sha256": "1439b41aa39837565f2bfb8d35d7560a912bcdd3b51b4e1fc44a63c59d0116ac",
+          "sha256": "a2aff45d74643b13dc0ed521cfea1c9ffa6f98a9d082eb3f8b881f5495e41325",
           "size": 87
         },
         "baseimage.toml": {
-          "sha256": "68cb7ee98a1393a6cb5171d764742740480cef79bc58c8bb3be729b73fedf3c0",
+          "sha256": "2aa31421df58e7727850f5524f2eb2d18aa7aa882e19b73d12ae45b53f56eed4",
           "size": 2969
         },
         "disk_images/aws_disk.vmdk": {
-          "sha256": "5260912119c462d56bb85e583c0ee2504488f8890b49475880519b3782c05655",
-          "size": 220590080
+          "sha256": "f77eafbe4670264879a52ccf2f01de66845d061ccb7367a8ea39621d87310709",
+          "size": 221518848
         },
         "secure_boot_certs/KEK.crt": {
           "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
@@ -145,12 +145,12 @@
         }
       }
     },
-    "automata-linux-v0.3.6-debug-azure.atabi": {
+    "automata-linux-v0.3.7-debug-azure.atabi": {
       "manifest": {
         "meta": {
           "format": 2,
           "name": "automata-linux",
-          "version": "v0.3.6-debug",
+          "version": "v0.3.7-debug",
           "platforms": [
             "azure"
           ]
@@ -158,16 +158,16 @@
       },
       "entries": {
         "manifest.toml": {
-          "sha256": "0107f2adeac08897bdc17ec7b667a9a14dc7f05774cd32e0de6b7e5d51eff6e9",
+          "sha256": "6fbcd2d70eb5a225c384769e5738be1a99e24e49b67bcd1e27745c38c46bdd5e",
           "size": 89
         },
         "baseimage.toml": {
-          "sha256": "68cb7ee98a1393a6cb5171d764742740480cef79bc58c8bb3be729b73fedf3c0",
+          "sha256": "2aa31421df58e7727850f5524f2eb2d18aa7aa882e19b73d12ae45b53f56eed4",
           "size": 2969
         },
-        "disk_images/azure_disk.vhd.zst": {
-          "sha256": "bc0a61e6efc498632c7c9052c03118b740d3dda3a54931ac6035642c1759b8bf",
-          "size": 205445986
+        "disk_images/azure_disk.vhd": {
+          "sha256": "e75f953bb935221bc3fa9e8c23df582c2f2ab503c85e420e681fb2d9dcb5da85",
+          "size": 1073742336
         },
         "secure_boot_certs/KEK.crt": {
           "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
@@ -191,12 +191,12 @@
         }
       }
     },
-    "automata-linux-v0.3.6-debug-gcp.atabi": {
+    "automata-linux-v0.3.7-debug-gcp.atabi": {
       "manifest": {
         "meta": {
           "format": 2,
           "name": "automata-linux",
-          "version": "v0.3.6-debug",
+          "version": "v0.3.7-debug",
           "platforms": [
             "gcp"
           ]
@@ -204,16 +204,16 @@
       },
       "entries": {
         "manifest.toml": {
-          "sha256": "6f069dae413be85ab520c56538715e396a2063faabb9931bacb7a2a11a0726dc",
+          "sha256": "6b2b74e7d739a8b9c8e58b33b51c766e1b843228505d7bdd96059464888bf450",
           "size": 87
         },
         "baseimage.toml": {
-          "sha256": "68cb7ee98a1393a6cb5171d764742740480cef79bc58c8bb3be729b73fedf3c0",
+          "sha256": "2aa31421df58e7727850f5524f2eb2d18aa7aa882e19b73d12ae45b53f56eed4",
           "size": 2969
         },
         "disk_images/gcp_disk.tar.gz": {
-          "sha256": "f2838b5e0f0125eb433ce17829b7db55f6af88201b7925c7a1a4ae3c245b1eb0",
-          "size": 214001459
+          "sha256": "876f4adf76ad760d2667059f12bc1570b5e5951132ae10cd0574c743f904a6c8",
+          "size": 214909079
         },
         "secure_boot_certs/KEK.crt": {
           "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
@@ -222,10 +222,6 @@
         "secure_boot_certs/PK.crt": {
           "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
           "size": 778
-        },
-        "secure_boot_certs/aws-uefi-blob.bin": {
-          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
-          "size": 4128
         },
         "secure_boot_certs/db.crt": {
           "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
@@ -237,12 +233,12 @@
         }
       }
     },
-    "automata-linux-v0.3.6-debug-qemu.atabi": {
+    "automata-linux-v0.3.7-debug-qemu.atabi": {
       "manifest": {
         "meta": {
           "format": 2,
           "name": "automata-linux",
-          "version": "v0.3.6-debug",
+          "version": "v0.3.7-debug",
           "platforms": [
             "qemu"
           ]
@@ -250,16 +246,16 @@
       },
       "entries": {
         "manifest.toml": {
-          "sha256": "ed8f84d91386cc121b353de48d5fee1d25c025accfdde2d38c5910d2df011b41",
+          "sha256": "44bcca0d515e066f0972df6d7b93c6e2d7e8e7c4254d12da9972f2ddf43f05dd",
           "size": 88
         },
         "baseimage.toml": {
-          "sha256": "68cb7ee98a1393a6cb5171d764742740480cef79bc58c8bb3be729b73fedf3c0",
+          "sha256": "2aa31421df58e7727850f5524f2eb2d18aa7aa882e19b73d12ae45b53f56eed4",
           "size": 2969
         },
         "disk_images/qemu_disk.qcow2": {
-          "sha256": "fdfaae15b6be9bd37c781cbe47a993ba1346ad7f267b7dbc74a1d881ef874504",
-          "size": 556728320
+          "sha256": "dfd92d3ecba7677556776d7ee90708d2332aa52753ec426d5f5ab7d5a7648c50",
+          "size": 558694400
         },
         "secure_boot_certs/KEK.crt": {
           "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
@@ -288,29 +284,118 @@
   "release_assets": [
     "RELEASE-NOTES.md",
     "SHA256SUMS",
-    "automata-linux-v0.3.6-debug-all.atabi",
-    "automata-linux-v0.3.6-debug-all.measurement-pack.json",
-    "automata-linux-v0.3.6-debug-all.measurement-pack.pubkey",
-    "automata-linux-v0.3.6-debug-all.measurement-pack.sig",
-    "automata-linux-v0.3.6-debug-aws.atabi",
-    "automata-linux-v0.3.6-debug-aws.measurement-pack.json",
-    "automata-linux-v0.3.6-debug-aws.measurement-pack.pubkey",
-    "automata-linux-v0.3.6-debug-aws.measurement-pack.sig",
-    "automata-linux-v0.3.6-debug-azure.atabi",
-    "automata-linux-v0.3.6-debug-azure.measurement-pack.json",
-    "automata-linux-v0.3.6-debug-azure.measurement-pack.pubkey",
-    "automata-linux-v0.3.6-debug-azure.measurement-pack.sig",
-    "automata-linux-v0.3.6-debug-gcp.atabi",
-    "automata-linux-v0.3.6-debug-gcp.measurement-pack.json",
-    "automata-linux-v0.3.6-debug-gcp.measurement-pack.pubkey",
-    "automata-linux-v0.3.6-debug-gcp.measurement-pack.sig",
-    "automata-linux-v0.3.6-debug-qemu.atabi",
-    "automata-linux-v0.3.6-debug-qemu.measurement-pack.json",
-    "automata-linux-v0.3.6-debug-qemu.measurement-pack.pubkey",
-    "automata-linux-v0.3.6-debug-qemu.measurement-pack.sig",
+    "automata-linux-v0.3.7-debug-all.atabi",
+    "automata-linux-v0.3.7-debug-all.measurement-pack.json",
+    "automata-linux-v0.3.7-debug-all.measurement-pack.pubkey",
+    "automata-linux-v0.3.7-debug-all.measurement-pack.sig",
+    "automata-linux-v0.3.7-debug-aws.atabi",
+    "automata-linux-v0.3.7-debug-aws.measurement-pack.json",
+    "automata-linux-v0.3.7-debug-aws.measurement-pack.pubkey",
+    "automata-linux-v0.3.7-debug-aws.measurement-pack.sig",
+    "automata-linux-v0.3.7-debug-azure.atabi",
+    "automata-linux-v0.3.7-debug-azure.measurement-pack.json",
+    "automata-linux-v0.3.7-debug-azure.measurement-pack.pubkey",
+    "automata-linux-v0.3.7-debug-azure.measurement-pack.sig",
+    "automata-linux-v0.3.7-debug-gcp.atabi",
+    "automata-linux-v0.3.7-debug-gcp.measurement-pack.json",
+    "automata-linux-v0.3.7-debug-gcp.measurement-pack.pubkey",
+    "automata-linux-v0.3.7-debug-gcp.measurement-pack.sig",
+    "automata-linux-v0.3.7-debug-qemu.atabi",
+    "automata-linux-v0.3.7-debug-qemu.measurement-pack.json",
+    "automata-linux-v0.3.7-debug-qemu.measurement-pack.pubkey",
+    "automata-linux-v0.3.7-debug-qemu.measurement-pack.sig",
     "release-provenance.json"
   ],
-  "base_image_id": "0xb71fca20d2edff8e4167652f35527f1dcb7b4a0250ec6733ea2f4dea204dddf7",
+  "original_embedded_component_source_commits": {
+    "atakit-core": "ed78c51f226dfff2e84bb73f3de71009d039d163",
+    "atakit-portal": "d325fdbacabf99a49ddb651dc396f43943686c93",
+    "atakit-prover": "530009437be76bf8776ada99244c0bb877bc00f8",
+    "atakit-imgprep": "25c83c4de98bafbe06c3b575361dc09cab41a02e"
+  },
+  "kernel_release": "7.3.4-automata-v037",
+  "verification_cli": {
+    "version": "0.7.7",
+    "source_commit": "280c84acc6b0b65d21efced2e2bccb0105f4321f",
+    "linux_amd64_sha256": "427b9daafc73fda5ad73eefc4371bfc8eea92f2722fde374521d867b0fa34953"
+  },
+  "base_image_id": "0x76e132fed5a7a6ee5b12e1d534a54a311503b180d2180e8a0212d02e8033c6c5",
+  "measurement_coverage": {
+    "aws-sev-snp": {
+      "measured_variants": [
+        "c6a.12xlarge",
+        "c6a.16xlarge",
+        "c6a.2xlarge",
+        "c6a.4xlarge",
+        "c6a.8xlarge",
+        "m6a.large",
+        "c6a.xlarge"
+      ],
+      "derived_variants": {
+        "m6a.2xlarge": "c6a.2xlarge",
+        "m6a.4xlarge": "c6a.4xlarge",
+        "m6a.8xlarge": "c6a.8xlarge",
+        "c6a.large": "m6a.large",
+        "m6a.xlarge": "c6a.xlarge"
+      }
+    },
+    "azure-sev-snp": {
+      "measured_variants": [
+        "Standard_DC2as_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993",
+        "Standard_DC2as_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b"
+      ],
+      "derived_variants": {}
+    },
+    "azure-tdx": {
+      "measured_variants": [
+        "Standard_DC2es_v6"
+      ],
+      "derived_variants": {}
+    },
+    "gcp-sev-snp": {
+      "measured_variants": [
+        "n2d-standard-4"
+      ],
+      "derived_variants": {}
+    },
+    "gcp-tdx": {
+      "measured_variants": [
+        "c3-standard-22-lssd",
+        "c3-standard-4-lssd",
+        "c3-standard-44-lssd",
+        "c3-standard-8-lssd",
+        "c4-standard-8"
+      ],
+      "derived_variants": {
+        "c3-standard-176": "c4-standard-8",
+        "c3-standard-176-lssd": "c3-standard-44-lssd",
+        "c3-standard-22": "c4-standard-8",
+        "c3-standard-4": "c4-standard-8",
+        "c3-standard-44": "c4-standard-8",
+        "c3-standard-8": "c4-standard-8",
+        "c3-standard-88": "c4-standard-8",
+        "c3-standard-88-lssd": "c3-standard-44-lssd",
+        "c4-standard-144": "c4-standard-8",
+        "c4-standard-16": "c4-standard-8",
+        "c4-standard-192": "c4-standard-8",
+        "c4-standard-2": "c4-standard-8",
+        "c4-standard-24": "c4-standard-8",
+        "c4-standard-32": "c4-standard-8",
+        "c4-standard-4": "c4-standard-8",
+        "c4-standard-48": "c4-standard-8",
+        "c4-standard-96": "c4-standard-8"
+      }
+    }
+  },
+  "measurement_sample_count_exceptions": [
+    {
+      "variant": "Standard_DC2as_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b",
+      "image_version": "v0.3.7-debug",
+      "sample_count": 1,
+      "sample_sha256": "4811732a7f6db7ec9b3baa8bf480eacdfb3477feb4ef9fab87d498181a65a04e",
+      "repeat_boot_checked": false,
+      "separate_vm_checked": false
+    }
+  ],
   "measurement_profiles": {
     "aws-sev-snp": [
       "c6a.12xlarge",
@@ -338,11 +423,17 @@
     ],
     "gcp-tdx": [
       "c3-standard-176",
+      "c3-standard-176-lssd",
       "c3-standard-22",
+      "c3-standard-22-lssd",
       "c3-standard-4",
+      "c3-standard-4-lssd",
       "c3-standard-44",
+      "c3-standard-44-lssd",
       "c3-standard-8",
+      "c3-standard-8-lssd",
       "c3-standard-88",
+      "c3-standard-88-lssd",
       "c4-standard-144",
       "c4-standard-16",
       "c4-standard-192",
@@ -356,21 +447,21 @@
     ]
   },
   "measurement_pack_sha256": {
-    "automata-linux-v0.3.6-debug-all.measurement-pack.json": "feb71910f00ce93e007295a139a3e9aee507d03a1ef717fea935e61b30f245bc",
-    "automata-linux-v0.3.6-debug-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.6-debug-all.measurement-pack.sig": "e15eb33a822d4e21c2aaafd43b82c94c05b0226e20090ff46c665106ed842917",
-    "automata-linux-v0.3.6-debug-aws.measurement-pack.json": "92b7f456aaeb1fc13ee48c81e3f1d7b5db0ffb6d17b851bc13628bbc192e3d07",
-    "automata-linux-v0.3.6-debug-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.6-debug-aws.measurement-pack.sig": "b7e87f7e2b9c884c194f33b7793739ac5b0676442aa1a3206e84f381e39b2a8d",
-    "automata-linux-v0.3.6-debug-azure.measurement-pack.json": "44a7d4d01c9827cda4e6824e6ea9fa058b5e4f25141349594480ae3aa9c8f05a",
-    "automata-linux-v0.3.6-debug-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.6-debug-azure.measurement-pack.sig": "7d6de1359de48b3eadd736a3fb8d7f59f49c3f741b69ec9fe3a90652475a1322",
-    "automata-linux-v0.3.6-debug-gcp.measurement-pack.json": "52c7399c6446831613357b38959ec6b162f56c3b5c44f455046a88443e8f4ce6",
-    "automata-linux-v0.3.6-debug-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.6-debug-gcp.measurement-pack.sig": "de5078480034a437d757a8d938283a83bcbf92ea5d7cdb3200dd6d1b322ad836",
-    "automata-linux-v0.3.6-debug-qemu.measurement-pack.json": "a183b03bd31b93649e283467e3c4f3662f0430b7fe087126ad20cf8001f06e3c",
-    "automata-linux-v0.3.6-debug-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.6-debug-qemu.measurement-pack.sig": "606e5dccde6c369ea5ceaa9d8797d2fbe8e9cce3ecc4c30151b846c979c083f1"
+    "automata-linux-v0.3.7-debug-all.measurement-pack.json": "e04eb40d50c7ce4ce2bf8bca4d1a1a08d89387c7711fb8e000220d3a80cd7268",
+    "automata-linux-v0.3.7-debug-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.7-debug-all.measurement-pack.sig": "82027b5f7db0d2c9126d0d7ba3d365a66fafba141b755e87692e988df4e3c11e",
+    "automata-linux-v0.3.7-debug-aws.measurement-pack.json": "1c94ecc5a86b4c7203af4867f24ff5e1136e190927403db2f937e45bc64f8e33",
+    "automata-linux-v0.3.7-debug-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.7-debug-aws.measurement-pack.sig": "d46aa8b53f791fbc0096b336cd8bd3c257820f70f8235e4fbe561a03e88e60a7",
+    "automata-linux-v0.3.7-debug-azure.measurement-pack.json": "a4e9643e7aa2515d610055fc226be56a377c74d6f9de6e498841250644a20243",
+    "automata-linux-v0.3.7-debug-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.7-debug-azure.measurement-pack.sig": "483f648d8892eba3781d8b009e9315e6226fabe7a3a30083d7caaae09a414d7f",
+    "automata-linux-v0.3.7-debug-gcp.measurement-pack.json": "007c6a0e7f84be1bfe07c98edc41c07384663adcf59546c8f67b0053652256fd",
+    "automata-linux-v0.3.7-debug-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.7-debug-gcp.measurement-pack.sig": "961d2e468f7007485bfae67524647423ecdf3f1d7e00ca12a4009bf7b6833995",
+    "automata-linux-v0.3.7-debug-qemu.measurement-pack.json": "8abd75cbb1369cd7d8d43c5b14305088f9bf87a56b14efa3dcab63a44811ed64",
+    "automata-linux-v0.3.7-debug-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.7-debug-qemu.measurement-pack.sig": "603df7ae4d3df08cd5b1533c51d32fbe0ce302c4e1b0c3e248cc6ba522500e18"
   },
   "measurement_policy": {
     "aws-sev-snp": {
@@ -390,7 +481,7 @@
           "pcr_index": 3
         },
         {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000faecaf677b0f406f9635de1395258432d06566e81bc22de6f505057aa0a3e0041927421bd449e6b581fc50360d01afb700000000000000000000000000000000",
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000009f8bfbf3198dfed16be60da33aba43c323084b826e2ffbed806322c72c357e6a0a5d1a912671ebf8183a0461549047d400000000000000000000000000000000",
           "pcr_index": 4
         },
         {
@@ -402,11 +493,11 @@
           "pcr_index": 7
         },
         {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000879654bd53558e409f69275d819d48a8723e7e32660cdcd95feaef338fb726f47b039b850a21b4c4417a1979037c259500000000000000000000000000000000",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000c05ef7cef891e870c1e76d5eca85904846cae6c85b07674a08fdfbe8bc257a9dff4dab1f739be9cfba3f82be73890de100000000000000000000000000000000",
           "pcr_index": 9
         },
         {
-          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000069b8d6b84907fdeedfebb433e037fe8fcacb246ca082c4ce2ba15f7a11c125dcada66272eb9b11ae7f134466287862e100000000000000000000000000000000",
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000002dd8f31b66cfd04106d4459a95e0027ff5f2e80b48d04d3a55cfb45fcbea898bb27f8340169cfe29ac704d7962a97c7400000000000000000000000000000000",
           "pcr_index": 11
         }
       ],
@@ -437,15 +528,15 @@
       "pcr_bank_selection": "sha256",
       "invariant_pcrs256": [
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000c3874828a5bb956ac46cfe6a3eada783b8f5f27e1e79c23f37357a4739e18c7",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000365b9e099db3769a1a5cb8db5681bb3c2ab850a233e0a4d46f657743c692b725",
           "pcr_index": 4
         },
         {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000990a15f80d187d1b63d468418754290b4f07b4caf3bb36dc838ca1ce648b6c6a",
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000056f67e828311ceed9dd1073fe87bc61fce731fedeb3fe310a03650f98b380c7b",
           "pcr_index": 9
         },
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000005bfb6c9319e5f245a1ec00665d82eda98e5ced32e9405274f3c939ce2f837b63",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000138107513169727db4bfe9f0eef621789b3362e562fa828a07df6147c38ca577",
           "pcr_index": 11
         }
       ],
@@ -485,15 +576,15 @@
       "pcr_bank_selection": "sha256",
       "invariant_pcrs256": [
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000c3874828a5bb956ac46cfe6a3eada783b8f5f27e1e79c23f37357a4739e18c7",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000365b9e099db3769a1a5cb8db5681bb3c2ab850a233e0a4d46f657743c692b725",
           "pcr_index": 4
         },
         {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000990a15f80d187d1b63d468418754290b4f07b4caf3bb36dc838ca1ce648b6c6a",
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000056f67e828311ceed9dd1073fe87bc61fce731fedeb3fe310a03650f98b380c7b",
           "pcr_index": 9
         },
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000005bfb6c9319e5f245a1ec00665d82eda98e5ced32e9405274f3c939ce2f837b63",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000138107513169727db4bfe9f0eef621789b3362e562fa828a07df6147c38ca577",
           "pcr_index": 11
         }
       ],
@@ -520,15 +611,15 @@
       "pcr_bank_selection": "sha256",
       "invariant_pcrs256": [
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000c3874828a5bb956ac46cfe6a3eada783b8f5f27e1e79c23f37357a4739e18c7",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000365b9e099db3769a1a5cb8db5681bb3c2ab850a233e0a4d46f657743c692b725",
           "pcr_index": 4
         },
         {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000990a15f80d187d1b63d468418754290b4f07b4caf3bb36dc838ca1ce648b6c6a",
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000056f67e828311ceed9dd1073fe87bc61fce731fedeb3fe310a03650f98b380c7b",
           "pcr_index": 9
         },
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000005bfb6c9319e5f245a1ec00665d82eda98e5ced32e9405274f3c939ce2f837b63",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000138107513169727db4bfe9f0eef621789b3362e562fa828a07df6147c38ca577",
           "pcr_index": 11
         }
       ],
@@ -560,7 +651,7 @@
       "pcr_bank_selection": "sha256",
       "invariant_pcrs256": [
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001f6c11cb0b884f4c336bbac0b3a0c48eb038fd0d0056533cb7ebc39e2208df0ab",
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b8111900000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000173c5f8225ded07c6d5b28d30b88041ff395752e241b40c7326620065efbdda4e",
           "pcr_index": 2
         },
         {
@@ -568,11 +659,11 @@
           "pcr_index": 4
         },
         {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000990a15f80d187d1b63d468418754290b4f07b4caf3bb36dc838ca1ce648b6c6a",
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000056f67e828311ceed9dd1073fe87bc61fce731fedeb3fe310a03650f98b380c7b",
           "pcr_index": 9
         },
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000005bfb6c9319e5f245a1ec00665d82eda98e5ced32e9405274f3c939ce2f837b63",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000138107513169727db4bfe9f0eef621789b3362e562fa828a07df6147c38ca577",
           "pcr_index": 11
         }
       ],
