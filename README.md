@@ -1,17 +1,17 @@
-# Automata Linux v0.3.6-debug
+# Automata Linux v0.3.7
 
-This is the debug image. It provides serial diagnostics and a root shell. Anyone with console access can inspect workload data and secrets. Hardware debug mode remains disabled.
+This is the non-debug image. Atakit system logging is off. It provides no serial shell or host SSH service.
 
-Use workload manifest **format 16** and **Atakit CLI v0.7.6**. The CLI is
+Use workload manifest **format 16** and **Atakit CLI v0.7.7**. The CLI is
 private and requires repository access. This image rejects formats 14 and 15.
 
 ```sh
-atakit image pull automata-linux:v0.3.6-debug
+atakit image pull automata-linux:v0.3.7
 ```
 
 Combined and per-provider `.atabi` archives cover AWS, Azure, GCP and QEMU.
 Each archive has a signed measurement pack bound to its exact SHA-256.
-QEMU does not provide hardware attestation. See [release notes](RELEASE_NOTES.md)
+These bundles include no QEMU hardware-attestation profile. See [release notes](RELEASE_NOTES.md)
 for supported machines, CPU controls, open-file limits and known limits.
 
 ## Verify downloaded files
