@@ -1,391 +1,91 @@
 {
   "schema": "automata-linux-release-provenance-v1",
+  "release": "v0.3.8-debug",
   "publisher_fingerprint": "0xaef8fc89416f01494ec6534de68d30aab26d7598db8a05967b0ba7d3ecb259d2",
   "publisher_public_key": "0x04685f12ea338abcb3e42a407dcdc9f498300e5b93a7f7f6b9b7a13699ec07193438eccd5f978267445942f5398b81886b533adc082615de29807d73dc728a7af8",
-  "source_commit_scope": "These revisions identify the image inputs and build tools. The public signed tag identifies release documentation; the image source repository is private.",
-  "build_time_note": "Build timestamps are normalized with SOURCE_DATE_EPOCH=0 and do not represent wall-clock build time.",
-  "measurement_pack_scope": "Each archive-bound pack contains all five signed hardware profiles. The QEMU archive digest is signed, but no QEMU hardware-attestation profile is claimed.",
-  "measurement_pack_schema": "atakit.base_image_measurement_pack.v4",
-  "release": "v0.3.7",
-  "image_build": "non-debug",
-  "prepared_at": "2026-11-12T04:03:12+08:00",
-  "source_commits": {
-    "atakit-suite": "9df09b5c9331dc37ea905ed05109343a000edc5f",
-    "dev-baseimage-private": "e7066cf9692e1f4a6a0778d2adf039c06d62e5ec",
-    "atakit-ng": "6a3874380fc546042223281e2936c460d8119995",
-    "atakit-portal": "d325fdbacabf99a49ddb651dc396f43943686c93",
-    "atakit-imgbuild": "443c72de68d7acf4b5372c9b4800ce540589fe19",
-    "atakit-prover": "e1263b9cdc10922b41f841dc43b5e67756c82e5a"
+  "base_image_id": "0x6dfbc18460ccf1ef1b01402aa80ef2f7ab6bf0de62368d6dcdfa88ea6c9b3774",
+  "source_commit_scope": "Signed build-input source commits; no public release tag is implied.",
+  "original_build_source_commits": {
+    "atakit-suite": "7322f84e198b086a0f75da1f68c515b89e7f6d5b",
+    "atakit-ng": "11b53563159bb0d6f58e27287a24d38ee20f46f9",
+    "atakit-portal": "3b1f62d240e9f94ac3e97084ad47679480f8e33c",
+    "atakit-imgbuild": "95ffcdb8fe447248e707f972d51676d6060ff81d",
+    "dev-baseimage-private": "d63219b91379156c71aa0a428b01b8997cb29187"
   },
-  "binary_sha256": {
-    "atakit-portal": "ee65463974eddc9c8200493d8475c2abc322f673dcdf0124d24b442b2f3c1b0e",
-    "atakit-proverd-sp1": "0b4b706020e1cc523e0bfab565108fda2afbc95136b5bff48a15e66fe1b371d8",
-    "kernel.img": "dda3bb42c80ac475d6f1cf0088a46308aaec98391973d83ce94f2edc4f03d1c1",
-    "kernel.crt": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2"
-  },
-  "portal_build_profile": "production",
-  "atakit_system_logging": "off",
-  "serial_root_shell": false,
-  "hardware_debug_enabled": false,
-  "workload_manifest_format": 16,
-  "minimum_cli_version": "0.7.7",
-  "cli_distribution": "Private CLI 0.7.7; repository access is required.",
-  "archive_sha256": {
-    "automata-linux-v0.3.7-all.atabi": "d67394f87d291b1e675e20a92754d7211f81dfb5d609d103ee9298d4fed3bed0",
-    "automata-linux-v0.3.7-aws.atabi": "3d0e20f199d3edd6ace8ff78813a0533c327f572227be46c52dba38987a6f238",
-    "automata-linux-v0.3.7-azure.atabi": "b0b6767f4a88441d45e008ecf10c42d6681ce146f0c618a711aa8f8891c296fb",
-    "automata-linux-v0.3.7-gcp.atabi": "56559436fc6b32f9268aeb097e2c987f1a356397b637a4f803cce0f355b0d16e",
-    "automata-linux-v0.3.7-qemu.atabi": "7dfe70937ed73f419f45c59084be56c017a509d442b554a7a4228e8b66234402"
-  },
-  "archive_contents": {
-    "automata-linux-v0.3.7-all.atabi": {
-      "manifest": {
-        "meta": {
-          "format": 2,
-          "name": "automata-linux",
-          "version": "v0.3.7",
-          "platforms": [
-            "gcp",
-            "aws",
-            "azure",
-            "qemu"
-          ]
-        }
-      },
-      "entries": {
-        "manifest.toml": {
-          "sha256": "27a37f9ee894f517351d495c23145c6ab7f480c54ea6850f0a47ea79184b28e2",
-          "size": 124
-        },
-        "baseimage.toml": {
-          "sha256": "00ad7a5edbfc9bd0e9c7cf1513a4cb1e79cefa44ef452991ff3aff107f03805c",
-          "size": 2962
-        },
-        "disk_images/aws_disk.vmdk": {
-          "sha256": "fb0f6c5eb11a58ee5ef8282daa83c92c19a08d78f7a806cd26fd1cb00d7cd659",
-          "size": 221519360
-        },
-        "disk_images/azure_disk.vhd": {
-          "sha256": "2d4b3cbf31947c2f60c6e6ea6f412099230491b2aae9f1abb7c1f9cbd76e4c06",
-          "size": 1073742336
-        },
-        "disk_images/gcp_disk.tar.gz": {
-          "sha256": "53aa853c1dc29f4ec058a7b3df45159400c569ffc43e3ae4da4e2d4352e00541",
-          "size": 214907622
-        },
-        "disk_images/qemu_disk.qcow2": {
-          "sha256": "218214cc451c663c85cc2869043bf1c472a5148b3d6f7751c44f05129b030bb2",
-          "size": 558694400
-        },
-        "secure_boot_certs/KEK.crt": {
-          "sha256": "7406e9548813a7001749a3e28a1efd5b96f154b48ee1d2aa6eb33584d543b788",
-          "size": 778
-        },
-        "secure_boot_certs/PK.crt": {
-          "sha256": "9deffe74e831e76cfb496cf9fe9483fb67f8ecf81ed08893c3cab50f5c37969e",
-          "size": 778
-        },
-        "secure_boot_certs/aws-uefi-blob.bin": {
-          "sha256": "846ca194bab544ff4f7385eda54d138ea1946f1224d5928258cf229639853ce6",
-          "size": 4124
-        },
-        "secure_boot_certs/db.crt": {
-          "sha256": "faffbd098e3cf9b5ba5f74d1e2517d97b0cb5ccbf22e7956dbbe7b0c39ca46ba",
-          "size": 778
-        },
-        "secure_boot_certs/kernel.crt": {
-          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
-          "size": 1323
-        }
-      }
-    },
-    "automata-linux-v0.3.7-aws.atabi": {
-      "manifest": {
-        "meta": {
-          "format": 2,
-          "name": "automata-linux",
-          "version": "v0.3.7",
-          "platforms": [
-            "aws"
-          ]
-        }
-      },
-      "entries": {
-        "manifest.toml": {
-          "sha256": "4fc75cfaa48d6945fc67a095879b01eb51b7bd501710e628e5bcddfd19581ed9",
-          "size": 81
-        },
-        "baseimage.toml": {
-          "sha256": "00ad7a5edbfc9bd0e9c7cf1513a4cb1e79cefa44ef452991ff3aff107f03805c",
-          "size": 2962
-        },
-        "disk_images/aws_disk.vmdk": {
-          "sha256": "fb0f6c5eb11a58ee5ef8282daa83c92c19a08d78f7a806cd26fd1cb00d7cd659",
-          "size": 221519360
-        },
-        "secure_boot_certs/KEK.crt": {
-          "sha256": "7406e9548813a7001749a3e28a1efd5b96f154b48ee1d2aa6eb33584d543b788",
-          "size": 778
-        },
-        "secure_boot_certs/PK.crt": {
-          "sha256": "9deffe74e831e76cfb496cf9fe9483fb67f8ecf81ed08893c3cab50f5c37969e",
-          "size": 778
-        },
-        "secure_boot_certs/aws-uefi-blob.bin": {
-          "sha256": "846ca194bab544ff4f7385eda54d138ea1946f1224d5928258cf229639853ce6",
-          "size": 4124
-        },
-        "secure_boot_certs/db.crt": {
-          "sha256": "faffbd098e3cf9b5ba5f74d1e2517d97b0cb5ccbf22e7956dbbe7b0c39ca46ba",
-          "size": 778
-        },
-        "secure_boot_certs/kernel.crt": {
-          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
-          "size": 1323
-        }
-      }
-    },
-    "automata-linux-v0.3.7-azure.atabi": {
-      "manifest": {
-        "meta": {
-          "format": 2,
-          "name": "automata-linux",
-          "version": "v0.3.7",
-          "platforms": [
-            "azure"
-          ]
-        }
-      },
-      "entries": {
-        "manifest.toml": {
-          "sha256": "72136173233d86a111d87bfe791493ab3116114c5619ee642a19a693aa7b40fe",
-          "size": 83
-        },
-        "baseimage.toml": {
-          "sha256": "00ad7a5edbfc9bd0e9c7cf1513a4cb1e79cefa44ef452991ff3aff107f03805c",
-          "size": 2962
-        },
-        "disk_images/azure_disk.vhd": {
-          "sha256": "2d4b3cbf31947c2f60c6e6ea6f412099230491b2aae9f1abb7c1f9cbd76e4c06",
-          "size": 1073742336
-        },
-        "secure_boot_certs/KEK.crt": {
-          "sha256": "7406e9548813a7001749a3e28a1efd5b96f154b48ee1d2aa6eb33584d543b788",
-          "size": 778
-        },
-        "secure_boot_certs/PK.crt": {
-          "sha256": "9deffe74e831e76cfb496cf9fe9483fb67f8ecf81ed08893c3cab50f5c37969e",
-          "size": 778
-        },
-        "secure_boot_certs/aws-uefi-blob.bin": {
-          "sha256": "846ca194bab544ff4f7385eda54d138ea1946f1224d5928258cf229639853ce6",
-          "size": 4124
-        },
-        "secure_boot_certs/db.crt": {
-          "sha256": "faffbd098e3cf9b5ba5f74d1e2517d97b0cb5ccbf22e7956dbbe7b0c39ca46ba",
-          "size": 778
-        },
-        "secure_boot_certs/kernel.crt": {
-          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
-          "size": 1323
-        }
-      }
-    },
-    "automata-linux-v0.3.7-gcp.atabi": {
-      "manifest": {
-        "meta": {
-          "format": 2,
-          "name": "automata-linux",
-          "version": "v0.3.7",
-          "platforms": [
-            "gcp"
-          ]
-        }
-      },
-      "entries": {
-        "manifest.toml": {
-          "sha256": "55e2636a0a914fa0be86aec2fd9531e7e9d3b5dec280062bdf64338f0955e2d8",
-          "size": 81
-        },
-        "baseimage.toml": {
-          "sha256": "00ad7a5edbfc9bd0e9c7cf1513a4cb1e79cefa44ef452991ff3aff107f03805c",
-          "size": 2962
-        },
-        "disk_images/gcp_disk.tar.gz": {
-          "sha256": "53aa853c1dc29f4ec058a7b3df45159400c569ffc43e3ae4da4e2d4352e00541",
-          "size": 214907622
-        },
-        "secure_boot_certs/KEK.crt": {
-          "sha256": "7406e9548813a7001749a3e28a1efd5b96f154b48ee1d2aa6eb33584d543b788",
-          "size": 778
-        },
-        "secure_boot_certs/PK.crt": {
-          "sha256": "9deffe74e831e76cfb496cf9fe9483fb67f8ecf81ed08893c3cab50f5c37969e",
-          "size": 778
-        },
-        "secure_boot_certs/db.crt": {
-          "sha256": "faffbd098e3cf9b5ba5f74d1e2517d97b0cb5ccbf22e7956dbbe7b0c39ca46ba",
-          "size": 778
-        },
-        "secure_boot_certs/kernel.crt": {
-          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
-          "size": 1323
-        }
-      }
-    },
-    "automata-linux-v0.3.7-qemu.atabi": {
-      "manifest": {
-        "meta": {
-          "format": 2,
-          "name": "automata-linux",
-          "version": "v0.3.7",
-          "platforms": [
-            "qemu"
-          ]
-        }
-      },
-      "entries": {
-        "manifest.toml": {
-          "sha256": "17f342f89b150b6161886ceb7b9b902e13573c47d8bb98eb51ea20e800e80157",
-          "size": 82
-        },
-        "baseimage.toml": {
-          "sha256": "00ad7a5edbfc9bd0e9c7cf1513a4cb1e79cefa44ef452991ff3aff107f03805c",
-          "size": 2962
-        },
-        "disk_images/qemu_disk.qcow2": {
-          "sha256": "218214cc451c663c85cc2869043bf1c472a5148b3d6f7751c44f05129b030bb2",
-          "size": 558694400
-        },
-        "secure_boot_certs/KEK.crt": {
-          "sha256": "7406e9548813a7001749a3e28a1efd5b96f154b48ee1d2aa6eb33584d543b788",
-          "size": 778
-        },
-        "secure_boot_certs/PK.crt": {
-          "sha256": "9deffe74e831e76cfb496cf9fe9483fb67f8ecf81ed08893c3cab50f5c37969e",
-          "size": 778
-        },
-        "secure_boot_certs/aws-uefi-blob.bin": {
-          "sha256": "846ca194bab544ff4f7385eda54d138ea1946f1224d5928258cf229639853ce6",
-          "size": 4124
-        },
-        "secure_boot_certs/db.crt": {
-          "sha256": "faffbd098e3cf9b5ba5f74d1e2517d97b0cb5ccbf22e7956dbbe7b0c39ca46ba",
-          "size": 778
-        },
-        "secure_boot_certs/kernel.crt": {
-          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
-          "size": 1323
-        }
-      }
-    }
-  },
-  "measurement_pack_revision": 1,
-  "release_assets": [
-    "RELEASE-NOTES.md",
-    "SHA256SUMS",
-    "automata-linux-v0.3.7-all.atabi",
-    "automata-linux-v0.3.7-all.measurement-pack.json",
-    "automata-linux-v0.3.7-all.measurement-pack.pubkey",
-    "automata-linux-v0.3.7-all.measurement-pack.sig",
-    "automata-linux-v0.3.7-aws.atabi",
-    "automata-linux-v0.3.7-aws.measurement-pack.json",
-    "automata-linux-v0.3.7-aws.measurement-pack.pubkey",
-    "automata-linux-v0.3.7-aws.measurement-pack.sig",
-    "automata-linux-v0.3.7-azure.atabi",
-    "automata-linux-v0.3.7-azure.measurement-pack.json",
-    "automata-linux-v0.3.7-azure.measurement-pack.pubkey",
-    "automata-linux-v0.3.7-azure.measurement-pack.sig",
-    "automata-linux-v0.3.7-gcp.atabi",
-    "automata-linux-v0.3.7-gcp.measurement-pack.json",
-    "automata-linux-v0.3.7-gcp.measurement-pack.pubkey",
-    "automata-linux-v0.3.7-gcp.measurement-pack.sig",
-    "automata-linux-v0.3.7-qemu.atabi",
-    "automata-linux-v0.3.7-qemu.measurement-pack.json",
-    "automata-linux-v0.3.7-qemu.measurement-pack.pubkey",
-    "automata-linux-v0.3.7-qemu.measurement-pack.sig",
-    "release-provenance.json"
-  ],
   "original_embedded_component_source_commits": {
-    "atakit-core": "ed78c51f226dfff2e84bb73f3de71009d039d163",
-    "atakit-portal": "d325fdbacabf99a49ddb651dc396f43943686c93",
+    "atakit-core": "11b53563159bb0d6f58e27287a24d38ee20f46f9",
+    "atakit-portal": "3b1f62d240e9f94ac3e97084ad47679480f8e33c",
     "atakit-prover": "530009437be76bf8776ada99244c0bb877bc00f8",
     "atakit-imgprep": "25c83c4de98bafbe06c3b575361dc09cab41a02e"
   },
   "kernel_release": "7.3.4-automata-v037",
   "verification_cli": {
-    "version": "0.7.7",
-    "source_commit": "280c84acc6b0b65d21efced2e2bccb0105f4321f",
-    "linux_amd64_sha256": "427b9daafc73fda5ad73eefc4371bfc8eea92f2722fde374521d867b0fa34953"
+    "version": "0.7.8",
+    "source_commit": "11b53563159bb0d6f58e27287a24d38ee20f46f9",
+    "linux_amd64_sha256": "11e1edcab2d563eba817b3b38f46f711ceeab64dd4ab58ba19bec06d3e1a18ed"
   },
-  "base_image_id": "0xf54724a490fb07a1d7438fb1e5405794977eaea405778f8141a8956da5a8f278",
-  "measurement_coverage": {
-    "aws-sev-snp": {
-      "measured_variants": [
-        "c6a.12xlarge",
-        "c6a.16xlarge",
-        "c6a.2xlarge",
-        "c6a.4xlarge",
-        "c6a.8xlarge",
-        "m6a.large",
-        "c6a.xlarge"
+  "embedded_components": {
+    "capabilities": {
+      "backend_id": "sp1",
+      "execution_modes": [
+        "network"
       ],
-      "derived_variants": {
-        "m6a.2xlarge": "c6a.2xlarge",
-        "m6a.4xlarge": "c6a.4xlarge",
-        "m6a.8xlarge": "c6a.8xlarge",
-        "c6a.large": "m6a.large",
-        "m6a.xlarge": "c6a.xlarge"
-      }
+      "programs": [
+        {
+          "artifact_id": "sha256:1de22d102fe7929764f51edded68f35e51c3fee254612f170cba4d29722b33d8",
+          "onchain_backend": "zk_succinct",
+          "output_schema": "automata.snp_verifier_journal.v1",
+          "program_id": "amd_sev_snp.v1",
+          "proof_encodings": [
+            "sp1_groth16.v1"
+          ],
+          "verifier_program_id": "0x007589387c69b403fe8d2b0e1c7db05175155daff7125fc981ac6ecd1985d18c"
+        },
+        {
+          "artifact_id": "sha256:f1e0fdfd9f8a45493dabd2436ec06f8b08d9409418454a390d4fccb5665e2ca7",
+          "onchain_backend": "zk_succinct",
+          "output_schema": "automata.dcap_output_v2_compact.v1",
+          "program_id": "intel_tdx_dcap.v2",
+          "proof_encodings": [
+            "sp1_groth16.v1"
+          ],
+          "verifier_program_id": "0x00520aab775020da3176a05bafeac784ee524de31c9adc105eea41289eaa5136"
+        },
+        {
+          "artifact_id": "sha256:6ebcd6a2f667cbbc936f511cad9e58d78e40c80d540035e9146154fcb9c78e78",
+          "onchain_backend": "zk_succinct",
+          "output_schema": "atakit.tpm_quote_journal.v1",
+          "program_id": "tpm_quote.v1",
+          "proof_encodings": [
+            "sp1_groth16.v1"
+          ],
+          "verifier_program_id": "0x004b8dbbef212fa2002717517013cc2bf744243ec71ca93bcd6a273ccd800fc3"
+        },
+        {
+          "artifact_id": "sha256:bd749588f3e9a6935cff9d05ddc5a0cf78551dc59f8889acab58af50e04a666a",
+          "onchain_backend": "zk_succinct",
+          "output_schema": "atakit.aws_nitrotpm_journal.v1",
+          "program_id": "aws_nitrotpm.v1",
+          "proof_encodings": [
+            "sp1_groth16.v1"
+          ],
+          "verifier_program_id": "0x00cd086453546fe7d98b1d429c024ca657abce6231b04645b465f3ca965cc9eb"
+        }
+      ],
+      "protocol_version": 2,
+      "signer_schemes": [
+        "es256k_digest"
+      ]
     },
-    "azure-sev-snp": {
-      "measured_variants": [
-        "Standard_DC2as_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993",
-        "Standard_DC2as_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b"
-      ],
-      "derived_variants": {}
-    },
-    "azure-tdx": {
-      "measured_variants": [
-        "Standard_DC2es_v6"
-      ],
-      "derived_variants": {}
-    },
-    "gcp-sev-snp": {
-      "measured_variants": [
-        "n2d-standard-4"
-      ],
-      "derived_variants": {}
-    },
-    "gcp-tdx": {
-      "measured_variants": [
-        "c3-standard-22-lssd",
-        "c3-standard-4-lssd",
-        "c3-standard-44-lssd",
-        "c3-standard-8-lssd",
-        "c4-standard-8"
-      ],
-      "derived_variants": {
-        "c3-standard-176": "c4-standard-8",
-        "c3-standard-176-lssd": "c3-standard-44-lssd",
-        "c3-standard-22": "c4-standard-8",
-        "c3-standard-4": "c4-standard-8",
-        "c3-standard-44": "c4-standard-8",
-        "c3-standard-8": "c4-standard-8",
-        "c3-standard-88": "c4-standard-8",
-        "c3-standard-88-lssd": "c3-standard-44-lssd",
-        "c4-standard-144": "c4-standard-8",
-        "c4-standard-16": "c4-standard-8",
-        "c4-standard-192": "c4-standard-8",
-        "c4-standard-2": "c4-standard-8",
-        "c4-standard-24": "c4-standard-8",
-        "c4-standard-32": "c4-standard-8",
-        "c4-standard-4": "c4-standard-8",
-        "c4-standard-48": "c4-standard-8",
-        "c4-standard-96": "c4-standard-8"
-      }
-    }
+    "portal_sha256": "1db5b1ce5c260f0ef25710386ce22e94f9f87d2e61375485da763b6b52e53b26",
+    "prover_sha256": "0b4b706020e1cc523e0bfab565108fda2afbc95136b5bff48a15e66fe1b371d8",
+    "required_workload_format": 16,
+    "schema_version": 1,
+    "disk_sha256": "948c42827c435cde791f89eb6f147ced8417c623bad0d1e5b09e012279860d76",
+    "disk_contents_checked": true
   },
+  "measurement_pack_revision": 1,
+  "measurement_pack_scope": "Expected PCR policies derived from final signed boot files and validated historical firmware event sequences; no new cloud measurements claimed.",
   "measurement_profiles": {
     "aws-sev-snp": [
       "c6a.12xlarge",
@@ -403,10 +103,15 @@
     ],
     "azure-sev-snp": [
       "Standard_DC2as_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993",
-      "Standard_DC2as_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b"
+      "Standard_DC2as_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b",
+      "Standard_DC8ads_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993",
+      "Standard_DC8ads_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b",
+      "Standard_DC8ads_v6@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993"
     ],
     "azure-tdx": [
-      "Standard_DC2es_v6"
+      "Standard_DC16eds_v6",
+      "Standard_DC2es_v6",
+      "Standard_DC4eds_v6"
     ],
     "gcp-sev-snp": [
       "n2d-standard-4"
@@ -436,94 +141,8 @@
       "c4-standard-96"
     ]
   },
-  "measurement_pack_sha256": {
-    "automata-linux-v0.3.7-all.measurement-pack.json": "ab6526cfc3aab95819cb236a4adb199bf059652a29a1a68be2552d429ce5fe30",
-    "automata-linux-v0.3.7-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.7-all.measurement-pack.sig": "a30f7e0ec7b7fe6ba87ad3d23b0cbeb7a22c9a72450bea74dc8e54f39c7c9b5c",
-    "automata-linux-v0.3.7-aws.measurement-pack.json": "3021b6939ffe91718ae8a1ccae89ff90485c5329caca702359aad271fe30424b",
-    "automata-linux-v0.3.7-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.7-aws.measurement-pack.sig": "4145410eb2d57a4859b3d6a1afd4124860ca0e792c318ce0cfc65c24d4452508",
-    "automata-linux-v0.3.7-azure.measurement-pack.json": "fb9e12347a7d32f36463cf545bc5e2553c66d74909a9287b6fe3217dddd408dd",
-    "automata-linux-v0.3.7-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.7-azure.measurement-pack.sig": "99fe81d5d5173648d31ce443a3d4ef7cac6f51fc86e2269fab0ead232b0bbc45",
-    "automata-linux-v0.3.7-gcp.measurement-pack.json": "724fe8ca15ff03be2b74d2aa8826e3994cb9035638f1be30d5d9c9da9aaed105",
-    "automata-linux-v0.3.7-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.7-gcp.measurement-pack.sig": "a4d657e29635f9e1e883e6743233a2ffdead74cf7a776a3a60e1ce0fe472b0e4",
-    "automata-linux-v0.3.7-qemu.measurement-pack.json": "59fd59cb42dec79837fff7fcc3c41ddcec18c34f187bec838e6283966b8ea571",
-    "automata-linux-v0.3.7-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
-    "automata-linux-v0.3.7-qemu.measurement-pack.sig": "ecf1df57d490a355ead7bf88520ffee45d08eef1d4b5247a66528ab38077e691"
-  },
   "measurement_policy": {
     "aws-sev-snp": {
-      "pcr_bank_selection": "sha256-and-sha384",
-      "invariant_pcrs256": [
-        {
-          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
-          "pcr_index": 1
-        },
-        {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
-          "pcr_index": 2
-        },
-        {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
-          "pcr_index": 3
-        },
-        {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000cb7ad34bc5645a4d9bb71bdd84c06b42452be846f7b674a9bc837d0045ec1442",
-          "pcr_index": 4
-        },
-        {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
-          "pcr_index": 6
-        },
-        {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000809bd78e815f253b66c0ad0053e7c5145b53edfb0c1e2c8ef2b71196f6c5b55e",
-          "pcr_index": 7
-        },
-        {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000001ca4729e6e05224722f6964b5c079b363df9b21a9a38b6feaa1acabd2f3c037f",
-          "pcr_index": 9
-        },
-        {
-          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000008ee0366d7f2b6ce8dab1dd94d06cab4e81eb1d256f0919ef37d80fbdc1e395b",
-          "pcr_index": 11
-        }
-      ],
-      "invariant_pcrs384": [
-        {
-          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001394341b7182cd227c5c6b07ef8000cdfd86136c4292b8e576573ad7ed9ae41019f5818b4b971c9effc60e1ad9f1289f000000000000000000000000000000000",
-          "pcr_index": 1
-        },
-        {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000518923b0f955d08da077c96aaba522b9decede61c599cea6c41889cfbea4ae4d50529d96fe4d1afdafb65e7f95bf23c400000000000000000000000000000000",
-          "pcr_index": 2
-        },
-        {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000518923b0f955d08da077c96aaba522b9decede61c599cea6c41889cfbea4ae4d50529d96fe4d1afdafb65e7f95bf23c400000000000000000000000000000000",
-          "pcr_index": 3
-        },
-        {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000002ecee17ebd1f763fead7c1db30742b5a93321a2d112af36958e759f0e028f07e65c45277d1210e7131adea74bb79856300000000000000000000000000000000",
-          "pcr_index": 4
-        },
-        {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000518923b0f955d08da077c96aaba522b9decede61c599cea6c41889cfbea4ae4d50529d96fe4d1afdafb65e7f95bf23c400000000000000000000000000000000",
-          "pcr_index": 6
-        },
-        {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000004259aaddd391163d7b5026fc71d867cbf6975e15f5f84a00213b282970bcbcddf3ef45807aaeab0a6dc511ba400c342600000000000000000000000000000000",
-          "pcr_index": 7
-        },
-        {
-          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000092b716a6ff9144c5a3d6ed8b5e2c9a85254302707fa137dafb851955d66ec700904147470a5351e4954edfc7ff5b105800000000000000000000000000000000",
-          "pcr_index": 9
-        },
-        {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008f2889c6fb106d4a9f6f720cd251788cf3f2b63759f9be942c26c15ded3e26bf2559452427fc7b3430931170f3d04aa000000000000000000000000000000000",
-          "pcr_index": 11
-        }
-      ],
       "attributes": [
         {
           "name": "atakit.attestation.v1.tee.amd-sev-snp.debug.enabled",
@@ -545,25 +164,236 @@
           "name": "example.environment",
           "value": "aws-sev-snp-profile"
         }
-      ]
-    },
-    "azure-sev-snp": {
-      "pcr_bank_selection": "sha256",
-      "invariant_pcrs256": [
+      ],
+      "cloud": "aws",
+      "id": "0xc27ec08081797aca3fda60cf658451441aa02653ee5d32089ef1d721d64458c7",
+      "invariant_pcrs256": [],
+      "invariant_pcrs384": [
         {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000cb7ad34bc5645a4d9bb71bdd84c06b42452be846f7b674a9bc837d0045ec1442",
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001394341b7182cd227c5c6b07ef8000cdfd86136c4292b8e576573ad7ed9ae41019f5818b4b971c9effc60e1ad9f1289f000000000000000000000000000000000",
+          "pcr_index": 1
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000518923b0f955d08da077c96aaba522b9decede61c599cea6c41889cfbea4ae4d50529d96fe4d1afdafb65e7f95bf23c400000000000000000000000000000000",
+          "pcr_index": 2
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000518923b0f955d08da077c96aaba522b9decede61c599cea6c41889cfbea4ae4d50529d96fe4d1afdafb65e7f95bf23c400000000000000000000000000000000",
+          "pcr_index": 3
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000fff11df2c2817cfaa8882b0ce9b4ec15a7ec81e53e83c86ed45cedbedb56274a3c460cd3d3a6decf34f4b90fc45d745600000000000000000000000000000000",
           "pcr_index": 4
         },
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000001ca4729e6e05224722f6964b5c079b363df9b21a9a38b6feaa1acabd2f3c037f",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000518923b0f955d08da077c96aaba522b9decede61c599cea6c41889cfbea4ae4d50529d96fe4d1afdafb65e7f95bf23c400000000000000000000000000000000",
+          "pcr_index": 6
+        },
+        {
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000096a88854a4c6fb989810a6abfe072d4749a837dcba628ae607abf2f982aa3aaaf06e634f589c4a4e95f25d815853a82700000000000000000000000000000000",
+          "pcr_index": 7
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000d82565a3c019bb577784d381c36c359f04a4b6f5b65b2c6f4fbf7d2765bf7bbfab0c0cb4ba3f68827119b6906fecfea800000000000000000000000000000000",
           "pcr_index": 9
         },
         {
-          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000008ee0366d7f2b6ce8dab1dd94d06cab4e81eb1d256f0919ef37d80fbdc1e395b",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000bfeaafcd2d39f0aa406f414da355c6dbbdf8fb37c9f9558ef4bdbd8e9a9f387adda1b5f3ddef22e7f641cb2388e6a9d600000000000000000000000000000000",
           "pcr_index": 11
         }
       ],
-      "invariant_pcrs384": [],
+      "name": "aws-sev-snp",
+      "pcr_bank_selection": "sha384",
+      "tee": "sev-snp",
+      "variants": [
+        {
+          "attributes": [],
+          "id": "0x35118feeefd202a8150690b7722e1cd4f09b6533101b950d4a8345bb0e3ee93b",
+          "machine_types": [
+            "c6a.12xlarge"
+          ],
+          "name": "c6a.12xlarge",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000042c2e1e7e292c909775bd2926bbec0b0f76ae4d2d6e9e452f4712a1060b323eb88376f4186735d009e51f30388b49e0f00000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [],
+          "id": "0x0186b6ca6b9b0a90e9b61f90d298b7ccceb0fe6453651126311643a687727b7d",
+          "machine_types": [
+            "c6a.16xlarge"
+          ],
+          "name": "c6a.16xlarge",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000ffb6debb7ab506bd8cd65e44f1b7d06ca42f9a70894643ce1377e43fd1896f5b3d3c1aaf9c2482c3c5947cae2ff0956d00000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [],
+          "id": "0xacc37c6e05470c5fad0d0ea14e3fd19a37239ccbc8cc2120d2da17408965b191",
+          "machine_types": [
+            "c6a.2xlarge"
+          ],
+          "name": "c6a.2xlarge",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000ba31cbd03b75ad3daa1cb2327800d532b559765b350a2bb4924391499309646e32ebaefe003551da432742bf7bc3983000000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [],
+          "id": "0x9066e20f4c3b756235a3954ca0aa9a6a6b0a767a181167c12df6531a25c26cca",
+          "machine_types": [
+            "c6a.4xlarge"
+          ],
+          "name": "c6a.4xlarge",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000001afd70750f53600413c187c32e7de2d6966182cc9c778d12f1dcad9b3b3e8629d19dc08dd0c29a1c48af424f80eb54ac00000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [],
+          "id": "0xb805b65a13ea89bcdd0a979c1334aa481269f77d9af21b0e2ee6dcd4d56fe526",
+          "machine_types": [
+            "c6a.8xlarge"
+          ],
+          "name": "c6a.8xlarge",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000078345f619c5e3ef1e12ea4334e7f6239841c4ac5820e34b7ae269cb6fcd4e03ac31d3ad9f6454fdc9ac2f61079f2085700000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [],
+          "id": "0x517e46a35878d21500ed5130caf600fa8677964ae7222ffc1c94500d0c114c53",
+          "machine_types": [
+            "c6a.large"
+          ],
+          "name": "c6a.large",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000eadc650eb9abc542af1f8b548349f1ffbe6a74931b82c22167d5d1f78e27aaa386f01e29f202a984d4ee82599597f79800000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [],
+          "id": "0x654583cc95b0c2e0935dd65a814104eb9302daab892e8c9905f830b373d861bc",
+          "machine_types": [
+            "c6a.xlarge"
+          ],
+          "name": "c6a.xlarge",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000049ab94ece0cb6385bf5ef6f82410fba1cb67b23b4513ab9627572765136e33744035bc07df0dfd8b2324fc07623cc49200000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [],
+          "id": "0x3f81d4cefd9f6d82049c84e3c42347e3cecfc978df63532cd6775a32b0a03ae1",
+          "machine_types": [
+            "m6a.2xlarge"
+          ],
+          "name": "m6a.2xlarge",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000ba31cbd03b75ad3daa1cb2327800d532b559765b350a2bb4924391499309646e32ebaefe003551da432742bf7bc3983000000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [],
+          "id": "0xfd6295f81b79c95aac7cd3d3b7971ed8fbe1b43cbd38627031d8d4ab34f9e4ea",
+          "machine_types": [
+            "m6a.4xlarge"
+          ],
+          "name": "m6a.4xlarge",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000001afd70750f53600413c187c32e7de2d6966182cc9c778d12f1dcad9b3b3e8629d19dc08dd0c29a1c48af424f80eb54ac00000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [],
+          "id": "0xd000f03e149ca4ee64311052c7944b81661fa1c85ac592d56f9dd62cf1155936",
+          "machine_types": [
+            "m6a.8xlarge"
+          ],
+          "name": "m6a.8xlarge",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000078345f619c5e3ef1e12ea4334e7f6239841c4ac5820e34b7ae269cb6fcd4e03ac31d3ad9f6454fdc9ac2f61079f2085700000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [
+            {
+              "name": "example.environment",
+              "value": "production"
+            }
+          ],
+          "id": "0xc0feae039987536441f4bd1c6af3aa4890ba39239034cd846304022e64a54fc0",
+          "machine_types": [
+            "m6a.large"
+          ],
+          "name": "m6a.large",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000eadc650eb9abc542af1f8b548349f1ffbe6a74931b82c22167d5d1f78e27aaa386f01e29f202a984d4ee82599597f79800000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [],
+          "id": "0x2c1f0a4b6b61c272367847e3dc5bdb7620afa34e9567168a1dc1775e079355bc",
+          "machine_types": [
+            "m6a.xlarge"
+          ],
+          "name": "m6a.xlarge",
+          "variant_pcrs256": [],
+          "variant_pcrs384": [
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000049ab94ece0cb6385bf5ef6f82410fba1cb67b23b4513ab9627572765136e33744035bc07df0dfd8b2324fc07623cc49200000000000000000000000000000000",
+              "pcr_index": 0
+            }
+          ]
+        }
+      ]
+    },
+    "azure-sev-snp": {
       "attributes": [
         {
           "name": "atakit.attestation.v1.tee.amd-sev-snp.debug.enabled",
@@ -593,25 +423,176 @@
           "name": "example.environment",
           "value": "azure-sev-snp-profile"
         }
-      ]
-    },
-    "azure-tdx": {
-      "pcr_bank_selection": "sha256",
+      ],
+      "cloud": "azure",
+      "id": "0x9fe4fe32aaec618de27644b7a73b6aaad706e177ec6b5d17eb9034201d8f2794",
       "invariant_pcrs256": [
         {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000cb7ad34bc5645a4d9bb71bdd84c06b42452be846f7b674a9bc837d0045ec1442",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000d9bbafdf709865d0dbe59dcd46c7b1cd7ff0afc9caf02724a9af5fd19d5bc0e6",
           "pcr_index": 4
         },
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000001ca4729e6e05224722f6964b5c079b363df9b21a9a38b6feaa1acabd2f3c037f",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000bd28bce327ef965012f37d23a0f8096e523d328a3827b337603a0b77edc3341c",
           "pcr_index": 9
         },
         {
-          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000008ee0366d7f2b6ce8dab1dd94d06cab4e81eb1d256f0919ef37d80fbdc1e395b",
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000034597f206283e372eb762882b03ace039732d2489056282435ef43de8c9b2b4d",
           "pcr_index": 11
         }
       ],
       "invariant_pcrs384": [],
+      "name": "azure-sev-snp",
+      "pcr_bank_selection": "sha256",
+      "tee": "sev-snp",
+      "variants": [
+        {
+          "attributes": [
+            {
+              "name": "example.environment",
+              "value": "production"
+            }
+          ],
+          "id": "0xb52dbe66020b245fea44604de12d536b14999fe37fb5be857151a0f4b710123a",
+          "machine_types": [
+            "Standard_DC2as_v5"
+          ],
+          "name": "Standard_DC2as_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000372bf3434345039622a009784b504a488efd26a4d2d551d12e39d3ac7de232db",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000031bab2da1c9a8a6059eac59a4b7e5dec065190a834fce18beb34bf5ccd3e3443",
+              "pcr_index": 2
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000314674cf5e92d35876665915221902d120e4540c53ce2b24221a191771cf41b4",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [
+            {
+              "name": "example.environment",
+              "value": "production"
+            }
+          ],
+          "id": "0x7422c088b4e7e0a3ea8b09273094efe30b3dd3fe1dcf70eb191d97763e8ce6d6",
+          "machine_types": [
+            "Standard_DC2as_v5"
+          ],
+          "name": "Standard_DC2as_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000084275b2f4312cd4fc6cbe6b152ad3c3683e513d9f1e23c34fca160c8cca7a6a7",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 2
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000314674cf5e92d35876665915221902d120e4540c53ce2b24221a191771cf41b4",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x32bf9083304e7f85ba6891268867fbf8981e8b4bf7c96a47a32fd76150a5edc5",
+          "machine_types": [
+            "Standard_DC8ads_v5"
+          ],
+          "name": "Standard_DC8ads_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000372bf3434345039622a009784b504a488efd26a4d2d551d12e39d3ac7de232db",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000031bab2da1c9a8a6059eac59a4b7e5dec065190a834fce18beb34bf5ccd3e3443",
+              "pcr_index": 2
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000314674cf5e92d35876665915221902d120e4540c53ce2b24221a191771cf41b4",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0xe9b05a51538749201d62366e79345349c820fd912360fe806535a129174145a9",
+          "machine_types": [
+            "Standard_DC8ads_v5"
+          ],
+          "name": "Standard_DC8ads_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000084275b2f4312cd4fc6cbe6b152ad3c3683e513d9f1e23c34fca160c8cca7a6a7",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 2
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000314674cf5e92d35876665915221902d120e4540c53ce2b24221a191771cf41b4",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0xe86ad4f12c05e1c2e18a4498ffd9e789f336a4b52dc47d2c19d6dc4b60815884",
+          "machine_types": [
+            "Standard_DC8ads_v6"
+          ],
+          "name": "Standard_DC8ads_v6@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000372bf3434345039622a009784b504a488efd26a4d2d551d12e39d3ac7de232db",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000031bab2da1c9a8a6059eac59a4b7e5dec065190a834fce18beb34bf5ccd3e3443",
+              "pcr_index": 2
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000314674cf5e92d35876665915221902d120e4540c53ce2b24221a191771cf41b4",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        }
+      ]
+    },
+    "azure-tdx": {
       "attributes": [
         {
           "name": "atakit.attestation.v1.tee.intel-tdx.debug.enabled",
@@ -628,25 +609,117 @@
           "name": "example.environment",
           "value": "azure-tdx-profile"
         }
-      ]
-    },
-    "gcp-sev-snp": {
-      "pcr_bank_selection": "sha256",
+      ],
+      "cloud": "azure",
+      "id": "0xd24c1d39e7570cdb57b5d580af22790913944dce2ffd41110c8a21867b1203cb",
       "invariant_pcrs256": [
         {
-          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000cb7ad34bc5645a4d9bb71bdd84c06b42452be846f7b674a9bc837d0045ec1442",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000d9bbafdf709865d0dbe59dcd46c7b1cd7ff0afc9caf02724a9af5fd19d5bc0e6",
           "pcr_index": 4
         },
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000001ca4729e6e05224722f6964b5c079b363df9b21a9a38b6feaa1acabd2f3c037f",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000bd28bce327ef965012f37d23a0f8096e523d328a3827b337603a0b77edc3341c",
           "pcr_index": 9
         },
         {
-          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000008ee0366d7f2b6ce8dab1dd94d06cab4e81eb1d256f0919ef37d80fbdc1e395b",
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000034597f206283e372eb762882b03ace039732d2489056282435ef43de8c9b2b4d",
           "pcr_index": 11
         }
       ],
       "invariant_pcrs384": [],
+      "name": "azure-tdx",
+      "pcr_bank_selection": "sha256",
+      "tee": "tdx",
+      "variants": [
+        {
+          "attributes": [],
+          "id": "0x9dd741c89d34490b7d16397b19e9810b1b34be3b9ceb7b3369b342d62fad6bfe",
+          "machine_types": [
+            "Standard_DC16eds_v6"
+          ],
+          "name": "Standard_DC16eds_v6",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000009b93bb10205586d03b33aa5bad7c1dcf3ae1e89046e9d43de56cc45fcfc808e5",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000e374878cf67398386faf3462d3dd209a3440ab48ffe861574deb6ada75f698b5",
+              "pcr_index": 2
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000b5ffc06ac41809fdfd4b6cc9169df2789b7d31a6461860c593394ca9d85a771a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [
+            {
+              "name": "example.environment",
+              "value": "production"
+            }
+          ],
+          "id": "0x5cb9c6d08fb06cd831d5e9cc9b820947d59ac984ef8d35261e3bfa94c0e073ae",
+          "machine_types": [
+            "Standard_DC2es_v6"
+          ],
+          "name": "Standard_DC2es_v6",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000009b93bb10205586d03b33aa5bad7c1dcf3ae1e89046e9d43de56cc45fcfc808e5",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000e374878cf67398386faf3462d3dd209a3440ab48ffe861574deb6ada75f698b5",
+              "pcr_index": 2
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000b5ffc06ac41809fdfd4b6cc9169df2789b7d31a6461860c593394ca9d85a771a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x37a23ebdb897864b3b9d2a3fd1c456f588aba41936247b8b18eff8019f9fd350",
+          "machine_types": [
+            "Standard_DC4eds_v6"
+          ],
+          "name": "Standard_DC4eds_v6",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000009b93bb10205586d03b33aa5bad7c1dcf3ae1e89046e9d43de56cc45fcfc808e5",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000e374878cf67398386faf3462d3dd209a3440ab48ffe861574deb6ada75f698b5",
+              "pcr_index": 2
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000b5ffc06ac41809fdfd4b6cc9169df2789b7d31a6461860c593394ca9d85a771a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        }
+      ]
+    },
+    "gcp-sev-snp": {
       "attributes": [
         {
           "name": "atakit.attestation.v1.tee.amd-sev-snp.debug.enabled",
@@ -668,29 +741,71 @@
           "name": "example.environment",
           "value": "gcp-sev-snp-profile"
         }
-      ]
-    },
-    "gcp-tdx": {
-      "pcr_bank_selection": "sha256",
+      ],
+      "cloud": "gcp",
+      "id": "0xdaa430e788af860dfbdef6e8c583e5ff174e7c3142e2eb0db7b6e3679f0d25bf",
       "invariant_pcrs256": [
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b811190000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000012e13c47b394387dfa6bbbf438c5b4987f3e693df054f8ffba7cf516b9294a0bc",
-          "pcr_index": 2
-        },
-        {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000007a94ffe8a7729a566d3d3c577fcb4b6b1e671f31540375f80eae6382ab785e35",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000d9bbafdf709865d0dbe59dcd46c7b1cd7ff0afc9caf02724a9af5fd19d5bc0e6",
           "pcr_index": 4
         },
         {
-          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000001ca4729e6e05224722f6964b5c079b363df9b21a9a38b6feaa1acabd2f3c037f",
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000bd28bce327ef965012f37d23a0f8096e523d328a3827b337603a0b77edc3341c",
           "pcr_index": 9
         },
         {
-          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000008ee0366d7f2b6ce8dab1dd94d06cab4e81eb1d256f0919ef37d80fbdc1e395b",
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000034597f206283e372eb762882b03ace039732d2489056282435ef43de8c9b2b4d",
           "pcr_index": 11
         }
       ],
       "invariant_pcrs384": [],
+      "name": "gcp-sev-snp",
+      "pcr_bank_selection": "sha256",
+      "tee": "sev-snp",
+      "variants": [
+        {
+          "attributes": [
+            {
+              "name": "example.environment",
+              "value": "production"
+            }
+          ],
+          "id": "0x542b8736ed97b1db38a42fadfa8106bfd7a25604e30b68e57aeb9770987c662f",
+          "machine_types": [
+            "n2d-standard-4"
+          ],
+          "name": "n2d-standard-4",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x000000000000000000000000000000000000000000000000000000000000000050597a27846e91d025eef597abbc89f72bff9af849094db97b0684d8bc4c515e",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 2
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000160000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001d8043d6b7b85ad358eb3b6ae6a873ab7ef23a26352c5dc4faa5aeedacf5eb41b000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001b54f7542cbd872a81a9d9dea839b2b8d747c7ebd5ea6615c40f42f44a6dbeba0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        }
+      ]
+    },
+    "gcp-tdx": {
       "attributes": [
         {
           "name": "atakit.attestation.v1.tee.intel-tdx.debug.enabled",
@@ -707,7 +822,1086 @@
           "name": "example.environment",
           "value": "gcp-tdx-profile"
         }
+      ],
+      "cloud": "gcp",
+      "id": "0x49fb2902b6f227b76b0741972fe9f79d8a691953165345a628fd26d10edf1c08",
+      "invariant_pcrs256": [
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b811190000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000018e3d7036aea437beaa99b036725a39ebc348c9e8233d640aabc2b121412f1a72",
+          "pcr_index": 2
+        },
+        {
+          "comparison": "0x00000000000000000000000000000000000000000000000000000000000000007a94ffe8a7729a566d3d3c577fcb4b6b1e671f31540375f80eae6382ab785e35",
+          "pcr_index": 4
+        },
+        {
+          "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000bd28bce327ef965012f37d23a0f8096e523d328a3827b337603a0b77edc3341c",
+          "pcr_index": 9
+        },
+        {
+          "comparison": "0x000000000000000000000000000000000000000000000000000000000000000034597f206283e372eb762882b03ace039732d2489056282435ef43de8c9b2b4d",
+          "pcr_index": 11
+        }
+      ],
+      "invariant_pcrs384": [],
+      "name": "gcp-tdx",
+      "pcr_bank_selection": "sha256",
+      "tee": "tdx",
+      "variants": [
+        {
+          "attributes": [],
+          "id": "0xc189fa74011735c44f15500e45d3fde3786cc1b47f71cfc14522a8273fd051ca",
+          "machine_types": [
+            "c3-standard-176"
+          ],
+          "name": "c3-standard-176",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x2cd490d653c066492d85c1d84bb68fe6301a2e1b0c0d1fa11bd8112e32ae8db7",
+          "machine_types": [
+            "c3-standard-176-lssd"
+          ],
+          "name": "c3-standard-176-lssd",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0xab73f20cc10da8bcf5a03ff710b18f918d9f3dd1e583ecb30e2c48e737626bed",
+          "machine_types": [
+            "c3-standard-22"
+          ],
+          "name": "c3-standard-22",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x1d46f98d1b35ad741cfb410aae1109d7ee2a5dd8faa10e77b7d738f46ccb0962",
+          "machine_types": [
+            "c3-standard-22-lssd"
+          ],
+          "name": "c3-standard-22-lssd",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [
+            {
+              "name": "example.environment",
+              "value": "production"
+            }
+          ],
+          "id": "0x1267a3827936714075d4d7ed3de48647d0fca9edf9e5c2779f716ea4bf0d284f",
+          "machine_types": [
+            "c3-standard-4"
+          ],
+          "name": "c3-standard-4",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0xe967b3c9d514e49fc221fa28ceb19bea79cb6ca4587be125b6032d4bf71f69b7",
+          "machine_types": [
+            "c3-standard-4-lssd"
+          ],
+          "name": "c3-standard-4-lssd",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x483c2f553e7e7019a2ea1b73d0ba7364742fdf19220db2ec55e767dc77ae3710",
+          "machine_types": [
+            "c3-standard-44"
+          ],
+          "name": "c3-standard-44",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0xb0449f891f0373eaea525c7904bb4be789a4546eb34f679565d2fab4e4803220",
+          "machine_types": [
+            "c3-standard-44-lssd"
+          ],
+          "name": "c3-standard-44-lssd",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x67fb67b66e7e1d5a742cb568c847c7a4abb9b2e5159f199623b8679b01aff306",
+          "machine_types": [
+            "c3-standard-8"
+          ],
+          "name": "c3-standard-8",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x8f2469c69ad1397c6a548ad20c26ce193f0c162285ef119188a6008cfed0889f",
+          "machine_types": [
+            "c3-standard-8-lssd"
+          ],
+          "name": "c3-standard-8-lssd",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0xf7c3b947ce2040c872e89b70e972eabf0af0603b71e2e673dd02053a46b9dd9d",
+          "machine_types": [
+            "c3-standard-88"
+          ],
+          "name": "c3-standard-88",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0xf12580d5ec1fc7b42b43e241a14f6f504a97ab525d9810bd858163aded54d3a2",
+          "machine_types": [
+            "c3-standard-88-lssd"
+          ],
+          "name": "c3-standard-88-lssd",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x4daa48294e44dde2c42b517325b1aaba6be2a521f72da462597fc2cd21a4d159",
+          "machine_types": [
+            "c4-standard-144"
+          ],
+          "name": "c4-standard-144",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x673683cb056ae2ef4f216b84ae8a2854a4a81b7b956cd3023a273a304d9d5085",
+          "machine_types": [
+            "c4-standard-16"
+          ],
+          "name": "c4-standard-16",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x65f2c671f332e80e3385d441ab19d9dd8a5b7798298343d21fb9f245742b3e9d",
+          "machine_types": [
+            "c4-standard-192"
+          ],
+          "name": "c4-standard-192",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0xefb898b3db67f3efc74da63967554d4b36cd5e2995662e7a94246e10e9143003",
+          "machine_types": [
+            "c4-standard-2"
+          ],
+          "name": "c4-standard-2",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x2245b49f75bf3b969a1342e09157a2db8ffb1b0e4261e1ab403f721b00fc762b",
+          "machine_types": [
+            "c4-standard-24"
+          ],
+          "name": "c4-standard-24",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x2a53773c5057bf74155cd8705ce37c53884cf2ab407cac3755853484a7ee0a17",
+          "machine_types": [
+            "c4-standard-32"
+          ],
+          "name": "c4-standard-32",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0xef0b0b057ae535957bd302f878523ea903eac6f0eb1dd1640a9f1a21580dd09c",
+          "machine_types": [
+            "c4-standard-4"
+          ],
+          "name": "c4-standard-4",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0xfa4435f9f073648735b75ce4ca3fc6e1611a3236cace6c653a7f355df8325a27",
+          "machine_types": [
+            "c4-standard-48"
+          ],
+          "name": "c4-standard-48",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x22d768e5444ba412134a1c5733c390388256280145caa29dfb424eff0965d8a1",
+          "machine_types": [
+            "c4-standard-8"
+          ],
+          "name": "c4-standard-8",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        },
+        {
+          "attributes": [],
+          "id": "0x0792f2f4a1de218dc9d5e0dbad7f3722a2eb8c684c96dd27fdc039e3ef69ecdd",
+          "machine_types": [
+            "c4-standard-96"
+          ],
+          "name": "c4-standard-96",
+          "variant_pcrs256": [
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000000cca9ec161b09288802e5a112255d21340ed5b797f5fe29cecccfd8f67b9f802",
+              "pcr_index": 0
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 3
+            },
+            {
+              "comparison": "0x0000000000000000000000000000000000000000000000000000000000000000a5ceb755d043f32431d63e39f5161464620a3437280494b5850dc1b47cc074e0",
+              "pcr_index": 5
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000003d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
+              "pcr_index": 6
+            },
+            {
+              "comparison": "0x00000000000000000000000000000000000000000000000000000000000000008b5166c2a228f6a3b91b44c0428468ca3bf8b90a4ae85ca4fd1933f6287a580a",
+              "pcr_index": 7
+            }
+          ],
+          "variant_pcrs384": []
+        }
       ]
     }
-  }
+  },
+  "measurement_coverage": {
+    "aws-sev-snp": {
+      "measured_variants": [],
+      "derived_variants": {
+        "c6a.12xlarge": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c6a.16xlarge": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c6a.2xlarge": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c6a.4xlarge": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c6a.8xlarge": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c6a.large": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c6a.xlarge": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "m6a.2xlarge": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "m6a.4xlarge": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "m6a.8xlarge": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "m6a.large": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "m6a.xlarge": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate"
+      }
+    },
+    "azure-sev-snp": {
+      "measured_variants": [],
+      "derived_variants": {
+        "Standard_DC2as_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "Standard_DC2as_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "Standard_DC8ads_v5@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "Standard_DC8ads_v5@firmware-f3030fc3d76d09ef2e7e51fd04c27bedf38d46ea430409e119a834fe5a361c7b": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "Standard_DC8ads_v6@firmware-5f6d23087f48a6b7e90ba879f5a7de06590630ac09c78a4106458a5e125a1993": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate"
+      }
+    },
+    "azure-tdx": {
+      "measured_variants": [],
+      "derived_variants": {
+        "Standard_DC16eds_v6": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "Standard_DC2es_v6": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "Standard_DC4eds_v6": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate"
+      }
+    },
+    "gcp-sev-snp": {
+      "measured_variants": [],
+      "derived_variants": {
+        "n2d-standard-4": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate"
+      }
+    },
+    "gcp-tdx": {
+      "measured_variants": [],
+      "derived_variants": {
+        "c3-standard-176": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-176-lssd": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-22": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-22-lssd": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-4": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-4-lssd": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-44": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-44-lssd": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-8": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-8-lssd": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-88": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c3-standard-88-lssd": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c4-standard-144": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c4-standard-16": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c4-standard-192": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c4-standard-2": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c4-standard-24": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c4-standard-32": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c4-standard-4": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c4-standard-48": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c4-standard-8": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate",
+        "c4-standard-96": "saved firmware policy plus exact new-image calculations; debug certificate policy kept separate"
+      }
+    }
+  },
+  "measurement_pack_sha256": {
+    "automata-linux-v0.3.8-debug-gcp.measurement-pack.json": "8821486225c3bab0f5188721584ccd96fc1cd46bbb168f54750fbb292261bac7",
+    "automata-linux-v0.3.8-debug-gcp.measurement-pack.sig": "3bc21325d5e7f7065b12f8a1f876809863a05833099920dcfe8b092c1874540e",
+    "automata-linux-v0.3.8-debug-gcp.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.8-debug-aws.measurement-pack.json": "817fc1d370c18a636115bd8d9aaaed52852b1cd813209a6862cc2038f779cfe8",
+    "automata-linux-v0.3.8-debug-aws.measurement-pack.sig": "1acc0bf7d063614db8f39df10c310e300154909cc780dcb974922e211b6b29fe",
+    "automata-linux-v0.3.8-debug-aws.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.8-debug-azure.measurement-pack.json": "d10f67034a0d1c925414065f6d73a85fc6c3239d73a12fb035b6b9c4bdce84bf",
+    "automata-linux-v0.3.8-debug-azure.measurement-pack.sig": "aff7909fe8c7914572f44c6f52a25edadb4431da668242b8a11ea4e319a8c824",
+    "automata-linux-v0.3.8-debug-azure.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.8-debug-qemu.measurement-pack.json": "a4c8d12226ff11aee9b11581b7544cc650ba54f94382fbdd863a33cf1638e47d",
+    "automata-linux-v0.3.8-debug-qemu.measurement-pack.sig": "597913a26425a086b383e4330f0b08480e438a46da10a27255102d1e4353a838",
+    "automata-linux-v0.3.8-debug-qemu.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c",
+    "automata-linux-v0.3.8-debug-all.measurement-pack.json": "786326eafae08dfde005f61c4436b957260b0ebd3d56240209070afd251c2539",
+    "automata-linux-v0.3.8-debug-all.measurement-pack.sig": "beb568914bf4771eace7cac4ee2ac49bdadb3da983e9bf086c8a772f0ba4763d",
+    "automata-linux-v0.3.8-debug-all.measurement-pack.pubkey": "ad73aeba22a20783491c4f198f66086649b6344fc1a5c8219b53f137f9847a4c"
+  },
+  "archive_sha256": {
+    "automata-linux-v0.3.8-debug-gcp.atabi": "1f386439fa23645689fbfa809d6e86a7bee4451eb3ad9d6436b1621b10365265",
+    "automata-linux-v0.3.8-debug-aws.atabi": "f3f98d05871768714f91cfc050e4e0a37e645f4c05770949bfc7871497a5660f",
+    "automata-linux-v0.3.8-debug-azure.atabi": "53766cfe04a026b27040836a7ba915120f43a128d2419ff344a8834c1ac36fb0",
+    "automata-linux-v0.3.8-debug-qemu.atabi": "29388a9e72e41fa92bbdca43d2db0629b0ad1c674608a35c01acbe379bd6ef0c",
+    "automata-linux-v0.3.8-debug-all.atabi": "e7a5f1b240e321c02d880d6dad51a7d48c0e8b06a5e448c983ed456ed2605af4"
+  },
+  "archive_contents": {
+    "automata-linux-v0.3.8-debug-all.atabi": {
+      "manifest": {
+        "meta": {
+          "format": 2,
+          "name": "automata-linux",
+          "version": "v0.3.8-debug",
+          "platforms": [
+            "gcp",
+            "aws",
+            "azure",
+            "qemu"
+          ]
+        }
+      },
+      "entries": {
+        "manifest.toml": {
+          "sha256": "916d9b2728577e64d6d4d32ee71470f6aad5262e7a71f7f02b521dbef886b857",
+          "size": 130
+        },
+        "baseimage.toml": {
+          "sha256": "4cb5182ee1d897de75d521640f42f91be1941732cb7d900e7a7d4b2e8cdc45c7",
+          "size": 2969
+        },
+        "disk_images/aws_disk.vmdk": {
+          "sha256": "8e46d688085456574d9adf200e5ca432e1270c4b6fe460292bc6b4f3ae07e5af",
+          "size": 221626880
+        },
+        "disk_images/azure_disk.vhd.zst": {
+          "sha256": "cb9b7944636c667938312c49f9cad0c652694873f5fa8da67e6f3c0ff8959caa",
+          "size": 206341990
+        },
+        "disk_images/gcp_disk.tar.gz": {
+          "sha256": "f86f85288a80246c39777482f906e76d7918dda1c2fc9725904134cd2f4ca3f8",
+          "size": 214964747
+        },
+        "disk_images/qemu_disk.qcow2": {
+          "sha256": "17f2a2ba3d1888c8a4a749eb96170fa063eb750e008ae77fbb08b4592a26c622",
+          "size": 558825472
+        },
+        "secure_boot_certs/KEK.crt": {
+          "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
+          "size": 778
+        },
+        "secure_boot_certs/PK.crt": {
+          "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
+          "size": 778
+        },
+        "secure_boot_certs/aws-uefi-blob.bin": {
+          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
+          "size": 4128
+        },
+        "secure_boot_certs/db.crt": {
+          "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
+          "size": 778
+        },
+        "secure_boot_certs/kernel.crt": {
+          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
+          "size": 1323
+        }
+      }
+    },
+    "automata-linux-v0.3.8-debug-aws.atabi": {
+      "manifest": {
+        "meta": {
+          "format": 2,
+          "name": "automata-linux",
+          "version": "v0.3.8-debug",
+          "platforms": [
+            "aws"
+          ]
+        }
+      },
+      "entries": {
+        "manifest.toml": {
+          "sha256": "401550c9c30809f1b739de6e656dcfe90e837760d811f93a237ae1121a6ca7a8",
+          "size": 87
+        },
+        "baseimage.toml": {
+          "sha256": "4cb5182ee1d897de75d521640f42f91be1941732cb7d900e7a7d4b2e8cdc45c7",
+          "size": 2969
+        },
+        "disk_images/aws_disk.vmdk": {
+          "sha256": "8e46d688085456574d9adf200e5ca432e1270c4b6fe460292bc6b4f3ae07e5af",
+          "size": 221626880
+        },
+        "secure_boot_certs/KEK.crt": {
+          "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
+          "size": 778
+        },
+        "secure_boot_certs/PK.crt": {
+          "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
+          "size": 778
+        },
+        "secure_boot_certs/aws-uefi-blob.bin": {
+          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
+          "size": 4128
+        },
+        "secure_boot_certs/db.crt": {
+          "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
+          "size": 778
+        },
+        "secure_boot_certs/kernel.crt": {
+          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
+          "size": 1323
+        }
+      }
+    },
+    "automata-linux-v0.3.8-debug-azure.atabi": {
+      "manifest": {
+        "meta": {
+          "format": 2,
+          "name": "automata-linux",
+          "version": "v0.3.8-debug",
+          "platforms": [
+            "azure"
+          ]
+        }
+      },
+      "entries": {
+        "manifest.toml": {
+          "sha256": "0a4726c78ccc8e27671fa23b5d704161dc45bbde529931bb823ef2669ba5dd86",
+          "size": 89
+        },
+        "baseimage.toml": {
+          "sha256": "4cb5182ee1d897de75d521640f42f91be1941732cb7d900e7a7d4b2e8cdc45c7",
+          "size": 2969
+        },
+        "disk_images/azure_disk.vhd.zst": {
+          "sha256": "cb9b7944636c667938312c49f9cad0c652694873f5fa8da67e6f3c0ff8959caa",
+          "size": 206341990
+        },
+        "secure_boot_certs/KEK.crt": {
+          "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
+          "size": 778
+        },
+        "secure_boot_certs/PK.crt": {
+          "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
+          "size": 778
+        },
+        "secure_boot_certs/aws-uefi-blob.bin": {
+          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
+          "size": 4128
+        },
+        "secure_boot_certs/db.crt": {
+          "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
+          "size": 778
+        },
+        "secure_boot_certs/kernel.crt": {
+          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
+          "size": 1323
+        }
+      }
+    },
+    "automata-linux-v0.3.8-debug-gcp.atabi": {
+      "manifest": {
+        "meta": {
+          "format": 2,
+          "name": "automata-linux",
+          "version": "v0.3.8-debug",
+          "platforms": [
+            "gcp"
+          ]
+        }
+      },
+      "entries": {
+        "manifest.toml": {
+          "sha256": "0f47bf80b9586b5c81b77b10de966d57d95295db5aca09ebed7d892a4841bee1",
+          "size": 87
+        },
+        "baseimage.toml": {
+          "sha256": "4cb5182ee1d897de75d521640f42f91be1941732cb7d900e7a7d4b2e8cdc45c7",
+          "size": 2969
+        },
+        "disk_images/gcp_disk.tar.gz": {
+          "sha256": "f86f85288a80246c39777482f906e76d7918dda1c2fc9725904134cd2f4ca3f8",
+          "size": 214964747
+        },
+        "secure_boot_certs/KEK.crt": {
+          "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
+          "size": 778
+        },
+        "secure_boot_certs/PK.crt": {
+          "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
+          "size": 778
+        },
+        "secure_boot_certs/aws-uefi-blob.bin": {
+          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
+          "size": 4128
+        },
+        "secure_boot_certs/db.crt": {
+          "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
+          "size": 778
+        },
+        "secure_boot_certs/kernel.crt": {
+          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
+          "size": 1323
+        }
+      }
+    },
+    "automata-linux-v0.3.8-debug-qemu.atabi": {
+      "manifest": {
+        "meta": {
+          "format": 2,
+          "name": "automata-linux",
+          "version": "v0.3.8-debug",
+          "platforms": [
+            "qemu"
+          ]
+        }
+      },
+      "entries": {
+        "manifest.toml": {
+          "sha256": "e6fe0c2fb380d1c78f1d507d3b22a83fdeaabcaf3ffa8fc56a3d06aa8aa630b5",
+          "size": 88
+        },
+        "baseimage.toml": {
+          "sha256": "4cb5182ee1d897de75d521640f42f91be1941732cb7d900e7a7d4b2e8cdc45c7",
+          "size": 2969
+        },
+        "disk_images/qemu_disk.qcow2": {
+          "sha256": "17f2a2ba3d1888c8a4a749eb96170fa063eb750e008ae77fbb08b4592a26c622",
+          "size": 558825472
+        },
+        "secure_boot_certs/KEK.crt": {
+          "sha256": "af24738b049cb002d8a25b150758290af55fca7aa20725e23c2cbc450c14f429",
+          "size": 778
+        },
+        "secure_boot_certs/PK.crt": {
+          "sha256": "80b7c2182b509692ac0dd909cff7724587e04cf909ad53a0013da415ce28f50c",
+          "size": 778
+        },
+        "secure_boot_certs/aws-uefi-blob.bin": {
+          "sha256": "0698185ebb57fc0ceda4dbffbc86683a296af488a410fcf5d86c97a37daf5e76",
+          "size": 4128
+        },
+        "secure_boot_certs/db.crt": {
+          "sha256": "a5a80d231d065645bcd7cddd498eae9b4b13ed2214e83d2cf97262db8b9da267",
+          "size": 778
+        },
+        "secure_boot_certs/kernel.crt": {
+          "sha256": "8ca9b067a962178f676d300a667547e74547679d49dcd2d1590304c1dc4ea9b2",
+          "size": 1323
+        }
+      }
+    }
+  },
+  "release_assets": [
+    "RELEASE-NOTES.md",
+    "SHA256SUMS",
+    "automata-linux-v0.3.8-debug-all.atabi",
+    "automata-linux-v0.3.8-debug-all.measurement-pack.json",
+    "automata-linux-v0.3.8-debug-all.measurement-pack.pubkey",
+    "automata-linux-v0.3.8-debug-all.measurement-pack.sig",
+    "automata-linux-v0.3.8-debug-aws.atabi",
+    "automata-linux-v0.3.8-debug-aws.measurement-pack.json",
+    "automata-linux-v0.3.8-debug-aws.measurement-pack.pubkey",
+    "automata-linux-v0.3.8-debug-aws.measurement-pack.sig",
+    "automata-linux-v0.3.8-debug-azure.atabi",
+    "automata-linux-v0.3.8-debug-azure.measurement-pack.json",
+    "automata-linux-v0.3.8-debug-azure.measurement-pack.pubkey",
+    "automata-linux-v0.3.8-debug-azure.measurement-pack.sig",
+    "automata-linux-v0.3.8-debug-gcp.atabi",
+    "automata-linux-v0.3.8-debug-gcp.measurement-pack.json",
+    "automata-linux-v0.3.8-debug-gcp.measurement-pack.pubkey",
+    "automata-linux-v0.3.8-debug-gcp.measurement-pack.sig",
+    "automata-linux-v0.3.8-debug-qemu.atabi",
+    "automata-linux-v0.3.8-debug-qemu.measurement-pack.json",
+    "automata-linux-v0.3.8-debug-qemu.measurement-pack.pubkey",
+    "automata-linux-v0.3.8-debug-qemu.measurement-pack.sig",
+    "release-provenance.json"
+  ]
 }
